@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D Industriales | Restauración de Daños por Incendio en Puerto Rico</title>
+  <meta name="description" content="Expertos en restauración de daños por incendio en Puerto Rico. Trabajamos con MAPFRE, Cooperativa de Seguros Múltiples y más aseguradoras. Disponibles 24/7 para emergencias." />
+  <meta name="keywords" content="restauración incendio Puerto Rico, daños por fuego, MAPFRE, Cooperativa de Seguros, reclamaciones aseguradoras, restauración humo, D Industriales" />
+  <meta name="author" content="D Industriales Puerto Rico" />
+  <meta property="og:title" content="D Industriales | Restauración de Daños por Incendio PR" />
+  <meta property="og:description" content="Restauración profesional de daños por incendio. Experiencia con MAPFRE, Cooperativa de Seguros Múltiples y más aseguradoras de Puerto Rico." />
+  <meta property="og:image" content="logo3.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="logo3.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "D Industriales",
+    "description": "Restauración profesional de daños por incendio en Puerto Rico",
+    "address": { "@type": "PostalAddress", "addressRegion": "PR", "addressCountry": "US" },
+    "telephone": "+1-973-392-0478",
+    "email": "info@dindustriales.com",
+    "openingHours": "Mo-Su 00:00-24:00",
+    "areaServed": "Puerto Rico"
+  }
+  </script>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header" id="header">
+  <nav class="nav container">
+    <a href="#hero" class="nav-logo">
+      <img src="logo3.png" alt="D Industriales Logo" class="logo-img" />
+    </a>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="#servicios" class="nav-link">Servicios</a></li>
+      <li><a href="#aseguradoras" class="nav-link">Aseguradoras</a></li>
+      <li><a href="#galeria" class="nav-link">Galería</a></li>
+      <li><a href="#radar" class="nav-link">Radar PR</a></li>
+      <li><a href="#contacto" class="nav-link">Contacto</a></li>
+      <li><a href="admin/index.html" class="nav-link nav-admin"><i class="fas fa-lock"></i> Admin</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+        <i class="fas fa-sun" id="themeIcon"></i>
+      </button>
+      <a href="https://wa.me/19733920478?text=Hola%2C%20necesito%20información%20sobre%20restauración%20de%20incendio"
+         class="btn btn-whatsapp" target="_blank" rel="noopener">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <canvas id="fireCanvas"></canvas>
+  <div class="hero-overlay"></div>
+  <div class="hero-content container">
+    <div class="hero-logo-wrap" data-aos="zoom-in" data-aos-duration="1000">
+      <img src="logo3.png" alt="D Industriales" class="hero-logo" />
+      <div class="hero-logo-glow"></div>
+    </div>
+    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="300">
+      Restauración Profesional de<br/>
+      <span class="gradient-text">Daños por Incendio</span>
+    </h1>
+    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="500">
+      Puerto Rico's premier fire damage restoration company.<br/>
+      Trabajamos directamente con tu aseguradora. Disponibles <strong>24/7</strong>.
+    </p>
+    <div class="hero-badges" data-aos="fade-up" data-aos-delay="650">
+      <span class="badge"><i class="fas fa-shield-alt"></i> MAPFRE Certified</span>
+      <span class="badge"><i class="fas fa-award"></i> +15 Años de Experiencia</span>
+      <span class="badge"><i class="fas fa-clock"></i> Respuesta en 60 min</span>
+    </div>
+    <div class="hero-ctas" data-aos="fade-up" data-aos-delay="800">
+      <a href="#contacto" class="btn btn-primary btn-lg">
+        <i class="fas fa-calendar-check"></i> Solicitar Inspección Gratis
+      </a>
+      <a href="tel:+19733920478" class="btn btn-emergency btn-lg">
+        <i class="fas fa-phone-alt"></i> Emergencias 24/7
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <div class="scroll-dot"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<section class="stats-bar" id="stats">
+  <div class="container stats-grid">
+    <div class="stat-item" data-aos="fade-up">
+      <span class="stat-num" data-count="15">0</span><span class="stat-unit">+</span>
+      <p>Años de Experiencia</p>
+    </div>
+    <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+      <span class="stat-num" data-count="500">0</span><span class="stat-unit">+</span>
+      <p>Proyectos Completados</p>
+    </div>
+    <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+      <span class="stat-num" data-count="12">0</span><span class="stat-unit">+</span>
+      <p>Aseguradoras Afiliadas</p>
+    </div>
+    <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+      <span class="stat-num" data-count="98">0</span><span class="stat-unit">%</span>
+      <p>Clientes Satisfechos</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICIOS ===== -->
+<section class="section servicios" id="servicios">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-label">Nuestros Servicios</span>
+      <h2>Restauración Completa <span class="gradient-text">Post-Incendio</span></h2>
+      <p>Manejamos cada etapa del proceso de restauración, desde la emergencia hasta la reconstrucción final.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="service-icon"><i class="fas fa-fire-extinguisher"></i></div>
+        <h3>Mitigación de Emergencia</h3>
+        <p>Respuesta inmediata 24/7. Aseguramos la propiedad, removemos escombros peligrosos y prevenimos daños adicionales.</p>
+        <ul><li><i class="fas fa-check"></i> Respuesta en menos de 60 minutos</li><li><i class="fas fa-check"></i> Aseguramiento de estructura</li><li><i class="fas fa-check"></i> Remoción de escombros</li></ul>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="service-icon"><i class="fas fa-wind"></i></div>
+        <h3>Limpieza de Humo y Hollín</h3>
+        <p>Eliminamos completamente humo, hollín y olores con equipo industrial especializado y técnicas avanzadas.</p>
+        <ul><li><i class="fas fa-check"></i> Ozonización y purificación</li><li><i class="fas fa-check"></i> Limpieza de superficies</li><li><i class="fas fa-check"></i> Eliminación de olores</li></ul>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="service-icon"><i class="fas fa-tint"></i></div>
+        <h3>Daños por Agua</h3>
+        <p>Restauramos los daños causados por el agua del sistema contra incendios con extracción y secado industrial.</p>
+        <ul><li><i class="fas fa-check"></i> Extracción de agua</li><li><i class="fas fa-check"></i> Secado industrial</li><li><i class="fas fa-check"></i> Prevención de moho</li></ul>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="service-icon"><i class="fas fa-hard-hat"></i></div>
+        <h3>Reconstrucción Estructural</h3>
+        <p>Reconstruimos desde los cimientos: techos, paredes, pisos, electricidad, plomería y acabados completos.</p>
+        <ul><li><i class="fas fa-check"></i> Techos y paredes</li><li><i class="fas fa-check"></i> Sistemas eléctricos</li><li><i class="fas fa-check"></i> Acabados premium</li></ul>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+        <div class="service-icon"><i class="fas fa-file-contract"></i></div>
+        <h3>Gestión de Reclamaciones</h3>
+        <p>Trabajamos directamente con tu aseguradora. Manejamos toda la documentación y negociación del claim.</p>
+        <ul><li><i class="fas fa-check"></i> Coordinación con ajustadores</li><li><i class="fas fa-check"></i> Documentación fotográfica</li><li><i class="fas fa-check"></i> Estimados detallados</li></ul>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="500">
+        <div class="service-icon"><i class="fas fa-box"></i></div>
+        <h3>Contenido y Pertenencias</h3>
+        <p>Recuperamos, limpiamos y restauramos muebles, documentos, electrónicos y objetos de valor personal.</p>
+        <ul><li><i class="fas fa-check"></i> Inventario detallado</li><li><i class="fas fa-check"></i> Restauración de documentos</li><li><i class="fas fa-check"></i> Almacenamiento seguro</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROCESO ===== -->
+<section class="section proceso" id="proceso">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-label">¿Cómo Trabajamos?</span>
+      <h2>Proceso <span class="gradient-text">Simple y Transparente</span></h2>
+    </div>
+    <div class="proceso-steps">
+      <div class="step" data-aos="fade-right" data-aos-delay="0">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>Llamada de Emergencia</h3>
+          <p>Llámanos o escríbenos por WhatsApp. Respondemos en menos de 5 minutos las 24 horas.</p>
+        </div>
+      </div>
+      <div class="step" data-aos="fade-right" data-aos-delay="150">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>Inspección Gratuita</h3>
+          <p>Llegamos a la propiedad, evaluamos los daños y documentamos todo para el proceso de reclamación.</p>
+        </div>
+      </div>
+      <div class="step" data-aos="fade-right" data-aos-delay="300">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>Coordinación con Aseguradora</h3>
+          <p>Contactamos directamente a tu aseguradora, presentamos la documentación y manejamos el claim por ti.</p>
+        </div>
+      </div>
+      <div class="step" data-aos="fade-right" data-aos-delay="450">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h3>Restauración Completa</h3>
+          <p>Ejecutamos el plan de restauración con los más altos estándares de calidad hasta la entrega final.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ASEGURADORAS ===== -->
+<section class="section aseguradoras" id="aseguradoras">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-label">Aseguradoras</span>
+      <h2>Trabajamos con las Principales <span class="gradient-text">Aseguradoras de Puerto Rico</span></h2>
+      <p>Tenemos experiencia directa y relaciones establecidas con los ajustadores de las principales compañías.</p>
+    </div>
+    <div class="insurers-grid" data-aos="fade-up" data-aos-delay="200">
+      <div class="insurer-card"><div class="insurer-logo-placeholder"><i class="fas fa-shield-alt"></i></div><span>MAPFRE Puerto Rico</span></div>
+      <div class="insurer-card"><div class="insurer-logo-placeholder"><i class="fas fa-users"></i></div><span>Cooperativa de Seguros Múltiples</span></div>
+      <div class="insurer-card"><div class="insurer-logo-placeholder"><i class="fas fa-building"></i></div><span>Universal Insurance</span></div>
+      <div class="insurer-card"><div class="insurer-logo-placeholder"><i class="fas fa-globe-americas"></i></div><span>Triple-S Propiedad</span></div>
+      <div class="insurer-card"><div class="insurer-logo-placeholder"><i class="fas fa-star"></i></div><span>Integrand Assurance</span></div>
+      <div class="insurer-card"><div class="insurer-logo-placeholder"><i class="fas fa-anchor"></i></div><span>Antilles Insurance</span></div>
+      <div class="insurer-card"><div class="insurer-logo-placeholder"><i class="fas fa-flag"></i></div><span>American Modern</span></div>
+      <div class="insurer-card"><div class="insurer-logo-placeholder"><i class="fas fa-umbrella"></i></div><span>Nationwide</span></div>
+      <div class="insurer-card insurer-more"><div class="insurer-logo-placeholder"><i class="fas fa-plus-circle"></i></div><span>Y más...</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALERÍA ANTES/DESPUÉS ===== -->
+<section class="section galeria" id="galeria">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-label">Galería de Trabajos</span>
+      <h2>Resultados <span class="gradient-text">Antes y Después</span></h2>
+      <p>Cada proyecto es una historia de transformación. Nuestro trabajo habla por sí solo.</p>
+    </div>
+    <div class="gallery-grid" id="galleryGrid" data-aos="fade-up" data-aos-delay="200">
+      <!-- Default placeholder cards -->
+      <div class="gallery-placeholder"><div class="placeholder-inner"><i class="fas fa-images"></i><p>Fotos de proyectos<br/>serán añadidas pronto</p></div></div>
+      <div class="gallery-placeholder"><div class="placeholder-inner"><i class="fas fa-fire"></i><p>Restauraciones<br/>completadas</p></div></div>
+      <div class="gallery-placeholder"><div class="placeholder-inner"><i class="fas fa-tools"></i><p>Trabajos<br/>en proceso</p></div></div>
+    </div>
+    <div class="gallery-items-container" id="galleryItems"></div>
+  </div>
+</section>
+
+<!-- ===== RADAR DE INCENDIOS PR ===== -->
+<section class="section radar-section" id="radar">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-label">Monitoreo en Tiempo Real</span>
+      <h2>Radar de <span class="gradient-text">Emergencias de Incendio</span> en Puerto Rico</h2>
+      <p>Datos satelitales en tiempo real de focos de calor activos en Puerto Rico. Fuente: NASA FIRMS / VIIRS.</p>
+    </div>
+    <div class="radar-container" data-aos="fade-up" data-aos-delay="200">
+      <div class="radar-header">
+        <div class="radar-status">
+          <span class="radar-dot"></span>
+          <span id="radarStatusText">Cargando datos satelitales...</span>
+        </div>
+        <div class="radar-legend">
+          <span class="legend-item"><span class="legend-dot high"></span>Alta Intensidad</span>
+          <span class="legend-item"><span class="legend-dot medium"></span>Moderada</span>
+          <span class="legend-item"><span class="legend-dot low"></span>Baja</span>
+        </div>
+      </div>
+      <div id="fireMap" class="fire-map"></div>
+      <p class="radar-note"><i class="fas fa-satellite"></i> Datos actualizados cada 12 horas desde satélites VIIRS (NASA). Hora: <span id="radarTime">--</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACTO ===== -->
+<section class="section contacto" id="contacto">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-label">Contáctenos</span>
+      <h2>¿Sufrió un Incendio? <span class="gradient-text">Estamos Aquí</span></h2>
+      <p>No esperes. Cada minuto cuenta. Contáctanos ahora para una inspección gratuita de emergencia.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-channels" data-aos="fade-right">
+        <a href="https://wa.me/19733920478?text=Hola%2C%20tuve%20un%20incendio%20y%20necesito%20ayuda%20urgente"
+           class="contact-card whatsapp" target="_blank" rel="noopener">
+          <i class="fab fa-whatsapp"></i>
+          <div><h3>WhatsApp</h3><p>Chat inmediato con un experto</p><span>+1 (973) 392-0478</span></div>
+        </a>
+        <a href="tel:+19733920478" class="contact-card phone">
+          <i class="fas fa-phone-alt"></i>
+          <div><h3>Llamada Directa</h3><p>Línea de emergencias 24/7</p><span>+1 (973) 392-0478</span></div>
+        </a>
+        <a href="sms:+19733920478" class="contact-card sms">
+          <i class="fas fa-sms"></i>
+          <div><h3>Mensaje de Texto</h3><p>Envíanos un SMS ahora</p><span>+1 (973) 392-0478</span></div>
+        </a>
+        <a href="mailto:info@dindustriales.com" class="contact-card email">
+          <i class="fas fa-envelope"></i>
+          <div><h3>Email</h3><p>Respuesta en menos de 1 hora</p><span>info@dindustriales.com</span></div>
+        </a>
+      </div>
+      <div class="contact-form-wrap" data-aos="fade-left">
+        <form class="contact-form" id="contactForm" onsubmit="submitForm(event)">
+          <h3>Solicitar Inspección Gratuita</h3>
+          <div class="form-row">
+            <div class="form-group"><label>Nombre Completo *</label><input type="text" name="nombre" placeholder="Juan García" required /></div>
+            <div class="form-group"><label>Teléfono *</label><input type="tel" name="telefono" placeholder="(787) 000-0000" required /></div>
+          </div>
+          <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="juan@ejemplo.com" /></div>
+          <div class="form-group"><label>Dirección de la Propiedad *</label><input type="text" name="direccion" placeholder="Calle, Municipio, Puerto Rico" required /></div>
+          <div class="form-group"><label>Aseguradora</label>
+            <select name="aseguradora">
+              <option value="">Seleccionar aseguradora...</option>
+              <option>MAPFRE Puerto Rico</option>
+              <option>Cooperativa de Seguros Múltiples</option>
+              <option>Universal Insurance</option>
+              <option>Triple-S Propiedad</option>
+              <option>Integrand Assurance</option>
+              <option>Antilles Insurance</option>
+              <option>American Modern</option>
+              <option>Nationwide</option>
+              <option>Otra</option>
+              <option>No tengo seguro</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Descripción del Incidente *</label><textarea name="descripcion" rows="4" placeholder="Describa brevemente lo que ocurrió..." required></textarea></div>
+          <button type="submit" class="btn btn-primary btn-full"><i class="fas fa-paper-plane"></i> Enviar Solicitud</button>
+          <div id="formSuccess" class="form-success" style="display:none;"><i class="fas fa-check-circle"></i> ¡Mensaje enviado! Nos comunicaremos en menos de 60 minutos.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="logo3.png" alt="D Industriales" class="footer-logo" />
+        <p>Restauración profesional de daños por incendio en Puerto Rico. Licenciados, asegurados y con más de 15 años de experiencia.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/19733920478" aria-label="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Servicios</h4>
+        <ul><li><a href="#servicios">Mitigación de Emergencia</a></li><li><a href="#servicios">Limpieza de Humo</a></li><li><a href="#servicios">Daños por Agua</a></li><li><a href="#servicios">Reconstrucción</a></li><li><a href="#servicios">Gestión de Reclamaciones</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>Aseguradoras</h4>
+        <ul><li>MAPFRE Puerto Rico</li><li>Cooperativa de Seguros</li><li>Universal Insurance</li><li>Triple-S Propiedad</li><li>Integrand Assurance</li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><i class="fas fa-phone"></i> <a href="tel:+19733920478">+1 (973) 392-0478</a></li>
+          <li><i class="fas fa-envelope"></i> <a href="mailto:info@dindustriales.com">info@dindustriales.com</a></li>
+          <li><i class="fas fa-map-marker-alt"></i> Puerto Rico, USA</li>
+          <li><i class="fas fa-clock"></i> Disponible 24/7</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 D Industriales. Todos los derechos reservados. | Puerto Rico</p>
+      <a href="admin/index.html" class="footer-admin-link"><i class="fas fa-lock"></i> Admin</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== FLOATING BUTTONS ===== -->
+<div class="floating-buttons">
+  <a href="https://wa.me/19733920478?text=Emergencia%20de%20incendio%20-%20necesito%20ayuda%20inmediata"
+     class="float-btn whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+    <span class="float-tooltip">Chat WhatsApp</span>
+  </a>
+  <a href="tel:+19733920478" class="float-btn call-float" aria-label="Llamar">
+    <i class="fas fa-phone-alt"></i>
+    <span class="float-tooltip">Llamar Ahora</span>
+  </a>
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
+

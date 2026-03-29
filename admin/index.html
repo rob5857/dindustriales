@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard – D Industriales</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="../logo3.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --bg: #0a0a0f; --bg2: #111118; --card: #1a1a28; --border: #2a2a45;
+      --text: #f0f0f8; --text2: #a0a0b8; --orange: #ff6b35;
+      --green: #22c55e; --red: #ef4444; --radius: 12px;
+      --gradient: linear-gradient(135deg, #ff6b35, #e63946, #ffd60a);
+    }
+    [data-theme="light"] {
+      --bg: #f8f9fc; --bg2: #eef0f8; --card: #fff; --border: #dde0f0;
+      --text: #0d0d1a; --text2: #4a4a6a;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* LOGIN SCREEN */
+    #loginScreen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(ellipse at center, #1a0a00 0%, #0a0a0f 70%);
+    }
+    .login-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 48px; width: 100%; max-width: 420px;
+      text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .login-logo { height: 80px; margin: 0 auto 24px; }
+    .login-box h1 { font-family: 'Poppins', sans-serif; font-size: 1.6rem; margin-bottom: 8px; }
+    .login-box p { color: var(--text2); font-size: 0.9rem; margin-bottom: 32px; }
+    .login-input {
+      width: 100%; padding: 14px 18px; border: 1px solid var(--border);
+      border-radius: 10px; background: var(--bg2); color: var(--text);
+      font-size: 1rem; margin-bottom: 16px; outline: none; transition: border 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .login-input:focus { border-color: var(--orange); }
+    .login-btn {
+      width: 100%; padding: 14px; border: none; border-radius: 10px;
+      background: var(--gradient); color: #fff; font-size: 1rem;
+      font-weight: 700; cursor: pointer; transition: opacity 0.2s, transform 0.2s;
+    }
+    .login-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+    .login-err { color: var(--red); font-size: 0.85rem; margin-top: 12px; display: none; }
+
+    /* DASHBOARD */
+    #dashboard { display: none; }
+    .admin-header {
+      background: var(--card); border-bottom: 1px solid var(--border);
+      padding: 0 24px; height: 64px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 100;
+    }
+    .admin-logo { height: 40px; }
+    .admin-header-right { display: flex; align-items: center; gap: 12px; }
+    .admin-theme-btn {
+      width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border);
+      background: var(--bg2); color: var(--text); cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .admin-theme-btn:hover { border-color: var(--orange); color: var(--orange); }
+    .btn-logout {
+      padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border);
+      background: none; color: var(--text2); cursor: pointer; font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-logout:hover { border-color: var(--red); color: var(--red); }
+    .back-site {
+      padding: 8px 18px; border-radius: 8px; background: var(--gradient);
+      color: #fff; font-size: 0.85rem; font-weight: 600; text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .admin-body { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 64px); }
+    .sidebar {
+      background: var(--card); border-right: 1px solid var(--border); padding: 24px 16px;
+    }
+    .sidebar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text2); padding: 8px 12px; margin-bottom: 4px; }
+    .sidebar-item {
+      display: flex; align-items: center; gap: 10px; padding: 11px 14px;
+      border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500;
+      color: var(--text2); transition: all 0.2s; margin-bottom: 2px;
+    }
+    .sidebar-item:hover, .sidebar-item.active {
+      background: rgba(255,107,53,0.1); color: var(--orange);
+    }
+    .sidebar-item i { width: 18px; text-align: center; }
+
+    .main-content { padding: 32px; overflow-y: auto; }
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .page-title { font-family: 'Poppins', sans-serif; font-size: 1.6rem; font-weight: 700; margin-bottom: 8px; }
+    .page-subtitle { color: var(--text2); font-size: 0.9rem; margin-bottom: 32px; }
+
+    /* STATS CARDS */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 20px; display: flex; align-items: center; gap: 16px;
+    }
+    .stat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .stat-icon.orange { background: rgba(255,107,53,0.1); color: var(--orange); }
+    .stat-icon.green { background: rgba(34,197,94,0.1); color: var(--green); }
+    .stat-icon.blue { background: rgba(96,165,250,0.1); color: #60a5fa; }
+    .stat-icon.purple { background: rgba(167,139,250,0.1); color: #a78bfa; }
+    .stat-num-sm { font-size: 1.8rem; font-weight: 800; line-height: 1; }
+    .stat-label { font-size: 0.8rem; color: var(--text2); margin-top: 2px; }
+
+    /* UPLOAD AREA */
+    .upload-section {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 28px; margin-bottom: 28px;
+    }
+    .upload-section h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 20px;
+      display: flex; align-items: center; gap: 8px; }
+    .upload-section h3 i { color: var(--orange); }
+    .drop-zone {
+      border: 2px dashed var(--border); border-radius: 12px; padding: 48px;
+      text-align: center; cursor: pointer; transition: all 0.3s;
+      background: var(--bg);
+    }
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: var(--orange); background: rgba(255,107,53,0.05);
+    }
+    .drop-zone i { font-size: 2.5rem; color: var(--border); margin-bottom: 12px; display: block; }
+    .drop-zone p { color: var(--text2); font-size: 0.9rem; }
+    .drop-zone span { color: var(--orange); font-weight: 600; cursor: pointer; }
+    #fileInput { display: none; }
+
+    /* FORM FIELDS */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+    .form-field { display: flex; flex-direction: column; gap: 6px; }
+    .form-field label { font-size: 0.82rem; font-weight: 600; color: var(--text2); }
+    .form-field input, .form-field select, .form-field textarea {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+      padding: 10px 14px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none;
+    }
+    .form-field input:focus, .form-field select:focus { border-color: var(--orange); }
+    .preview-strip { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+    .preview-thumb {
+      position: relative; width: 100px; height: 80px; border-radius: 8px; overflow: hidden;
+      border: 2px solid var(--border);
+    }
+    .preview-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .preview-thumb .rm { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px;
+      border-radius: 50%; background: var(--red); color: #fff; border: none; cursor: pointer;
+      font-size: 0.7rem; display: flex; align-items: center; justify-content: center; }
+    .btn-submit {
+      margin-top: 20px; padding: 13px 32px; border: none; border-radius: 10px;
+      background: var(--gradient); color: #fff; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s;
+    }
+    .btn-submit:hover { opacity: 0.9; transform: translateY(-2px); }
+
+    /* GALLERY MANAGEMENT */
+    .gallery-mgmt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .gallery-mgmt-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; position: relative;
+    }
+    .gallery-mgmt-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+    .gallery-mgmt-info { padding: 14px; }
+    .gallery-mgmt-info h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
+    .gallery-mgmt-info p { font-size: 0.78rem; color: var(--text2); }
+    .gallery-mgmt-actions { display: flex; gap: 8px; margin-top: 12px; }
+    .btn-del {
+      padding: 6px 14px; border: 1px solid var(--red); border-radius: 6px;
+      background: rgba(239,68,68,0.1); color: var(--red); cursor: pointer;
+      font-size: 0.78rem; font-weight: 600; transition: all 0.2s;
+    }
+    .btn-del:hover { background: var(--red); color: #fff; }
+    .gallery-badge-sm {
+      position: absolute; top: 10px; left: 10px;
+      background: var(--gradient); color: #fff;
+      padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 700;
+    }
+    .empty-state { text-align: center; padding: 60px; color: var(--text2); }
+    .empty-state i { font-size: 3rem; color: var(--border); margin-bottom: 16px; display: block; }
+
+    /* CONTACT INFO PAGE */
+    .settings-form { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; }
+    .settings-form h3 { font-size: 1rem; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .btn-save {
+      margin-top: 20px; padding: 11px 28px; border: none; border-radius: 8px;
+      background: var(--gradient); color: #fff; font-weight: 700; cursor: pointer; font-size: 0.9rem;
+    }
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; background: var(--green);
+      color: #fff; padding: 14px 22px; border-radius: 10px; font-weight: 600;
+      font-size: 0.9rem; z-index: 9999; transform: translateY(100px);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .toast.show { transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .admin-body { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .gallery-mgmt-grid { grid-template-columns: 1fr 1fr; }
+      .settings-grid, .form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <img src="../logo3.png" alt="D Industriales" class="login-logo" />
+    <h1>Panel Administrativo</h1>
+    <p>Acceso exclusivo para personal autorizado de D Industriales</p>
+    <input type="password" id="loginPass" class="login-input" placeholder="Contraseña de acceso" onkeydown="if(event.key==='Enter')doLogin()" />
+    <button class="login-btn" onclick="doLogin()"><i class="fas fa-lock"></i> Ingresar</button>
+    <p class="login-err" id="loginErr"><i class="fas fa-exclamation-triangle"></i> Contraseña incorrecta</p>
+    <p style="margin-top:20px;font-size:0.78rem;color:var(--text2);">
+      ← <a href="../index.html" style="color:var(--orange);">Volver al sitio</a>
+    </p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <header class="admin-header">
+    <img src="../logo3.png" alt="D Industriales" class="admin-logo" />
+    <div class="admin-header-right">
+      <button class="admin-theme-btn" onclick="toggleAdminTheme()" id="adminThemeBtn"><i class="fas fa-sun"></i></button>
+      <a href="../index.html" class="back-site"><i class="fas fa-external-link-alt"></i> Ver Sitio</a>
+      <button class="btn-logout" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Salir</button>
+    </div>
+  </header>
+
+  <div class="admin-body">
+    <aside class="sidebar">
+      <div class="sidebar-label">Principal</div>
+      <div class="sidebar-item active" onclick="showPage('overview', this)"><i class="fas fa-home"></i> Dashboard</div>
+      <div class="sidebar-item" onclick="showPage('upload', this)"><i class="fas fa-cloud-upload-alt"></i> Subir Fotos</div>
+      <div class="sidebar-item" onclick="showPage('gallery', this)"><i class="fas fa-images"></i> Gestionar Galería</div>
+      <div class="sidebar-label" style="margin-top:16px;">Configuración</div>
+      <div class="sidebar-item" onclick="showPage('settings', this)"><i class="fas fa-cog"></i> Info de Contacto</div>
+    </aside>
+
+    <main class="main-content">
+
+      <!-- OVERVIEW -->
+      <div class="page active" id="page-overview">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Bienvenido al panel de administración de D Industriales</p>
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-icon orange"><i class="fas fa-images"></i></div>
+            <div><div class="stat-num-sm" id="totalPhotos">0</div><div class="stat-label">Fotos en Galería</div></div></div>
+          <div class="stat-card"><div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+            <div><div class="stat-num-sm" id="beforeAfterCount">0</div><div class="stat-label">Antes/Después</div></div></div>
+          <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-fire-extinguisher"></i></div>
+            <div><div class="stat-num-sm" id="projectCount">0</div><div class="stat-label">Proyectos</div></div></div>
+          <div class="stat-card"><div class="stat-icon purple"><i class="fas fa-database"></i></div>
+            <div><div class="stat-num-sm" id="storageUsed">0 MB</div><div class="stat-label">Almacenamiento</div></div></div>
+        </div>
+        <div class="upload-section">
+          <h3><i class="fas fa-info-circle"></i> Acceso Rápido</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div onclick="showPage('upload',null)" style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#ff6b35'" onmouseout="this.style.borderColor='var(--border)'">
+              <i class="fas fa-cloud-upload-alt" style="color:var(--orange);font-size:1.5rem;margin-bottom:8px;display:block;"></i>
+              <h4 style="margin-bottom:4px;">Subir Fotos</h4>
+              <p style="color:var(--text2);font-size:0.82rem;">Añadir fotos antes/después a la galería</p>
+            </div>
+            <div onclick="showPage('gallery',null)" style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#ff6b35'" onmouseout="this.style.borderColor='var(--border)'">
+              <i class="fas fa-images" style="color:#60a5fa;font-size:1.5rem;margin-bottom:8px;display:block;"></i>
+              <h4 style="margin-bottom:4px;">Gestionar Galería</h4>
+              <p style="color:var(--text2);font-size:0.82rem;">Ver, editar y eliminar fotos existentes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UPLOAD -->
+      <div class="page" id="page-upload">
+        <h1 class="page-title">Subir Fotos</h1>
+        <p class="page-subtitle">Añade fotos de proyectos de restauración a la galería del sitio web</p>
+        <div class="upload-section">
+          <h3><i class="fas fa-images"></i> Seleccionar Imagen</h3>
+          <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()" ondragover="handleDragOver(event)" ondrop="handleDrop(event)" ondragleave="this.classList.remove('dragover')">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Arrastra una imagen aquí o <span>haz clic para seleccionar</span></p>
+            <p style="font-size:0.78rem;color:var(--text2);margin-top:6px;">PNG, JPG, WEBP – Máx 5MB</p>
+          </div>
+          <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)" />
+          <div class="preview-strip" id="previewStrip"></div>
+          <div class="form-grid" id="uploadFields" style="display:none;">
+            <div class="form-field">
+              <label>Título del Proyecto *</label>
+              <input type="text" id="photoTitle" placeholder="Ej: Restauración Cocina - Caguas" />
+            </div>
+            <div class="form-field">
+              <label>Tipo de Trabajo</label>
+              <select id="photoType">
+                <option>Restauración por Incendio</option>
+                <option>Limpieza de Humo</option>
+                <option>Daños por Agua</option>
+                <option>Reconstrucción Estructural</option>
+                <option>Antes/Después</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Municipio / Área</label>
+              <input type="text" id="photoLocation" placeholder="Ej: San Juan, Puerto Rico" />
+            </div>
+            <div class="form-field">
+              <label>Fase</label>
+              <select id="photoPhase">
+                <option value="after">Después (Resultado final)</option>
+                <option value="before">Antes (Daño inicial)</option>
+                <option value="during">Durante (En proceso)</option>
+              </select>
+            </div>
+            <div class="form-field" style="grid-column:1/-1;">
+              <label>Descripción</label>
+              <textarea id="photoDesc" rows="3" placeholder="Descripción breve del proyecto..."></textarea>
+            </div>
+          </div>
+          <button class="btn-submit" id="btnSave" style="display:none;" onclick="savePhoto()">
+            <i class="fas fa-save"></i> Guardar en Galería
+          </button>
+        </div>
+      </div>
+
+      <!-- GALLERY MANAGEMENT -->
+      <div class="page" id="page-gallery">
+        <h1 class="page-title">Gestionar Galería</h1>
+        <p class="page-subtitle">Administra las fotos de la galería del sitio web</p>
+        <div id="galleryMgmt"></div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="page" id="page-settings">
+        <h1 class="page-title">Información de Contacto</h1>
+        <p class="page-subtitle">Actualiza la información de contacto mostrada en el sitio web</p>
+        <div class="settings-form">
+          <h3><i class="fas fa-phone" style="color:var(--orange);margin-right:8px;"></i> Datos de Contacto</h3>
+          <div class="settings-grid">
+            <div class="form-field"><label>Teléfono Principal</label><input type="tel" id="sPhone" placeholder="+1 (787) 000-0000" /></div>
+            <div class="form-field"><label>WhatsApp</label><input type="tel" id="sWhatsApp" placeholder="+17870000000" /></div>
+            <div class="form-field"><label>Email</label><input type="email" id="sEmail" placeholder="info@dindustriales.com" /></div>
+            <div class="form-field"><label>Municipio / Área</label><input type="text" id="sLocation" placeholder="Puerto Rico" /></div>
+            <div class="form-field" style="grid-column:1/-1;"><label>Mensaje de WhatsApp (por defecto)</label>
+              <textarea id="sWaMsg" rows="3" placeholder="Hola, necesito información sobre restauración de incendio..."></textarea></div>
+          </div>
+          <button class="btn-save" onclick="saveSettings()"><i class="fas fa-save"></i> Guardar Cambios</button>
+        </div>
+        <div class="settings-form" style="margin-top:20px;">
+          <h3><i class="fas fa-database" style="color:var(--orange);margin-right:8px;"></i> Gestión de Datos</h3>
+          <p style="color:var(--text2);font-size:0.88rem;margin-bottom:16px;">Exporta o importa los datos de la galería para hacer respaldo o transferir entre dispositivos.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <button class="btn-save" onclick="exportData()"><i class="fas fa-download"></i> Exportar Datos</button>
+            <button class="btn-save" style="background:var(--bg2);border:1px solid var(--border);color:var(--text);" onclick="document.getElementById('importFile').click()"><i class="fas fa-upload"></i> Importar Datos</button>
+            <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)" />
+            <button class="btn-save" style="background:rgba(239,68,68,0.1);border:1px solid var(--red);color:var(--red);" onclick="if(confirm('¿Seguro que quieres borrar TODA la galería?'))clearGallery()"><i class="fas fa-trash"></i> Borrar Todo</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Guardado</span></div>
+<script src="admin.js"></script>
+</body>
+</html>
+
