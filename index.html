@@ -406,6 +406,39 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script src="js/main.js"></script>
+
+<script>
+  // ── FORMULARIO COLAPSABLE ──────────────────────────────────
+  (function () {
+    var toggle = document.getElementById('formToggle');
+    var body   = document.getElementById('formBody');
+    if (!toggle || !body) return;
+    toggle.addEventListener('click', function () {
+      var isOpen = body.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      if (isOpen) {
+        setTimeout(function () {
+          toggle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    });
+  })();
+
+  // ── REVEAL TELÉFONOS EN TOUCH ──────────────────────────────
+  (function () {
+    if (!('ontouchstart' in window)) return;
+    document.querySelectorAll('.contact-card').forEach(function (card) {
+      card.addEventListener('click', function (e) {
+        if (!card.classList.contains('revealed')) {
+          e.preventDefault();
+          document.querySelectorAll('.contact-card.revealed')
+            .forEach(function (c) { c.classList.remove('revealed'); });
+          card.classList.add('revealed');
+        }
+      });
+    });
+  })();
+</script>
 </body>
 </html>
 
