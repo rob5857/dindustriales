@@ -24,16 +24,35 @@ applyTheme(savedTheme);
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
 
+function closeMenu() {
+  navMenu.classList.remove('open');
+  hamburger.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function openMenu() {
+  navMenu.classList.add('open');
+  hamburger.classList.add('active');
+  document.body.style.overflow = 'hidden'; // evita scroll del fondo
+}
+
 hamburger.addEventListener('click', () => {
-  navMenu.classList.toggle('open');
-  hamburger.classList.toggle('active');
+  navMenu.classList.contains('open') ? closeMenu() : openMenu();
 });
 
+// Cerrar al hacer clic en un link
 document.querySelectorAll('.nav-link').forEach(link => {
-  link.addEventListener('click', () => {
-    navMenu.classList.remove('open');
-    hamburger.classList.remove('active');
-  });
+  link.addEventListener('click', closeMenu);
+});
+
+// Cerrar al hacer clic en el overlay (pseudo-element ::before)
+navMenu.addEventListener('click', (e) => {
+  if (e.target === navMenu) closeMenu();
+});
+
+// Cerrar con tecla Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && navMenu.classList.contains('open')) closeMenu();
 });
 
 // ── HEADER SCROLL ─────────────────────────────────────────────
@@ -357,3 +376,32 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
 
 loadGallery();
 
+// ── FORMULARIO COLAPSABLE ─────────────────────────────────────
+const formToggle = document.getElementById('formToggle');
+const formBody   = document.getElementById('formBody');
+if (formToggle && formBody) {
+  formToggle.addEventListener('click', () => {
+    const isOpen = formBody.classList.toggle('open');
+    formToggle.classList.toggle('open', isOpen);
+    if (isOpen) {
+      // Scroll suave hacia el formulario
+      setTimeout(() => formToggle.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    }
+  });
+}
+
+// ── REVEAL TELÉFONOS EN TOUCH ─────────────────────────────────
+// En móvil: primer toque revela el número, segundo toque sigue el enlace
+if ('ontouchstart' in window) {
+  document.querySelectorAll('.contact-card').forEach(card => {
+    card.addEventListener('click', function (e) {
+      if (!card.classList.contains('revealed')) {
+        e.preventDefault();
+        // Ocultar otras tarjetas reveladas
+        document.querySelectorAll('.contact-card.revealed')
+          .forEach(c => c.classList.remove('revealed'));
+        card.classList.add('revealed');
+      }
+    });
+  });
+}
