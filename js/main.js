@@ -376,32 +376,4 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
 
 loadGallery();
 
-// ── FORMULARIO COLAPSABLE ─────────────────────────────────────
-const formToggle = document.getElementById('formToggle');
-const formBody   = document.getElementById('formBody');
-if (formToggle && formBody) {
-  formToggle.addEventListener('click', () => {
-    const isOpen = formBody.classList.toggle('open');
-    formToggle.classList.toggle('open', isOpen);
-    if (isOpen) {
-      // Scroll suave hacia el formulario
-      setTimeout(() => formToggle.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-    }
-  });
-}
-
-// ── REVEAL TELÉFONOS EN TOUCH ─────────────────────────────────
-// En móvil: primer toque revela el número, segundo toque sigue el enlace
-if ('ontouchstart' in window) {
-  document.querySelectorAll('.contact-card').forEach(card => {
-    card.addEventListener('click', function (e) {
-      if (!card.classList.contains('revealed')) {
-        e.preventDefault();
-        // Ocultar otras tarjetas reveladas
-        document.querySelectorAll('.contact-card.revealed')
-          .forEach(c => c.classList.remove('revealed'));
-        card.classList.add('revealed');
-      }
-    });
-  });
-}
+// Formulario colapsable y reveal de teléfonos gestionados en index.html (inline script)
