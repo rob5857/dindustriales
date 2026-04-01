@@ -327,28 +327,14 @@ function submitForm(event) {
 
   emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
     .then(function () {
-      // ✅ Email enviado correctamente
+      // ✅ Mostrar mensaje de éxito y limpiar el formulario
       successEl.style.display = 'flex';
       form.reset();
-      // Notificación adicional por WhatsApp en segundo plano
-      const msg = encodeURIComponent(
-        `*Nueva Solicitud - D Industriales*\n` +
-        `Nombre: ${data.nombre}\n` +
-        `Teléfono: ${data.telefono}\n` +
-        `Email: ${data.email || 'N/A'}\n` +
-        `Dirección: ${data.direccion}\n` +
-        `Aseguradora: ${data.aseguradora || 'No especificada'}\n` +
-        `Descripción: ${data.descripcion}`
-      );
-      window.open(`https://wa.me/19733920478?text=${msg}`, '_blank');
     })
     .catch(function (error) {
       console.error('EmailJS error:', error);
-      alert('Hubo un problema al enviar el email. Le abriremos WhatsApp como alternativa.');
-      const msg = encodeURIComponent(
-        `*Nueva Solicitud - D Industriales*\nNombre: ${data.nombre}\nTeléfono: ${data.telefono}\nDirección: ${data.direccion}\nDescripción: ${data.descripcion}`
-      );
-      window.open(`https://wa.me/19733920478?text=${msg}`, '_blank');
+      successEl.style.display = 'none';
+      alert('Hubo un problema al enviar el mensaje. Por favor intente de nuevo o contáctenos directamente.');
     })
     .finally(function () {
       submitBtn.disabled = false;
