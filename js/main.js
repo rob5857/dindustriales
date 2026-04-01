@@ -304,32 +304,66 @@ function submitForm(event) {
   event.preventDefault();
   const form = event.target;
   const data = Object.fromEntries(new FormData(form));
+  const submitBtn = form.querySelector('[type="submit"]');
+  const successEl = document.getElementById('formSuccess');
 
-  // Build WhatsApp message
-  const msg = encodeURIComponent(
-    `*Nueva Solicitud - D Industriales*\n` +
-    `Nombre: ${data.nombre}\n` +
-    `Teléfono: ${data.telefono}\n` +
-    `Email: ${data.email || 'N/A'}\n` +
-    `Dirección: ${data.direccion}\n` +
-    `Aseguradora: ${data.aseguradora || 'No especificada'}\n` +
-    `Descripción: ${data.descripcion}`
-  );
+  // Disable button while sending
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
 
-  // Open WhatsApp with form data
-  window.open(`https://wa.me/19733920478?text=${msg}`, '_blank');
+  // Build FormData payload for FormSubmit.co
+  const payload = new FormData();
+  payload.append('nombre',      data.nombre);
+  payload.append('telefono',    data.telefono);
+  payload.append('email',       data.email || 'No proporcionado');
+  payload.append('direccion',   data.direccion);
+  payload.append('aseguradora', data.aseguradora || 'No especificada');
+  payload.append('descripcion', data.descripcion);
+  // FormSubmit.co special fields
+  payload.append('_subject',    `Nueva Solicitud de Inspección – ${data.nombre}`);
+  payload.append('_cc',         'info@desarrollosindustriales.com');
+  payload.append('_captcha',    'false');
+  payload.append('_template',   'table');
 
-  // Show success
-  document.getElementById('formSuccess').style.display = 'flex';
-  form.reset();
-
-  // Also send email (mailto fallback)
-  const emailBody = encodeURIComponent(
-    `Nombre: ${data.nombre}\nTeléfono: ${data.telefono}\nDirección: ${data.direccion}\nDescripción: ${data.descripcion}`
-  );
-  setTimeout(() => {
-    window.location.href = `mailto:info@dindustriales.com?subject=Solicitud%20de%20Inspecci%C3%B3n%20-%20${encodeURIComponent(data.nombre)}&body=${emailBody}`;
-  }, 1500);
+  // Send to FormSubmit (primary address)
+  fetch('https://formsubmit.co/ajax/dindustriales@gmail.com', {
+    method: 'POST',
+    headers: { 'Accept': 'application/json' },
+    body: payload
+  })
+  .then(res => res.json())
+  .then(res => {
+    if (res.success === 'true' || res.success === true) {
+      // Show success message
+      successEl.style.display = 'flex';
+      form.reset();
+      // Also notify via WhatsApp (background tab)
+      const msg = encodeURIComponent(
+        `*Nueva Solicitud - D Industriales*\n` +
+        `Nombre: ${data.nombre}\n` +
+        `Teléfono: ${data.telefono}\n` +
+        `Email: ${data.email || 'N/A'}\n` +
+        `Dirección: ${data.direccion}\n` +
+        `Aseguradora: ${data.aseguradora || 'No especificada'}\n` +
+        `Descripción: ${data.descripcion}`
+      );
+      window.open(`https://wa.me/19733920478?text=${msg}`, '_blank');
+    } else {
+      throw new Error('FormSubmit returned failure');
+    }
+  })
+  .catch(() => {
+    // Fallback: WhatsApp + alert
+    alert('Hubo un problema al enviar el formulario. Le redirigiremos a WhatsApp.');
+    const msg = encodeURIComponent(
+      `*Nueva Solicitud - D Industriales*\nNombre: ${data.nombre}\nTeléfono: ${data.telefono}\nDirección: ${data.direccion}\nDescripción: ${data.descripcion}`
+    );
+    window.open(`https://wa.me/19733920478?text=${msg}`, '_blank');
+  })
+  .finally(() => {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Solicitud';
+  });
 }
 
 // ── GALLERY LOADER (from localStorage - admin managed) ────────
