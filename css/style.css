@@ -94,12 +94,10 @@ ul { list-style: none; }
 .header::before {
   content: '';
   position: absolute; inset: 0;
-  background: rgba(10,10,15,0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: transparent;
   z-index: -1;
 }
-[data-theme="light"] .header::before { background: rgba(248,249,252,0.9); }
+[data-theme="light"] .header::before { background: rgba(248,249,252,0.15); }
 .header.scrolled { box-shadow: var(--shadow); }
 .nav { display: flex; align-items: center; gap: 32px; height: 100%; }
 .nav-logo { flex-shrink: 0; }
