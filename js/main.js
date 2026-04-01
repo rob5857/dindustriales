@@ -300,6 +300,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── CONTACT FORM ───────────────────────────────────────────────
+// EmailJS IDs — reemplaza con los tuyos (ver instrucciones en README)
+var EMAILJS_SERVICE_ID  = 'service_d37m1jc';   // ej: 'service_abc123'
+var EMAILJS_TEMPLATE_ID = 'template_9oj9v8g';  // ej: 'template_xyz789'
+
 function submitForm(event) {
   event.preventDefault();
   const form = event.target;
@@ -307,37 +311,26 @@ function submitForm(event) {
   const submitBtn = form.querySelector('[type="submit"]');
   const successEl = document.getElementById('formSuccess');
 
-  // Disable button while sending
+  // Deshabilitar botón mientras envía
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
 
-  // Build FormData payload for FormSubmit.co
-  const payload = new FormData();
-  payload.append('nombre',      data.nombre);
-  payload.append('telefono',    data.telefono);
-  payload.append('email',       data.email || 'No proporcionado');
-  payload.append('direccion',   data.direccion);
-  payload.append('aseguradora', data.aseguradora || 'No especificada');
-  payload.append('descripcion', data.descripcion);
-  // FormSubmit.co special fields
-  payload.append('_subject',    `Nueva Solicitud de Inspección – ${data.nombre}`);
-  payload.append('_cc',         'info@desarrollosindustriales.com');
-  payload.append('_captcha',    'false');
-  payload.append('_template',   'table');
+  // Parámetros que coinciden con las variables del template de EmailJS
+  const templateParams = {
+    nombre:      data.nombre,
+    telefono:    data.telefono,
+    email_from:  data.email || 'No proporcionado',
+    direccion:   data.direccion,
+    aseguradora: data.aseguradora || 'No especificada',
+    descripcion: data.descripcion
+  };
 
-  // Send to FormSubmit (primary address)
-  fetch('https://formsubmit.co/ajax/dindustriales@gmail.com', {
-    method: 'POST',
-    headers: { 'Accept': 'application/json' },
-    body: payload
-  })
-  .then(res => res.json())
-  .then(res => {
-    if (res.success === 'true' || res.success === true) {
-      // Show success message
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+    .then(function () {
+      // ✅ Email enviado correctamente
       successEl.style.display = 'flex';
       form.reset();
-      // Also notify via WhatsApp (background tab)
+      // Notificación adicional por WhatsApp en segundo plano
       const msg = encodeURIComponent(
         `*Nueva Solicitud - D Industriales*\n` +
         `Nombre: ${data.nombre}\n` +
@@ -348,22 +341,19 @@ function submitForm(event) {
         `Descripción: ${data.descripcion}`
       );
       window.open(`https://wa.me/19733920478?text=${msg}`, '_blank');
-    } else {
-      throw new Error('FormSubmit returned failure');
-    }
-  })
-  .catch(() => {
-    // Fallback: WhatsApp + alert
-    alert('Hubo un problema al enviar el formulario. Le redirigiremos a WhatsApp.');
-    const msg = encodeURIComponent(
-      `*Nueva Solicitud - D Industriales*\nNombre: ${data.nombre}\nTeléfono: ${data.telefono}\nDirección: ${data.direccion}\nDescripción: ${data.descripcion}`
-    );
-    window.open(`https://wa.me/19733920478?text=${msg}`, '_blank');
-  })
-  .finally(() => {
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Solicitud';
-  });
+    })
+    .catch(function (error) {
+      console.error('EmailJS error:', error);
+      alert('Hubo un problema al enviar el email. Le abriremos WhatsApp como alternativa.');
+      const msg = encodeURIComponent(
+        `*Nueva Solicitud - D Industriales*\nNombre: ${data.nombre}\nTeléfono: ${data.telefono}\nDirección: ${data.direccion}\nDescripción: ${data.descripcion}`
+      );
+      window.open(`https://wa.me/19733920478?text=${msg}`, '_blank');
+    })
+    .finally(function () {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Solicitud';
+    });
 }
 
 // ── GALLERY LOADER (from localStorage - admin managed) ────────
