@@ -87,7 +87,7 @@ const TRANSLATIONS = {
     footer_services_h4: 'Servicios', footer_svc1: 'Mitigación de Emergencia', footer_svc2: 'Limpieza de Humo',
     footer_svc3: 'Daños por Agua', footer_svc4: 'Reconstrucción', footer_svc5: 'Gestión de Reclamaciones',
     footer_insurers_h4: 'Aseguradoras', footer_contact_h4: 'Contacto', footer_available: 'Disponible 24/7',
-    footer_copy: '© 2026 Desarrrollos Industriales LLC. Todos los derechos reservados. | Puerto Rico',
+    footer_copy: '© 2025 Desarrollos Industriales LLC. Todos los derechos reservados. | Puerto Rico',
   },
   en: {
     nav_services: 'Services', nav_insurers: 'Insurers', nav_radar: 'Radar PR',
@@ -154,7 +154,7 @@ const TRANSLATIONS = {
     footer_services_h4: 'Services', footer_svc1: 'Emergency Mitigation', footer_svc2: 'Smoke Cleanup',
     footer_svc3: 'Water Damage', footer_svc4: 'Reconstruction', footer_svc5: 'Claims Management',
     footer_insurers_h4: 'Insurers', footer_contact_h4: 'Contact', footer_available: 'Available 24/7',
-    footer_copy: '© 2026 Desarrollos Industriales LLC. All rights reserved. | Puerto Rico',
+    footer_copy: '© 2025 Desarrollos Industriales LLC. All rights reserved. | Puerto Rico',
   }
 };
 
@@ -183,26 +183,52 @@ function applyLanguage(lang) {
   // Update html lang attribute
   document.documentElement.setAttribute('lang', lang);
 
-  // Update lang toggle button: show the OTHER language
-  const langBtn = document.getElementById('langToggle');
-  if (langBtn) langBtn.textContent = lang === 'es' ? 'EN' : 'ES';
+  // Update lang toggle button image: show the OTHER language flag
+  const langFlagImg = document.getElementById('langFlagImg');
+  if (langFlagImg) {
+    langFlagImg.src = lang === 'es' ? 'images/us.png' : 'images/pr.png';
+    langFlagImg.alt = lang === 'es' ? 'English' : 'Español';
+  }
 
-  // Save preference
+  // Save preference (only marks language, NOT that user explicitly chose via modal)
   localStorage.setItem('dindustriales-lang', lang);
 }
 
-// Language toggle event listener
+function applyLanguageAndSave(lang) {
+  localStorage.setItem('dindustriales-lang-chosen', '1');
+  applyLanguage(lang);
+}
+
+// Language toggle button (header)
 const langToggleBtn = document.getElementById('langToggle');
 if (langToggleBtn) {
   langToggleBtn.addEventListener('click', () => {
-    const current = localStorage.getItem('dindustriales-lang') || 'es';
+    const current = localStorage.getItem('dindustriales-lang') || 'en';
     applyLanguage(current === 'es' ? 'en' : 'es');
   });
 }
 
-// Load saved language (default: Spanish)
-const savedLang = localStorage.getItem('dindustriales-lang') || 'es';
-applyLanguage(savedLang);
+// ── LANGUAGE MODAL ────────────────────────────────────────────
+const langModal = document.getElementById('langModal');
+
+function closeLangModal(lang) {
+  langModal.classList.add('hidden');
+  setTimeout(() => { langModal.style.display = 'none'; }, 380);
+  applyLanguageAndSave(lang);
+}
+
+document.getElementById('pickEs').addEventListener('click', () => closeLangModal('es'));
+document.getElementById('pickEn').addEventListener('click', () => closeLangModal('en'));
+
+// Show modal only if user NEVER explicitly picked a language via the modal
+const userChose  = localStorage.getItem('dindustriales-lang-chosen');
+const savedLang  = localStorage.getItem('dindustriales-lang');
+if (userChose && savedLang) {
+  // User already picked before — skip modal and apply saved language
+  langModal.style.display = 'none';
+  applyLanguage(savedLang);
+}
+// Otherwise modal stays visible — user must pick
 
 // ── HAMBURGER MENU ────────────────────────────────────────────
 const hamburger = document.getElementById('hamburger');
