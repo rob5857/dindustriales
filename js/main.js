@@ -208,6 +208,16 @@ const TRANSLATIONS = {
   }
 };
 
+// ── TESTIMONIOS DATA (must be before applyLanguage) ──────────
+const TESTI_STATIC = [
+  { name: 'María González', location: 'Bayamón, PR',  avatar: 'https://randomuser.me/api/portraits/women/44.jpg' },
+  { name: 'Carlos Rivera',  location: 'San Juan, PR', avatar: 'https://randomuser.me/api/portraits/men/32.jpg'   },
+  { name: 'Lucía Martínez', location: 'Caguas, PR',   avatar: 'https://randomuser.me/api/portraits/women/68.jpg' },
+  { name: 'Roberto Colón',  location: 'Ponce, PR',    avatar: 'https://randomuser.me/api/portraits/men/76.jpg'   },
+  { name: 'Ana Torres',     location: 'Arecibo, PR',  avatar: 'https://randomuser.me/api/portraits/women/12.jpg' },
+];
+let _testiTimer = null;
+
 function applyLanguage(lang) {
   const t = TRANSLATIONS[lang];
   if (!t) return;
@@ -284,15 +294,6 @@ if (userChose && savedLang) {
 // Otherwise modal stays visible — user must pick
 
 // ── TESTIMONIOS SLIDER ────────────────────────────────────────
-const TESTI_STATIC = [
-  { name: 'María González', location: 'Bayamón, PR',  avatar: 'https://randomuser.me/api/portraits/women/44.jpg' },
-  { name: 'Carlos Rivera',  location: 'San Juan, PR', avatar: 'https://randomuser.me/api/portraits/men/32.jpg'   },
-  { name: 'Lucía Martínez', location: 'Caguas, PR',   avatar: 'https://randomuser.me/api/portraits/women/68.jpg' },
-  { name: 'Roberto Colón',  location: 'Ponce, PR',    avatar: 'https://randomuser.me/api/portraits/men/76.jpg'   },
-  { name: 'Ana Torres',     location: 'Arecibo, PR',  avatar: 'https://randomuser.me/api/portraits/women/12.jpg' },
-];
-
-let _testiTimer = null;
 
 function buildTestiCards(lang) {
   const track = document.getElementById('testiTrack');
