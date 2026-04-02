@@ -26,7 +26,7 @@ const TRANSLATIONS = {
     nav_services: 'Servicios', nav_insurers: 'Aseguradoras', nav_radar: 'Radar PR',
     nav_contact: 'Contacto', nav_whatsapp: 'WhatsApp',
     hero_title: 'Restauración Profesional de<br/><span class="gradient-text">Daños por Incendio e Inundaciones</span>',
-    hero_subtitle: 'Puerto Rico\'s premier fire damage restoration company.<br/>Trabajamos directamente con tu aseguradora. Disponibles <strong>24/7</strong>.',
+    hero_subtitle: 'La principal empresa de restauración de daños por incendio de Puerto Rico.<br/>Trabajamos directamente con tu aseguradora. Disponibles <strong>24/7</strong>.',
     hero_badge1: 'Ayuda Rápida', hero_badge2: '+15 Años de Experiencia', hero_badge3: 'Respuesta en 24 horas',
     hero_cta1: 'Inspecciones para Seguros', hero_cta2: 'Emergencias 24/7', hero_scroll: 'Scroll',
     stat_years: 'Años de Experiencia', stat_jobs: 'Trabajos Completados',
@@ -87,7 +87,7 @@ const TRANSLATIONS = {
     footer_services_h4: 'Servicios', footer_svc1: 'Mitigación de Emergencia', footer_svc2: 'Limpieza de Humo',
     footer_svc3: 'Daños por Agua', footer_svc4: 'Reconstrucción', footer_svc5: 'Gestión de Reclamaciones',
     footer_insurers_h4: 'Aseguradoras', footer_contact_h4: 'Contacto', footer_available: 'Disponible 24/7',
-    footer_copy: '© 2025 D Industriales. Todos los derechos reservados. | Puerto Rico',
+    footer_copy: '© 2026 Desarrrollos Industriales LLC. Todos los derechos reservados. | Puerto Rico',
   },
   en: {
     nav_services: 'Services', nav_insurers: 'Insurers', nav_radar: 'Radar PR',
@@ -154,7 +154,7 @@ const TRANSLATIONS = {
     footer_services_h4: 'Services', footer_svc1: 'Emergency Mitigation', footer_svc2: 'Smoke Cleanup',
     footer_svc3: 'Water Damage', footer_svc4: 'Reconstruction', footer_svc5: 'Claims Management',
     footer_insurers_h4: 'Insurers', footer_contact_h4: 'Contact', footer_available: 'Available 24/7',
-    footer_copy: '© 2025 D Industriales. All rights reserved. | Puerto Rico',
+    footer_copy: '© 2026 Desarrollos Industriales LLC. All rights reserved. | Puerto Rico',
   }
 };
 
