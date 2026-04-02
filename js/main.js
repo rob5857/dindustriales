@@ -103,6 +103,16 @@ const TRANSLATIONS = {
     footer_svc3: 'Daños por Agua', footer_svc4: 'Reconstrucción', footer_svc5: 'Gestión de Reclamaciones',
     footer_insurers_h4: 'Aseguradoras', footer_contact_h4: 'Contacto', footer_available: 'Disponible 24/7',
     footer_copy: '© 2025 Desarrollos Industriales LLC. Todos los derechos reservados. | Puerto Rico',
+    testi_label: 'Lo que dicen nuestros clientes',
+    testi_h2: 'Historias <span class="gradient-text">Reales</span>',
+    testi_verified_title: 'Cliente verificado',
+    testi_data: [
+      { quote: 'El incendio destruyó parte de mi cocina y sala. No sabía por dónde empezar. Llamé a D Industriales y en menos de 24 horas ya tenían todo documentado para la aseguradora. En semanas mi casa estaba restaurada. ¡Increíble servicio!', date: 'Marzo 2025' },
+      { quote: 'La aseguradora quería pagarme mucho menos de lo que necesitaba. D Industriales me representó, gestionó todo el proceso y logré recibir lo que realmente me correspondía. Sin ellos no lo hubiera conseguido.', date: 'Enero 2025' },
+      { quote: 'Lo que más me sorprendió fue que comenzaron la reparación al mismo tiempo que tramitaban la reclamación. No tuve que esperar meses para que mi familia tuviera una casa habitable. Muy profesionales y humanos.', date: 'Febrero 2025' },
+      { quote: 'Pensé que iba a tardar un año en recuperar mi hogar. Con D Industriales el proceso fue rápido, transparente y sin costos de bolsillo. Me mantuvieron informado en todo momento. Los recomiendo al 100%.', date: 'Diciembre 2024' },
+      { quote: 'El equipo de D Industriales fue como tener a alguien de familia peleando por nosotros. Desde la llamada inicial hasta la entrega final, todo fue impecable. Nuestra casa quedó mejor que antes del incendio.', date: 'Noviembre 2024' },
+    ],
   },
   en: {
     nav_services: 'Services', nav_insurers: 'Insurers', nav_radar: 'Radar PR',
@@ -185,6 +195,16 @@ const TRANSLATIONS = {
     footer_svc3: 'Water Damage', footer_svc4: 'Reconstruction', footer_svc5: 'Claims Management',
     footer_insurers_h4: 'Insurers', footer_contact_h4: 'Contact', footer_available: 'Available 24/7',
     footer_copy: '© 2025 Desarrollos Industriales LLC. All rights reserved. | Puerto Rico',
+    testi_label: 'What our clients say',
+    testi_h2: 'Real <span class="gradient-text">Stories</span>',
+    testi_verified_title: 'Verified client',
+    testi_data: [
+      { quote: 'The fire destroyed part of my kitchen and living room. I didn\'t know where to start. I called D Industriales and in less than 24 hours they had everything documented for the insurer. In weeks my house was restored. Incredible service!', date: 'March 2025' },
+      { quote: 'The insurance company wanted to pay me much less than I needed. D Industriales represented me, managed the entire process, and I received what I truly deserved. Without them I wouldn\'t have gotten it.', date: 'January 2025' },
+      { quote: 'What surprised me most was that they started repairs at the same time they processed the claim. My family didn\'t have to wait months for a livable home. Very professional and caring.', date: 'February 2025' },
+      { quote: 'I thought it would take a year to recover my home. With D Industriales the process was fast, transparent, and at no out-of-pocket cost. They kept me informed every step of the way. I recommend them 100%.', date: 'December 2024' },
+      { quote: 'The D Industriales team was like having family fighting for us. From the first call to the final delivery, everything was impeccable. Our house ended up better than before the fire.', date: 'November 2024' },
+    ],
   }
 };
 
@@ -222,6 +242,9 @@ function applyLanguage(lang) {
 
   // Save preference (only marks language, NOT that user explicitly chose via modal)
   localStorage.setItem('dindustriales-lang', lang);
+
+  // Rebuild testimonials in the chosen language
+  buildTestiCards(lang);
 }
 
 function applyLanguageAndSave(lang) {
@@ -261,28 +284,78 @@ if (userChose && savedLang) {
 // Otherwise modal stays visible — user must pick
 
 // ── TESTIMONIOS SLIDER ────────────────────────────────────────
-(function () {
+const TESTI_STATIC = [
+  { name: 'María González', location: 'Bayamón, PR',  avatar: 'https://randomuser.me/api/portraits/women/44.jpg' },
+  { name: 'Carlos Rivera',  location: 'San Juan, PR', avatar: 'https://randomuser.me/api/portraits/men/32.jpg'   },
+  { name: 'Lucía Martínez', location: 'Caguas, PR',   avatar: 'https://randomuser.me/api/portraits/women/68.jpg' },
+  { name: 'Roberto Colón',  location: 'Ponce, PR',    avatar: 'https://randomuser.me/api/portraits/men/76.jpg'   },
+  { name: 'Ana Torres',     location: 'Arecibo, PR',  avatar: 'https://randomuser.me/api/portraits/women/12.jpg' },
+];
+
+let _testiTimer = null;
+
+function buildTestiCards(lang) {
+  const track = document.getElementById('testiTrack');
+  if (!track) return;
+  clearInterval(_testiTimer);
+  track.style.transform = 'translateX(0)';
+
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.es;
+  const data = t.testi_data || [];
+  const verifiedTitle = t.testi_verified_title || 'Cliente verificado';
+  const stars = '<i class="fas fa-star"></i>'.repeat(5);
+
+  track.innerHTML = TESTI_STATIC.map((s, i) => {
+    const d = data[i] || {};
+    return `
+      <article class="testi-card">
+        <div class="testi-top">
+          <div class="testi-avatar-wrap">
+            <img src="${s.avatar}" alt="${s.name}" class="testi-avatar" loading="lazy" />
+            <span class="testi-verified" title="${verifiedTitle}"><i class="fas fa-check-circle"></i></span>
+          </div>
+          <div class="testi-meta">
+            <strong class="testi-name">${s.name}</strong>
+            <span class="testi-location"><i class="fas fa-map-marker-alt"></i> ${s.location}</span>
+            <div class="testi-stars">${stars}</div>
+          </div>
+        </div>
+        <blockquote class="testi-quote">
+          <i class="fas fa-quote-left testi-icon-quote"></i>
+          ${d.quote || ''}
+        </blockquote>
+        <span class="testi-date">${d.date || ''}</span>
+      </article>`;
+  }).join('');
+
+  initTestiSlider();
+}
+
+function initTestiSlider() {
   const track   = document.getElementById('testiTrack');
-  const prevBtn = document.getElementById('testiPrev');
-  const nextBtn = document.getElementById('testiNext');
   const dotsWrap = document.getElementById('testiDots');
   if (!track) return;
 
   const cards = Array.from(track.querySelectorAll('.testi-card'));
-  let current = 0;
-  let autoTimer;
+  if (!cards.length) return;
 
-  // Cuántas cards se ven según el ancho
+  // Replace prev/next buttons to remove any old click listeners
+  ['testiPrev', 'testiNext'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { const clone = el.cloneNode(true); el.parentNode.replaceChild(clone, el); }
+  });
+  const prevBtn = document.getElementById('testiPrev');
+  const nextBtn = document.getElementById('testiNext');
+
+  let current = 0;
+  const total = cards.length;
+
   function visibleCount() {
-    const w = window.innerWidth;
-    if (w <= 580) return 1;
-    if (w <= 900) return 2;
+    if (window.innerWidth <= 580) return 1;
+    if (window.innerWidth <= 900) return 2;
     return 3;
   }
 
-  const total = cards.length;
-
-  // Crear dots
   function buildDots() {
     dotsWrap.innerHTML = '';
     const pages = total - visibleCount() + 1;
@@ -295,14 +368,13 @@ if (userChose && savedLang) {
   }
 
   function updateDots() {
-    const dots = dotsWrap.querySelectorAll('.testi-dot');
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    dotsWrap.querySelectorAll('.testi-dot').forEach((d, i) => d.classList.toggle('active', i === current));
   }
 
   function goTo(index) {
     const pages = total - visibleCount() + 1;
     current = Math.max(0, Math.min(index, pages - 1));
-    const cardW = cards[0].getBoundingClientRect().width + 24; // width + gap
+    const cardW = cards[0].getBoundingClientRect().width + 24;
     track.style.transform = `translateX(-${current * cardW}px)`;
     updateDots();
   }
@@ -310,31 +382,37 @@ if (userChose && savedLang) {
   function next() { goTo(current + 1 >= total - visibleCount() + 1 ? 0 : current + 1); }
   function prev() { goTo(current - 1 < 0 ? total - visibleCount() : current - 1); }
 
+  function startTimer() { _testiTimer = setInterval(next, 5000); }
+  function resetTimer() { clearInterval(_testiTimer); startTimer(); }
+
   prevBtn.addEventListener('click', () => { resetTimer(); prev(); });
   nextBtn.addEventListener('click', () => { resetTimer(); next(); });
 
-  // Swipe táctil
+  // Swipe táctil (property assignment evita listeners duplicados)
   let startX = 0;
-  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
-  track.addEventListener('touchend', e => {
+  track.ontouchstart = e => { startX = e.touches[0].clientX; };
+  track.ontouchend = e => {
     const diff = startX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 40) { resetTimer(); diff > 0 ? next() : prev(); }
-  });
+  };
 
-  // Auto-play cada 5 segundos
-  function startTimer() { autoTimer = setInterval(next, 5000); }
-  function resetTimer() { clearInterval(autoTimer); startTimer(); }
+  // Hover pause
+  const wrap = track.parentElement;
+  wrap.onmouseenter = () => clearInterval(_testiTimer);
+  wrap.onmouseleave = startTimer;
 
-  // Pausar al hover
-  track.parentElement.addEventListener('mouseenter', () => clearInterval(autoTimer));
-  track.parentElement.addEventListener('mouseleave', startTimer);
-
-  // Rebuild on resize
-  window.addEventListener('resize', () => { goTo(0); buildDots(); });
+  // Resize (sobrescribe handler anterior)
+  window._testiResizeHandler = () => { goTo(0); buildDots(); };
 
   buildDots();
   startTimer();
-})();
+}
+
+// Resize listener único global
+window.addEventListener('resize', () => { if (window._testiResizeHandler) window._testiResizeHandler(); });
+
+// Render inicial (idioma por defecto: inglés, o el guardado)
+buildTestiCards(localStorage.getItem('dindustriales-lang') || 'en');
 
 // ── HAMBURGER MENU ────────────────────────────────────────────
 const hamburger = document.getElementById('hamburger');
