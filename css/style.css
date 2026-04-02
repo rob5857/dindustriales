@@ -121,6 +121,14 @@ ul { list-style: none; }
   font-size: 1.1rem; transition: var(--transition);
 }
 .theme-toggle:hover { background: var(--bg-card-hover); transform: rotate(20deg); }
+.lang-toggle {
+  padding: 5px 13px; border-radius: 20px; border: 1.5px solid var(--border);
+  cursor: pointer; background: var(--bg-card); color: var(--text-primary);
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.8px;
+  transition: var(--transition); white-space: nowrap; flex-shrink: 0;
+  font-family: var(--font-body);
+}
+.lang-toggle:hover { background: var(--bg-card-hover); border-color: var(--fire-orange); color: var(--fire-orange); }
 .hamburger {
   display: none; flex-direction: column; justify-content: center; gap: 5px;
   background: var(--bg-card); border: 1px solid var(--border);
@@ -645,6 +653,7 @@ ul { list-style: none; }
   /* Header compacto */
   .logo-img { height: 38px; }
   .theme-toggle { width: 36px; height: 36px; font-size: 1rem; }
+  .lang-toggle { padding: 4px 9px; font-size: 0.72rem; }
 
   /* Hero */
   .hero-content { gap: 16px; padding-top: calc(var(--header-h) + 56px); }
