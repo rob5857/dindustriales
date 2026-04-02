@@ -20,6 +20,190 @@ themeToggle.addEventListener('click', () => {
 const savedTheme = localStorage.getItem('dindustriales-theme') || 'dark';
 applyTheme(savedTheme);
 
+// ── LANGUAGE SYSTEM ───────────────────────────────────────────
+const TRANSLATIONS = {
+  es: {
+    nav_services: 'Servicios', nav_insurers: 'Aseguradoras', nav_radar: 'Radar PR',
+    nav_contact: 'Contacto', nav_whatsapp: 'WhatsApp',
+    hero_title: 'Restauración Profesional de<br/><span class="gradient-text">Daños por Incendio e Inundaciones</span>',
+    hero_subtitle: 'Puerto Rico\'s premier fire damage restoration company.<br/>Trabajamos directamente con tu aseguradora. Disponibles <strong>24/7</strong>.',
+    hero_badge1: 'Ayuda Rápida', hero_badge2: '+15 Años de Experiencia', hero_badge3: 'Respuesta en 24 horas',
+    hero_cta1: 'Inspecciones para Seguros', hero_cta2: 'Emergencias 24/7', hero_scroll: 'Scroll',
+    stat_years: 'Años de Experiencia', stat_jobs: 'Trabajos Completados',
+    stat_insurers: 'Aseguradoras Afiliadas', stat_claims: 'Reclamos Exitosos',
+    services_label: 'Nuestros Servicios',
+    services_h2: 'Restauración Completa <span class="gradient-text">Post-Incendio</span>',
+    services_p: 'Manejamos cada etapa del proceso de restauración, desde la emergencia hasta la reconstrucción final.',
+    svc1_badge: 'Servicio Principal', svc1_h3: 'Descontaminación de Humo y Hollín',
+    svc1_p: 'Eliminamos completamente humo, hollín y olores con equipo industrial especializado y técnicas avanzadas. El humo invisible sigue dañando tu propiedad y tu salud cada día que pasa.',
+    svc1_li1: 'Utilización de químicos no nocivos', svc1_li2: 'Descontaminación del Aire', svc1_li3: 'Eliminación de olores',
+    svc2_h3: 'Mitigación de Emergencia',
+    svc2_p: 'Respuesta inmediata 24/7. Aseguramos la propiedad, removemos escombros peligrosos y prevenimos daños adicionales.',
+    svc2_li1: 'Respuesta en menos de 24 horas', svc2_li2: 'Alcance de daños para rápida respuesta', svc2_li3: 'Remoción de escombros',
+    svc3_h3: 'Daños por Agua',
+    svc3_p: 'Restauramos los daños causados por el agua del sistema contra incendios con extracción y secado industrial.',
+    svc3_li1: 'Extracción de agua', svc3_li2: 'Secado industrial', svc3_li3: 'Prevención de moho', svc3_li4: 'Mitigación de hongos',
+    svc4_h3: 'Restauración de Estructuras',
+    svc4_p: 'Reconstruimos desde los cimientos: techos, paredes, pisos, electricidad, plomería y acabados completos.',
+    svc4_li1: 'Techos y paredes', svc4_li2: 'Stain Bloquer', svc4_li3: 'Restauración de puertas y ventanas',
+    svc5_h3: '¡Reclamamos por tí!',
+    svc5_p: 'Trabajamos directamente con tu aseguradora. Manejamos toda la documentación y negociación mientras usted descansa.',
+    svc5_li1: 'Coordinación con ajustadores', svc5_li2: 'Documentación fotográfica', svc5_li3: 'Estimados detallados',
+    svc6_h3: 'Polizas de Contenido',
+    svc6_p: 'Recuperamos, limpiamos y restauramos muebles, documentos, electrónicos y objetos de valor personal.',
+    svc6_li1: 'Inventario detallado', svc6_li2: 'Restauración de documentos', svc6_li3: 'Almacenamiento seguro',
+    proceso_label: '¿Cómo Trabajamos?',
+    proceso_h2: 'Proceso <span class="gradient-text">Simple y Transparente</span>',
+    step1_h3: 'Llamada de Emergencia', step1_p: 'Llámanos o escríbenos por WhatsApp. Respondemos en 24 horas.',
+    step2_h3: 'Inspección Gratuita', step2_p: 'Llegamos a la propiedad, evaluamos los daños y documentamos todo para el proceso de reclamación.',
+    step3_h3: 'Coordinación con Aseguradora', step3_p: 'Contactamos directamente a tu aseguradora, presentamos la documentación y manejamos el claim por ti.',
+    step4_h3: 'Restauración Completa', step4_p: 'Ejecutamos el plan de restauración con los más altos estándares de calidad hasta la entrega final.',
+    aseg_label: 'Aseguradoras',
+    aseg_h2: 'Trabajamos con las Principales <span class="gradient-text">Aseguradoras de Puerto Rico</span>',
+    aseg_p: 'Tenemos experiencia directa y relaciones establecidas con los ajustadores de las principales compañías.',
+    radar_label: 'Monitoreo en Tiempo Real',
+    radar_h2: 'Radar de <span class="gradient-text">Emergencias de Incendio</span> en Puerto Rico',
+    radar_p: 'Datos satelitales en tiempo real de focos de calor activos en Puerto Rico. Fuente: NASA FIRMS / VIIRS.',
+    radar_legend_high: 'Alta Intensidad', radar_legend_med: 'Moderada', radar_legend_low: 'Baja',
+    radar_note: 'Datos actualizados cada 12 horas desde satélites VIIRS (NASA). Hora:',
+    contact_label: 'Contáctenos',
+    contact_h2: '¿Sufrió un Incendio? <span class="gradient-text">Estamos Aquí</span>',
+    contact_p: 'No esperes. Cada minuto cuenta. Contáctanos ahora para una inspección gratuita de emergencia.',
+    contact_wa_p: 'Chat inmediato con un experto', contact_phone_h3: 'Llamada Directa',
+    contact_phone_p: 'Línea de emergencias 24/7', contact_sms_h3: 'Mensaje de Texto',
+    contact_sms_p: 'Envíanos un SMS ahora', contact_email_p: 'Respuesta en menos de 1 hora',
+    form_toggle: 'Solicitar Inspección Gratuita', form_h3: 'Completa el formulario',
+    form_name_label: 'Nombre Completo *', form_name_ph: 'Juan García',
+    form_phone_label: 'Teléfono *', form_email_label: 'Email', form_email_ph: 'juan@ejemplo.com',
+    form_address_label: 'Dirección de la Propiedad *', form_address_ph: 'Calle, Municipio, Puerto Rico',
+    form_insurer_label: 'Aseguradora', form_insurer_ph: 'Seleccionar aseguradora...',
+    form_insurer_other: 'Otra', form_insurer_none: 'No tengo seguro',
+    form_desc_label: 'Descripción del Incidente *', form_desc_ph: 'Describa brevemente lo que ocurrió...',
+    form_submit: '<i class="fas fa-paper-plane"></i> Enviar Solicitud',
+    form_sending: '<i class="fas fa-spinner fa-spin"></i> Enviando...',
+    form_success: '<i class="fas fa-check-circle"></i> ¡Mensaje enviado! Nos comunicaremos en menos de 60 minutos.',
+    form_error: 'Hubo un problema al enviar el mensaje. Por favor intente de nuevo o contáctenos directamente.',
+    footer_brand_p: 'Restauración profesional de daños por incendio en Puerto Rico. Licenciados, asegurados y con más de 15 años de experiencia.',
+    footer_services_h4: 'Servicios', footer_svc1: 'Mitigación de Emergencia', footer_svc2: 'Limpieza de Humo',
+    footer_svc3: 'Daños por Agua', footer_svc4: 'Reconstrucción', footer_svc5: 'Gestión de Reclamaciones',
+    footer_insurers_h4: 'Aseguradoras', footer_contact_h4: 'Contacto', footer_available: 'Disponible 24/7',
+    footer_copy: '© 2025 D Industriales. Todos los derechos reservados. | Puerto Rico',
+  },
+  en: {
+    nav_services: 'Services', nav_insurers: 'Insurers', nav_radar: 'Radar PR',
+    nav_contact: 'Contact', nav_whatsapp: 'WhatsApp',
+    hero_title: 'Professional Restoration of<br/><span class="gradient-text">Fire &amp; Flood Damage</span>',
+    hero_subtitle: 'Puerto Rico\'s premier fire damage restoration company.<br/>We work directly with your insurer. Available <strong>24/7</strong>.',
+    hero_badge1: 'Fast Response', hero_badge2: '+15 Years of Experience', hero_badge3: '24-hour Response',
+    hero_cta1: 'Insurance Inspections', hero_cta2: '24/7 Emergencies', hero_scroll: 'Scroll',
+    stat_years: 'Years of Experience', stat_jobs: 'Completed Jobs',
+    stat_insurers: 'Affiliated Insurers', stat_claims: 'Successful Claims',
+    services_label: 'Our Services',
+    services_h2: 'Complete <span class="gradient-text">Post-Fire Restoration</span>',
+    services_p: 'We handle every stage of the restoration process, from the emergency to the final reconstruction.',
+    svc1_badge: 'Main Service', svc1_h3: 'Smoke & Soot Decontamination',
+    svc1_p: 'We completely eliminate smoke, soot, and odors with specialized industrial equipment and advanced techniques. Invisible smoke keeps damaging your property and health every day that passes.',
+    svc1_li1: 'Non-toxic chemicals', svc1_li2: 'Air decontamination', svc1_li3: 'Odor elimination',
+    svc2_h3: 'Emergency Mitigation',
+    svc2_p: 'Immediate 24/7 response. We secure the property, remove hazardous debris, and prevent additional damage.',
+    svc2_li1: 'Response in less than 24 hours', svc2_li2: 'Damage assessment for rapid response', svc2_li3: 'Debris removal',
+    svc3_h3: 'Water Damage',
+    svc3_p: 'We restore damage caused by firefighting water with industrial extraction and drying equipment.',
+    svc3_li1: 'Water extraction', svc3_li2: 'Industrial drying', svc3_li3: 'Mold prevention', svc3_li4: 'Fungus mitigation',
+    svc4_h3: 'Structure Restoration',
+    svc4_p: 'We rebuild from the ground up: roofs, walls, floors, electrical, plumbing, and complete finishes.',
+    svc4_li1: 'Roofs and walls', svc4_li2: 'Stain Blocker', svc4_li3: 'Door and window restoration',
+    svc5_h3: 'We Claim For You!',
+    svc5_p: 'We work directly with your insurer. We handle all documentation and negotiation while you rest.',
+    svc5_li1: 'Adjuster coordination', svc5_li2: 'Photo documentation', svc5_li3: 'Detailed estimates',
+    svc6_h3: 'Content Policies',
+    svc6_p: 'We recover, clean, and restore furniture, documents, electronics, and personal valuables.',
+    svc6_li1: 'Detailed inventory', svc6_li2: 'Document restoration', svc6_li3: 'Secure storage',
+    proceso_label: 'How We Work?',
+    proceso_h2: 'Simple and <span class="gradient-text">Transparent Process</span>',
+    step1_h3: 'Emergency Call', step1_p: 'Call us or message us on WhatsApp. We respond within 24 hours.',
+    step2_h3: 'Free Inspection', step2_p: 'We arrive at the property, assess the damage, and document everything for the claims process.',
+    step3_h3: 'Insurer Coordination', step3_p: 'We contact your insurer directly, submit documentation, and manage the claim for you.',
+    step4_h3: 'Complete Restoration', step4_p: 'We execute the restoration plan with the highest quality standards until final delivery.',
+    aseg_label: 'Insurers',
+    aseg_h2: 'We Work with the Leading <span class="gradient-text">Puerto Rico Insurers</span>',
+    aseg_p: 'We have direct experience and established relationships with adjusters from the major companies.',
+    radar_label: 'Real-Time Monitoring',
+    radar_h2: 'Fire Emergency <span class="gradient-text">Radar</span> in Puerto Rico',
+    radar_p: 'Real-time satellite data of active heat sources in Puerto Rico. Source: NASA FIRMS / VIIRS.',
+    radar_legend_high: 'High Intensity', radar_legend_med: 'Moderate', radar_legend_low: 'Low',
+    radar_note: 'Data updated every 12 hours from VIIRS satellites (NASA). Time:',
+    contact_label: 'Contact Us',
+    contact_h2: 'Suffered a Fire? <span class="gradient-text">We\'re Here</span>',
+    contact_p: 'Don\'t wait. Every minute counts. Contact us now for a free emergency inspection.',
+    contact_wa_p: 'Instant chat with an expert', contact_phone_h3: 'Direct Call',
+    contact_phone_p: '24/7 Emergency Line', contact_sms_h3: 'Text Message',
+    contact_sms_p: 'Send us an SMS now', contact_email_p: 'Response in less than 1 hour',
+    form_toggle: 'Request Free Inspection', form_h3: 'Complete the form',
+    form_name_label: 'Full Name *', form_name_ph: 'John Smith',
+    form_phone_label: 'Phone *', form_email_label: 'Email', form_email_ph: 'john@example.com',
+    form_address_label: 'Property Address *', form_address_ph: 'Street, Municipality, Puerto Rico',
+    form_insurer_label: 'Insurer', form_insurer_ph: 'Select insurer...',
+    form_insurer_other: 'Other', form_insurer_none: "I don't have insurance",
+    form_desc_label: 'Incident Description *', form_desc_ph: 'Briefly describe what happened...',
+    form_submit: '<i class="fas fa-paper-plane"></i> Send Request',
+    form_sending: '<i class="fas fa-spinner fa-spin"></i> Sending...',
+    form_success: '<i class="fas fa-check-circle"></i> Message sent! We\'ll contact you within 60 minutes.',
+    form_error: 'There was a problem sending the message. Please try again or contact us directly.',
+    footer_brand_p: 'Professional fire damage restoration in Puerto Rico. Licensed, insured, and with over 15 years of experience.',
+    footer_services_h4: 'Services', footer_svc1: 'Emergency Mitigation', footer_svc2: 'Smoke Cleanup',
+    footer_svc3: 'Water Damage', footer_svc4: 'Reconstruction', footer_svc5: 'Claims Management',
+    footer_insurers_h4: 'Insurers', footer_contact_h4: 'Contact', footer_available: 'Available 24/7',
+    footer_copy: '© 2025 D Industriales. All rights reserved. | Puerto Rico',
+  }
+};
+
+function applyLanguage(lang) {
+  const t = TRANSLATIONS[lang];
+  if (!t) return;
+
+  // Update all data-i18n elements (innerHTML)
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key] !== undefined) el.setAttribute('placeholder', t[key]);
+  });
+
+  // Update select option texts
+  document.querySelectorAll('[data-i18n-option]').forEach(el => {
+    const key = el.getAttribute('data-i18n-option');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+
+  // Update html lang attribute
+  document.documentElement.setAttribute('lang', lang);
+
+  // Update lang toggle button: show the OTHER language
+  const langBtn = document.getElementById('langToggle');
+  if (langBtn) langBtn.textContent = lang === 'es' ? 'EN' : 'ES';
+
+  // Save preference
+  localStorage.setItem('dindustriales-lang', lang);
+}
+
+// Language toggle event listener
+const langToggleBtn = document.getElementById('langToggle');
+if (langToggleBtn) {
+  langToggleBtn.addEventListener('click', () => {
+    const current = localStorage.getItem('dindustriales-lang') || 'es';
+    applyLanguage(current === 'es' ? 'en' : 'es');
+  });
+}
+
+// Load saved language (default: Spanish)
+const savedLang = localStorage.getItem('dindustriales-lang') || 'es';
+applyLanguage(savedLang);
+
 // ── HAMBURGER MENU ────────────────────────────────────────────
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
@@ -312,8 +496,10 @@ function submitForm(event) {
   const successEl = document.getElementById('formSuccess');
 
   // Deshabilitar botón mientras envía
+  const curLang = localStorage.getItem('dindustriales-lang') || 'es';
+  const tForm = TRANSLATIONS[curLang];
   submitBtn.disabled = true;
-  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+  submitBtn.innerHTML = tForm.form_sending;
 
   // Parámetros que coinciden con las variables del template de EmailJS
   const templateParams = {
@@ -334,11 +520,11 @@ function submitForm(event) {
     .catch(function (error) {
       console.error('EmailJS error:', error);
       successEl.style.display = 'none';
-      alert('Hubo un problema al enviar el mensaje. Por favor intente de nuevo o contáctenos directamente.');
+      alert(tForm.form_error);
     })
     .finally(function () {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Solicitud';
+      submitBtn.innerHTML = tForm.form_submit;
     });
 }
 
