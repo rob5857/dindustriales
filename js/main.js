@@ -230,6 +230,82 @@ if (userChose && savedLang) {
 }
 // Otherwise modal stays visible — user must pick
 
+// ── TESTIMONIOS SLIDER ────────────────────────────────────────
+(function () {
+  const track   = document.getElementById('testiTrack');
+  const prevBtn = document.getElementById('testiPrev');
+  const nextBtn = document.getElementById('testiNext');
+  const dotsWrap = document.getElementById('testiDots');
+  if (!track) return;
+
+  const cards = Array.from(track.querySelectorAll('.testi-card'));
+  let current = 0;
+  let autoTimer;
+
+  // Cuántas cards se ven según el ancho
+  function visibleCount() {
+    const w = window.innerWidth;
+    if (w <= 580) return 1;
+    if (w <= 900) return 2;
+    return 3;
+  }
+
+  const total = cards.length;
+
+  // Crear dots
+  function buildDots() {
+    dotsWrap.innerHTML = '';
+    const pages = total - visibleCount() + 1;
+    for (let i = 0; i < pages; i++) {
+      const d = document.createElement('button');
+      d.className = 'testi-dot' + (i === current ? ' active' : '');
+      d.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(d);
+    }
+  }
+
+  function updateDots() {
+    const dots = dotsWrap.querySelectorAll('.testi-dot');
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  function goTo(index) {
+    const pages = total - visibleCount() + 1;
+    current = Math.max(0, Math.min(index, pages - 1));
+    const cardW = cards[0].getBoundingClientRect().width + 24; // width + gap
+    track.style.transform = `translateX(-${current * cardW}px)`;
+    updateDots();
+  }
+
+  function next() { goTo(current + 1 >= total - visibleCount() + 1 ? 0 : current + 1); }
+  function prev() { goTo(current - 1 < 0 ? total - visibleCount() : current - 1); }
+
+  prevBtn.addEventListener('click', () => { resetTimer(); prev(); });
+  nextBtn.addEventListener('click', () => { resetTimer(); next(); });
+
+  // Swipe táctil
+  let startX = 0;
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', e => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) { resetTimer(); diff > 0 ? next() : prev(); }
+  });
+
+  // Auto-play cada 5 segundos
+  function startTimer() { autoTimer = setInterval(next, 5000); }
+  function resetTimer() { clearInterval(autoTimer); startTimer(); }
+
+  // Pausar al hover
+  track.parentElement.addEventListener('mouseenter', () => clearInterval(autoTimer));
+  track.parentElement.addEventListener('mouseleave', startTimer);
+
+  // Rebuild on resize
+  window.addEventListener('resize', () => { goTo(0); buildDots(); });
+
+  buildDots();
+  startTimer();
+})();
+
 // ── HAMBURGER MENU ────────────────────────────────────────────
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
