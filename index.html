@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
@@ -38,6 +38,25 @@
 </head>
 <body>
 
+<!-- ===== LANGUAGE SELECTOR POPUP ===== -->
+<div class="lang-modal-overlay" id="langModal">
+  <div class="lang-modal">
+    <img src="logo3.png" alt="D Industriales" class="lang-modal-logo" />
+    <h2>Selecciona tu idioma</h2>
+    <p>Choose your language / Selecciona tu idioma</p>
+    <div class="lang-modal-btns">
+      <button class="lang-modal-btn" id="pickEs">
+        <img src="images/pr.png" alt="Puerto Rico" class="lang-modal-flag" />
+        <span class="lang-name">Español</span>
+      </button>
+      <button class="lang-modal-btn" id="pickEn">
+        <img src="images/usa.png" alt="USA" class="lang-modal-flag" />
+        <span class="lang-name">English</span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- ===== HEADER ===== -->
 <header class="header" id="header">
   <nav class="nav container">
@@ -54,7 +73,9 @@
       <li><a href="admin/index.html" class="nav-link nav-admin"><i class="fas fa-lock"></i> Admin</a></li>
     </ul>
     <div class="nav-actions">
-      <button class="lang-toggle" id="langToggle" aria-label="Cambiar idioma">EN</button>
+      <button class="lang-toggle" id="langToggle" aria-label="Cambiar idioma">
+        <img src="images/us.png" alt="English" class="lang-flag-img" id="langFlagImg" width="42" height="42">
+      </button>
       <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
         <i class="fas fa-sun" id="themeIcon"></i>
       </button>
@@ -83,7 +104,7 @@
       <span class="gradient-text">Daños por Incendio e Inundaciones</span>
     </h1>
     <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="500" data-i18n="hero_subtitle">
-      La empresa principal de restauración de daños por incendio de Puerto Rico.<br/>
+      Puerto Rico's premier fire damage restoration company.<br/>
       Trabajamos directamente con tu aseguradora. Disponibles <strong>24/7</strong>.
     </p>
     <div class="hero-badges" data-aos="fade-up" data-aos-delay="650">
@@ -202,6 +223,70 @@
           <li><i class="fas fa-check"></i> <span data-i18n="svc6_li3">Almacenamiento seguro</span></li>
         </ul>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BRAND PROMISE ===== -->
+<section class="section brand-promise" id="promesa">
+  <div class="container">
+    <div class="brand-promise-inner">
+
+      <!-- Logo animado -->
+      <div class="bp-logo-wrap" data-aos="zoom-in" data-aos-duration="800">
+        <img src="images/logoTacoma.png" alt="Desarrollos Industriales LLC" class="bp-logo" />
+        <div class="bp-logo-ring"></div>
+      </div>
+
+      <!-- Texto principal -->
+      <div class="bp-content" data-aos="fade-up" data-aos-delay="150">
+        <p class="bp-intro" data-aos="fade-up" data-aos-delay="200">
+          Cuando tu hogar sufre daños, no solo enfrentas una reparación…<br>
+          <strong>enfrentas papeleo, burocracia y la presión de las aseguradoras.</strong>
+        </p>
+
+        <p class="bp-body" data-aos="fade-up" data-aos-delay="300">
+          En <strong>Desarrollos Industriales LLC</strong> estamos para ayudarte, orientarte y representarte.
+          <span class="bp-highlight">Luchamos para que recibas lo que realmente mereces.</span>
+        </p>
+
+        <p class="bp-body" data-aos="fade-up" data-aos-delay="400">
+          Mientras tú te enfocas en escoger tus nuevos muebles, ventanas o puertas…
+          <strong>nosotros nos encargamos del proceso, la reclamación y las gestiones con la aseguradora.</strong>
+        </p>
+
+        <!-- Cards de ventajas -->
+        <div class="bp-cards">
+          <div class="bp-card" data-aos="fade-up" data-aos-delay="500">
+            <i class="fas fa-bolt"></i>
+            <span>Aquí no hay tiempo que perder. Una vez nos contactas, <strong>comenzamos el proceso de inmediato.</strong> Sin largas esperas. Sin dejar tu caso estancado.</span>
+          </div>
+          <div class="bp-card" data-aos="fade-up" data-aos-delay="600">
+            <i class="fas fa-tools"></i>
+            <span>Lo mejor de todo: <strong>comenzamos la reparación junto con la reclamación.</strong></span>
+          </div>
+          <div class="bp-card bp-card--featured" data-aos="zoom-in" data-aos-delay="700">
+            <i class="fas fa-clock"></i>
+            <span>Respuesta en <strong>24 horas.</strong> ¡Garantizado!</span>
+          </div>
+        </div>
+
+        <p class="bp-closing" data-aos="fade-up" data-aos-delay="800">
+          Porque <strong>nosotros estamos contigo</strong>… no del lado de los grandes intereses.
+        </p>
+
+        <p class="bp-tagline" data-aos="fade-up" data-aos-delay="900">
+          Desarrollos Industriales LLC<br>
+          <span class="gradient-text">Recupera tu casa. Recupera tu tranquilidad. Rápido.</span>
+        </p>
+
+        <a href="https://wa.me/19733920478?text=Hola%2C%20me%20interesa."
+           class="btn btn-primary bp-cta" target="_blank" rel="noopener"
+           data-aos="fade-up" data-aos-delay="1000">
+          <i class="fab fa-whatsapp"></i> Comenzar ahora
+        </a>
+      </div>
+
     </div>
   </div>
 </section>
