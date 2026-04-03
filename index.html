@@ -131,16 +131,16 @@
 <div class="lang-modal-overlay" id="langModal">
   <div class="lang-modal">
     <img src="logo3.png" alt="D Industriales" class="lang-modal-logo" />
-    <h2>Selecciona tu idioma</h2>
-    <p>Choose your language / Selecciona tu idioma</p>
+    <h2 data-i18n="modal_title">Selecciona tu idioma</h2>
+    <p data-i18n="modal_subtitle">Elige el idioma en que deseas navegar</p>
     <div class="lang-modal-btns">
       <button class="lang-modal-btn" id="pickEs">
         <img src="images/pr.png" alt="Puerto Rico" class="lang-modal-flag" />
-        <span class="lang-name">Español</span>
+        <span class="lang-name" data-i18n="modal_btn_es">Español</span>
       </button>
       <button class="lang-modal-btn" id="pickEn">
         <img src="images/us.png" alt="USA" class="lang-modal-flag" />
-        <span class="lang-name">English</span>
+        <span class="lang-name" data-i18n="modal_btn_en">English</span>
       </button>
     </div>
   </div>
@@ -322,6 +322,14 @@
 <!-- ===== BRAND PROMISE ===== -->
 <section class="section brand-promise" id="promesa">
   <div class="container">
+
+    <!-- Título y subtítulo de sección -->
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-label" data-i18n="bp_label">Nuestra Promesa</span>
+      <h2 data-i18n="bp_h2">Estamos Contigo, <span class="gradient-text">No Contra Ti</span></h2>
+      <p class="section-subtitle" data-i18n="bp_subtitle">Cuando más nos necesitas, aquí estamos — de tu lado, desde el primer día.</p>
+    </div>
+
     <div class="brand-promise-inner">
 
       <!-- Logo animado -->
@@ -332,17 +340,17 @@
 
       <!-- Texto principal -->
       <div class="bp-content" data-aos="fade-up" data-aos-delay="150">
-        <p class="bp-intro" data-aos="fade-up" data-aos-delay="200">
+        <p class="bp-intro" data-aos="fade-up" data-aos-delay="200" data-i18n="bp_intro">
           Cuando tu hogar sufre daños, no solo enfrentas una reparación…<br>
           <strong>enfrentas papeleo, burocracia y la presión de las aseguradoras.</strong>
         </p>
 
-        <p class="bp-body" data-aos="fade-up" data-aos-delay="300">
+        <p class="bp-body" data-aos="fade-up" data-aos-delay="300" data-i18n="bp_body1">
           En <strong>Desarrollos Industriales LLC</strong> estamos para ayudarte, orientarte y representarte.
           <span class="bp-highlight">Luchamos para que recibas lo que realmente mereces.</span>
         </p>
 
-        <p class="bp-body" data-aos="fade-up" data-aos-delay="400">
+        <p class="bp-body" data-aos="fade-up" data-aos-delay="400" data-i18n="bp_body2">
           Mientras tú te enfocas en escoger tus nuevos muebles, ventanas o puertas…
           <strong>nosotros nos encargamos del proceso, la reclamación y las gestiones con la aseguradora.</strong>
         </p>
@@ -351,23 +359,23 @@
         <div class="bp-cards">
           <div class="bp-card" data-aos="fade-up" data-aos-delay="500">
             <i class="fas fa-bolt"></i>
-            <span>Aquí no hay tiempo que perder. Una vez nos contactas, <strong>comenzamos el proceso de inmediato.</strong> Sin largas esperas. Sin dejar tu caso estancado.</span>
+            <span data-i18n="bp_card1">Aquí no hay tiempo que perder. Una vez nos contactas, <strong>comenzamos el proceso de inmediato.</strong> Sin largas esperas. Sin dejar tu caso estancado.</span>
           </div>
           <div class="bp-card" data-aos="fade-up" data-aos-delay="600">
             <i class="fas fa-tools"></i>
-            <span>Lo mejor de todo: <strong>comenzamos la reparación junto con la reclamación.</strong></span>
+            <span data-i18n="bp_card2">Lo mejor de todo: <strong>comenzamos la reparación junto con la reclamación.</strong></span>
           </div>
           <div class="bp-card bp-card--featured" data-aos="zoom-in" data-aos-delay="700">
             <i class="fas fa-clock"></i>
-            <span>Respuesta en <strong>24 horas.</strong> ¡Garantizado!</span>
+            <span data-i18n="bp_card3">Respuesta en <strong>24 horas.</strong> ¡Garantizado!</span>
           </div>
         </div>
 
-        <p class="bp-closing" data-aos="fade-up" data-aos-delay="800">
+        <p class="bp-closing" data-aos="fade-up" data-aos-delay="800" data-i18n="bp_closing">
           Porque <strong>nosotros estamos contigo</strong>… no del lado de los grandes intereses.
         </p>
 
-        <p class="bp-tagline" data-aos="fade-up" data-aos-delay="900">
+        <p class="bp-tagline" data-aos="fade-up" data-aos-delay="900" data-i18n="bp_tagline">
           Desarrollos Industriales LLC<br>
           <span class="gradient-text">Recupera tu casa. Recupera tu tranquilidad. Rápido.</span>
         </p>
@@ -375,7 +383,7 @@
         <a href="https://wa.me/19733920478?text=Hola%2C%20me%20interesa."
            class="btn btn-primary bp-cta" target="_blank" rel="noopener"
            data-aos="fade-up" data-aos-delay="1000">
-          <i class="fab fa-whatsapp"></i> Comenzar ahora
+          <i class="fab fa-whatsapp"></i> <span data-i18n="bp_cta">Comenzar ahora</span>
         </a>
       </div>
 
