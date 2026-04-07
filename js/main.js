@@ -726,8 +726,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ── CONTACT FORM ───────────────────────────────────────────────
 // EmailJS IDs — reemplaza con los tuyos (ver instrucciones en README)
-var EMAILJS_SERVICE_ID  = 'service_d37m1jc';   // ej: 'service_abc123'
-var EMAILJS_TEMPLATE_ID = 'template_9oj9v8g';  // ej: 'template_xyz789'
+var EMAILJS_SERVICE_ID  = 'service_981iqui';
+var EMAILJS_TEMPLATE_ID = 'template_db05cnf';
 
 function submitForm(event) {
   event.preventDefault();
