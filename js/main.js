@@ -84,7 +84,14 @@ const TRANSLATIONS = {
     faq_q5: '¿Qué incluye la restauración de daños por humo y hollín?',
     faq_a5: '<p>Limpieza de superficies, <strong>eliminación de olores</strong> con equipo industrial, descontaminación del aire, tratamiento de paredes, techos, ductos y restauración de muebles y objetos personales.</p>',
     faq_q6: '¿Cómo funciona la reclamación de seguro por incendio o inundación?',
-    faq_a6: '<p>Inspeccionamos los daños, preparamos el <strong>estimado detallado</strong>, coordinamos con el ajustador y negociamos con las aseguradoras.</p>',
+    faq_a6: '<p>Inspeccionamos los daños, preparamos el <strong>estimado detallado</strong>, coordinamos con el ajustador y negociamos con MAPFRE, Triple-S, Cooperativa de Seguros, One Alliance, Multinational y USIC para que recibas el máximo de tu póliza.</p>',
+    faq_q7: '¿Trabajan con MAPFRE, SSS, Triple-S, USIC y Universal Insurance?',
+    faq_a7: '<p>Sí. Trabajamos con <strong>todas las aseguradoras de propiedad en Puerto Rico</strong>: MAPFRE Puerto Rico, SSS / Triple-S Propiedad, Cooperativa de Seguros Múltiples, USIC, Universal Insurance, Universal Group, One Alliance y Multinational. Manejamos toda la documentación, el estimado de daños y la negociación para que recibas <strong>el máximo de tu póliza</strong>.</p>',
+    faq_q8: '¿Qué es la póliza de contenido y la póliza de contingencia?',
+    faq_a8: '<p>La <strong>póliza de contenido</strong> cubre los bienes dentro de tu propiedad: muebles, electrodomésticos, electrónicos, ropa y documentos dañados por fuego, inundación o moho. La <strong>póliza de contingencia</strong> cubre situaciones adicionales fuera de la póliza principal. Te ayudamos a entender tu <strong>límite de cubierta</strong> y a reclamar cada centavo que te corresponde, sin costo para ti.</p>',
+    faq_q9: '¿Cómo evito que la aseguradora me pague menos de lo que merezco?',
+    faq_a9: '<p>Las aseguradoras a veces ofrecen liquidaciones por debajo del valor real. <strong>Llámanos antes de aceptar cualquier oferta.</strong> Preparamos un estimado detallado de todos los daños — estructura, contenido y daños por moho — y negociamos directamente con MAPFRE, SSS, Triple-S, Cooperativa, USIC, Universal Insurance y más. Nuestra <strong>asistencia de reclamaciones es completamente gratuita</strong> — te representamos sin costo de bolsillo.</p>',
+    aseg_note: 'Manejamos reclamaciones de seguros de propiedad por daños de incendio, fuego, inundación y moho con todas las aseguradoras de Puerto Rico. Te ayudamos a entender tu póliza, tu límite de cubierta y tu póliza de contenido — sin costo para ti. <strong>Estimados de daños gratis. Asistencia de reclamaciones incluida.</strong>',
     contact_label: 'Contáctenos',
     contact_h2: '¿Sufrió un Incendio o Inundación? <span class="gradient-text">Estamos Aquí</span>',
     contact_p: 'No esperes. Cada minuto cuenta. Contáctanos ahora para una inspección gratuita de emergencia en Puerto Rico.',
@@ -100,7 +107,7 @@ const TRANSLATIONS = {
     form_desc_label: 'Descripción del Incidente *', form_desc_ph: 'Describa brevemente lo que ocurrió...',
     form_submit: '<i class="fas fa-paper-plane"></i> Enviar Solicitud',
     form_sending: '<i class="fas fa-spinner fa-spin"></i> Enviando...',
-    form_success: '<i class="fas fa-check-circle"></i> ¡Mensaje enviado! Nos comunicaremos en menos de 24 horas.',
+    form_success: '<i class="fas fa-check-circle"></i> ¡Mensaje enviado! Nos comunicaremos en menos de 60 minutos.',
     form_error: 'Hubo un problema al enviar el mensaje. Por favor intente de nuevo o contáctenos directamente.',
     footer_brand_p: 'Restauración profesional de daños por incendio, humo e inundación en Puerto Rico. Licenciados, asegurados y con más de 15 años de experiencia.',
     footer_services_h4: 'Servicios', footer_svc1: 'Mitigación de Emergencia', footer_svc2: 'Limpieza de Humo',
@@ -111,11 +118,12 @@ const TRANSLATIONS = {
     bp_h2: 'Estamos Contigo, <span class="gradient-text">No Contra Ti</span>',
     bp_subtitle: 'Cuando más nos necesitas, aquí estamos — de tu lado, desde el primer día.',
     bp_intro: 'Cuando tu hogar sufre daños, no solo enfrentas una reparación…<br><strong>enfrentas papeleo, burocracia y tiempo invertido con la aseguradora.</strong>',
-    bp_body1: 'En <strong>Desarrollos Industriales LLC</strong> estamos para ayudarte, orientarte y solucionarte.',
+    bp_body1: 'En <strong>Desarrollos Industriales LLC</strong> estamos para ayudarte, orientarte y resolverte. <span class="bp-highlight">Luchamos para que recibas lo que realmente mereces.</span>',
+    bp_body2: 'Mientras tú te enfocas en escoger tus nuevos muebles, ventanas o puertas… <strong>nosotros nos encargamos del proceso, la reclamación y las gestiones con la aseguradora.</strong>',
     bp_card1: 'Aquí no hay tiempo que perder. Una vez nos contactas, <strong>comenzamos el proceso de inmediato.</strong> Sin largas esperas. Sin dejar tu caso estancado.',
     bp_card2: 'Lo mejor de todo: <strong>comenzamos la reparación junto con la reclamación.</strong>',
     bp_card3: 'Respuesta en <strong>24 horas.</strong> ¡Garantizado!',
-
+    bp_closing: 'Porque <strong>nosotros estamos contigo</strong>… no del lado de los grandes intereses.',
     bp_tagline: 'Desarrollos Industriales LLC<br><span class="gradient-text">Recupera tu casa. Recupera tu tranquilidad. Rápido.</span>',
     bp_cta: 'Comenzar ahora',
     testi_label: 'Lo que dicen nuestros clientes',
@@ -191,7 +199,14 @@ const TRANSLATIONS = {
     faq_q5: 'What does smoke and soot damage restoration include?',
     faq_a5: '<p>It includes full surface cleaning, <strong>odor elimination</strong> with specialized industrial equipment, indoor air decontamination, treatment of walls, ceilings, ducts, and restoration of furniture and personal belongings. Invisible smoke keeps damaging materials and health if not treated properly.</p>',
     faq_q6: 'How does a fire or flood insurance claim work?',
-    faq_a6: '<p>We handle everything: we inspect and document the damage, prepare a <strong>detailed estimate</strong>, coordinate with your insurer\'s adjuster, and negotiate to get you the maximum from your policy. We work with the insurer.</p>',
+    faq_a6: '<p>We handle everything: we inspect and document the damage, prepare a <strong>detailed estimate</strong>, coordinate with your insurer\'s adjuster, and negotiate to get you the maximum from your policy. We work with MAPFRE, SSS, Triple-S Propiedad, Cooperativa de Seguros Múltiples, One Alliance, Multinational, USIC, Universal Insurance, and Universal Group.</p>',
+    faq_q7: 'Do you work with MAPFRE, SSS, Triple-S, USIC, and Universal Insurance?',
+    faq_a7: '<p>Yes. We work with <strong>all major property insurers in Puerto Rico</strong>: MAPFRE Puerto Rico, SSS / Triple-S Propiedad, Cooperativa de Seguros Múltiples, USIC, Universal Insurance, Universal Group, One Alliance, and Multinational. We handle all documentation, property damage estimates, and negotiation so you receive <strong>the maximum from your policy</strong>.</p>',
+    faq_q8: 'What is a content policy and a contingency policy?',
+    faq_a8: '<p>A <strong>content policy</strong> covers personal belongings inside the property: furniture, appliances, electronics, clothing, and documents damaged by fire, flood, or mold. A <strong>contingency policy</strong> covers additional situations outside the main policy. We help you understand your <strong>coverage limit</strong> and claim every dollar you deserve — at no cost to you.</p>',
+    faq_q9: 'How do I avoid being underpaid by my insurer?',
+    faq_a9: '<p>Insurers sometimes offer settlements below the real value of the damage. <strong>Call us before accepting any offer.</strong> We prepare a detailed estimate of all damage — structure, content, and mold damage — and negotiate directly with MAPFRE, SSS, Triple-S, Cooperativa, USIC, Universal Insurance, and more. Our <strong>claims assistance is completely free</strong> — we represent you at no out-of-pocket cost.</p>',
+    aseg_note: 'We handle property insurance claims for fire, flood, and mold damage with all insurers in Puerto Rico. We help you understand your policy, coverage limit, and content policy — at no cost to you. <strong>Free damage estimates. Claims assistance included.</strong>',
     contact_label: 'Contact Us',
     contact_h2: 'Suffered a Fire or Flood? <span class="gradient-text">We\'re Here</span>',
     contact_p: 'Don\'t wait. Every minute counts. Contact us now for a free emergency inspection in Puerto Rico.',
@@ -207,7 +222,7 @@ const TRANSLATIONS = {
     form_desc_label: 'Incident Description *', form_desc_ph: 'Briefly describe what happened...',
     form_submit: '<i class="fas fa-paper-plane"></i> Send Request',
     form_sending: '<i class="fas fa-spinner fa-spin"></i> Sending...',
-    form_success: '<i class="fas fa-check-circle"></i> Message sent! We\'ll contact you within 24 hours.',
+    form_success: '<i class="fas fa-check-circle"></i> Message sent! We\'ll contact you within 60 minutes.',
     form_error: 'There was a problem sending the message. Please try again or contact us directly.',
     footer_brand_p: 'Professional fire damage restoration in Puerto Rico. Licensed, insured, and with over 15 years of experience.',
     footer_services_h4: 'Services', footer_svc1: 'Emergency Mitigation', footer_svc2: 'Smoke Cleanup',
@@ -218,11 +233,12 @@ const TRANSLATIONS = {
     bp_h2: 'We Are With You, <span class="gradient-text">Not Against You</span>',
     bp_subtitle: 'When you need us most, we\'re here — on your side, from day one.',
     bp_intro: 'When your home suffers damage, you don\'t just face a repair…<br><strong>you face paperwork, bureaucracy, and spent time with the insurance companies.</strong>',
-    bp_body1: 'At <strong>Desarrollos Industriales LLC</strong> we are here to help, guide, and assist you.',
+    bp_body1: 'At <strong>Desarrollos Industriales LLC</strong> we are here to help, guide, and assist you. <span class="bp-highlight">We fight so you receive what you truly deserve.</span>',
+    bp_body2: 'While you focus on choosing your new furniture, windows, or doors… <strong>we handle the process, the claim, and all dealings with the insurer.</strong>',
     bp_card1: 'No time to waste. Once you contact us, <strong>we start the process immediately.</strong> No long waits. No leaving your case stalled.',
     bp_card2: 'Best of all: <strong>we begin repairs at the same time as the claim.</strong>',
     bp_card3: 'Response in <strong>24 hours.</strong> Guaranteed!',
-
+    bp_closing: 'Because <strong>we are with you</strong>… not on the side of big interests.',
     bp_tagline: 'Desarrollos Industriales LLC<br><span class="gradient-text">Recover your home. Recover your peace of mind. Fast.</span>',
     bp_cta: 'Get started now',
     testi_label: 'What our clients say',
@@ -726,8 +742,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ── CONTACT FORM ───────────────────────────────────────────────
 // EmailJS IDs — reemplaza con los tuyos (ver instrucciones en README)
-var EMAILJS_SERVICE_ID  = 'service_981iqui';
-var EMAILJS_TEMPLATE_ID = 'template_db05cnf';
+var EMAILJS_SERVICE_ID  = 'service_d37m1jc';   // ej: 'service_abc123'
+var EMAILJS_TEMPLATE_ID = 'template_9oj9v8g';  // ej: 'template_xyz789'
 
 function submitForm(event) {
   event.preventDefault();
