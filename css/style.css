@@ -495,13 +495,6 @@ ul { list-style: none; }
   flex-shrink: 0;
 }
 .insurer-card span { font-size: 0.74rem; font-weight: 500; color: var(--text-secondary); white-space: nowrap; }
-.aseg-seo-note {
-  margin-top: 28px; text-align: center;
-  font-size: 0.85rem; color: var(--text-secondary);
-  line-height: 1.7; max-width: 780px; margin-inline: auto;
-  border-top: 1px solid var(--border); padding-top: 20px;
-}
-.aseg-seo-note strong { color: var(--fire-orange); }
 
 /* ===== GALLERY ===== */
 .galeria { background: var(--bg-primary); }
