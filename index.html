@@ -155,7 +155,7 @@
     <ul class="nav-menu" id="navMenu">
       <li><a href="#servicios" class="nav-link"><i class="fas fa-fire-extinguisher"></i> <span data-i18n="nav_services">Servicios</span></a></li>
       <li><a href="#aseguradoras" class="nav-link"><i class="fas fa-shield-alt"></i> <span data-i18n="nav_insurers">Aseguradoras</span></a></li>
-      <!-- <li><a href="#galeria" class="nav-link"><i class="fas fa-images"></i> Galería</a></li> -->
+      <li><a href="#galeria" class="nav-link"><i class="fas fa-images"></i> <span data-i18n="nav_gallery">Galería</span></a></li>
       <li><a href="#faq" class="nav-link"><i class="fas fa-question-circle"></i> <span data-i18n="nav_faq">FAQ</span></a></li>
       <li><a href="#radar" class="nav-link"><i class="fas fa-satellite"></i> <span data-i18n="nav_radar">Radar PR</span></a></li>
       <li><a href="#contacto" class="nav-link"><i class="fas fa-envelope"></i> <span data-i18n="nav_contact">Contacto</span></a></li>
@@ -460,37 +460,45 @@
 </section>
 -->
 
-<!-- ===== FRASE ANTES DEL RADAR ===== -->
-<section class="section pre-radar-banner">
-  <div class="container">
-    <p class="pre-radar-text" data-aos="fade-up" data-i18n="pre_radar_text">
-      Estamos contigo paso a paso, en un proceso complicado somos tu mano amiga con la experiencia.
-    </p>
-  </div>
-</section>
-
-<!-- ===== RADAR DE INCENDIOS PR ===== -->
-<section class="section radar-section" id="radar">
+<!-- ===== GALERÍA ANTES/DESPUÉS ===== -->
+<section class="section galeria-ad" id="galeria">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
-      <span class="section-label" data-i18n="radar_label">Monitoreo en Tiempo Real</span>
-      <h2 data-i18n="radar_h2">Radar de <span class="gradient-text">Emergencias de Incendio</span> en Puerto Rico</h2>
-      <p data-i18n="radar_p">Datos satelitales en tiempo real de focos de calor activos en Puerto Rico. Fuente: NASA FIRMS / VIIRS.</p>
+      <span class="section-label" data-i18n="gallery_label">Nuestro Trabajo</span>
+      <h2 data-i18n="gallery_h2">Transformaciones <span class="gradient-text">Reales</span></h2>
+      <p data-i18n="gallery_p">Desliza el divisor para ver el antes y después de nuestras restauraciones profesionales.</p>
     </div>
-    <div class="radar-container" data-aos="fade-up" data-aos-delay="200">
-      <div class="radar-header">
-        <div class="radar-status">
-          <span class="radar-dot"></span>
-          <span id="radarStatusText">Cargando datos satelitales...</span>
+    <div class="ad-wrap" data-aos="fade-up" data-aos-delay="150">
+      <div class="ad-scanlines"></div>
+      <div class="ad-comparison" id="adComparison">
+        <div class="ad-before">
+          <img id="adBeforeImg" src="" alt="Antes de la restauración" />
+          <div class="ad-label ad-label-before"><span class="ad-label-dot"></span><span data-i18n="gallery_before">ANTES</span></div>
         </div>
-        <div class="radar-legend">
-          <span class="legend-item"><span class="legend-dot high"></span><span data-i18n="radar_legend_high">Alta Intensidad</span></span>
-          <span class="legend-item"><span class="legend-dot medium"></span><span data-i18n="radar_legend_med">Moderada</span></span>
-          <span class="legend-item"><span class="legend-dot low"></span><span data-i18n="radar_legend_low">Baja</span></span>
+        <div class="ad-after" id="adAfterWrap">
+          <img id="adAfterImg" src="" alt="Después de la restauración" />
+          <div class="ad-label ad-label-after"><span class="ad-label-dot"></span><span data-i18n="gallery_after">DESPUÉS</span></div>
         </div>
+        <div class="ad-divider" id="adDivider">
+          <div class="ad-divider-line"></div>
+          <div class="ad-divider-handle">
+            <div class="ad-handle-glow"></div>
+            <i class="fas fa-chevron-left"></i>
+            <i class="fas fa-chevron-right"></i>
+          </div>
+        </div>
+        <div class="ad-hud-tl"></div><div class="ad-hud-tr"></div>
+        <div class="ad-hud-bl"></div><div class="ad-hud-br"></div>
       </div>
-      <div id="fireMap" class="fire-map"></div>
-      <p class="radar-note"><i class="fas fa-satellite"></i> <span data-i18n="radar_note">Datos actualizados cada 12 horas desde satélites VIIRS (NASA). Hora:</span> <span id="radarTime">--</span></p>
+      <div class="ad-controls">
+        <button class="ad-nav-btn" id="adPrev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+        <div class="ad-meta">
+          <span class="ad-counter"><span id="adCurrent">1</span><span class="ad-sep">/</span><span id="adTotal">2</span></span>
+          <span class="ad-hint"><i class="fas fa-arrows-left-right"></i> <span data-i18n="gallery_hint">Desliza el divisor</span></span>
+        </div>
+        <button class="ad-nav-btn" id="adNext" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+      </div>
+      <div class="ad-thumbs-wrap"><div class="ad-thumbs" id="adThumbs"></div></div>
     </div>
   </div>
 </section>
@@ -643,6 +651,41 @@
   </div>
 </section>
 
+<!-- ===== FRASE ANTES DEL RADAR ===== -->
+<section class="section pre-radar-banner">
+  <div class="container">
+    <p class="pre-radar-text" data-aos="fade-up" data-i18n="pre_radar_text">
+      Estamos contigo paso a paso, en un proceso complicado somos tu mano amiga con la experiencia.
+    </p>
+  </div>
+</section>
+
+<!-- ===== RADAR DE INCENDIOS PR ===== -->
+<section class="section radar-section" id="radar">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-label" data-i18n="radar_label">Monitoreo en Tiempo Real</span>
+      <h2 data-i18n="radar_h2">Radar de <span class="gradient-text">Emergencias de Incendio</span> en Puerto Rico</h2>
+      <p data-i18n="radar_p">Datos satelitales en tiempo real de focos de calor activos en Puerto Rico. Fuente: NASA FIRMS / VIIRS.</p>
+    </div>
+    <div class="radar-container" data-aos="fade-up" data-aos-delay="200">
+      <div class="radar-header">
+        <div class="radar-status">
+          <span class="radar-dot"></span>
+          <span id="radarStatusText">Cargando datos satelitales...</span>
+        </div>
+        <div class="radar-legend">
+          <span class="legend-item"><span class="legend-dot high"></span><span data-i18n="radar_legend_high">Alta Intensidad</span></span>
+          <span class="legend-item"><span class="legend-dot medium"></span><span data-i18n="radar_legend_med">Moderada</span></span>
+          <span class="legend-item"><span class="legend-dot low"></span><span data-i18n="radar_legend_low">Baja</span></span>
+        </div>
+      </div>
+      <div id="fireMap" class="fire-map"></div>
+      <p class="radar-note"><i class="fas fa-satellite"></i> <span data-i18n="radar_note">Datos actualizados cada 12 horas desde satélites VIIRS (NASA). Hora:</span> <span id="radarTime">--</span></p>
+    </div>
+  </div>
+</section>
+
 </main><!-- /#main-content -->
 
 <!-- ===== FOOTER ===== -->
@@ -739,6 +782,68 @@
         }
       });
     });
+  })();
+
+  // ── GALERÍA ANTES/DESPUÉS ───────────────────────────────────
+  (function () {
+    var PAIRS = [
+      ['images/HeadStart/antes_despues/antes3.jpeg', 'images/HeadStart/antes_despues/despues3.png'],
+      ['images/HeadStart/antes_despues/antes1.png',  'images/HeadStart/antes_despues/despues1.jpeg'],
+    ];
+    var cur = 0, dragging = false;
+    var comparison = document.getElementById('adComparison');
+    var afterWrap  = document.getElementById('adAfterWrap');
+    var dividerEl  = document.getElementById('adDivider');
+    var beforeImg  = document.getElementById('adBeforeImg');
+    var afterImg   = document.getElementById('adAfterImg');
+    var curEl      = document.getElementById('adCurrent');
+    var totalEl    = document.getElementById('adTotal');
+    var thumbsEl   = document.getElementById('adThumbs');
+    if (!comparison) return;
+
+    totalEl.textContent = PAIRS.length;
+
+    function setPos(pct) {
+      pct = Math.max(3, Math.min(97, pct));
+      afterWrap.style.clipPath  = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      dividerEl.style.left = pct + '%';
+    }
+
+    function loadPair(idx) {
+      cur = idx;
+      beforeImg.src = PAIRS[idx][0];
+      afterImg.src  = PAIRS[idx][1];
+      curEl.textContent = idx + 1;
+      setPos(50);
+      document.querySelectorAll('.ad-thumb').forEach(function(t, i) {
+        t.classList.toggle('active', i === idx);
+      });
+      var active = thumbsEl.querySelector('.ad-thumb.active');
+      if (active) active.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'smooth' });
+    }
+
+    PAIRS.forEach(function(pair, i) {
+      var d = document.createElement('div');
+      d.className = 'ad-thumb' + (i === 0 ? ' active' : '');
+      d.innerHTML = '<img src="' + pair[0] + '" alt="Par ' + (i+1) + '" loading="lazy">';
+      d.addEventListener('click', function() { loadPair(i); });
+      thumbsEl.appendChild(d);
+    });
+
+    function getPct(clientX) {
+      var r = comparison.getBoundingClientRect();
+      return ((clientX - r.left) / r.width) * 100;
+    }
+    comparison.addEventListener('mousedown',  function(e){ dragging=true; setPos(getPct(e.clientX)); });
+    window.addEventListener('mousemove',  function(e){ if(dragging) setPos(getPct(e.clientX)); });
+    window.addEventListener('mouseup',    function(){ dragging=false; });
+    comparison.addEventListener('touchstart', function(e){ dragging=true; setPos(getPct(e.touches[0].clientX)); }, {passive:true});
+    window.addEventListener('touchmove',  function(e){ if(dragging) setPos(getPct(e.touches[0].clientX)); }, {passive:true});
+    window.addEventListener('touchend',   function(){ dragging=false; });
+    document.getElementById('adPrev').addEventListener('click', function(){ loadPair((cur - 1 + PAIRS.length) % PAIRS.length); });
+    document.getElementById('adNext').addEventListener('click', function(){ loadPair((cur + 1) % PAIRS.length); });
+
+    loadPair(0);
   })();
 </script>
 </body>
