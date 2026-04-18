@@ -746,6 +746,11 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- Firebase (opcional para sincronizar la galería Antes/Después) -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/firebase-store.js"></script>
 <script>
   // ── EMAILJS INIT ── Reemplaza TU_PUBLIC_KEY con tu clave de EmailJS
   (function () { emailjs.init({ publicKey: 'qJaTG4K6yRXbxLT1p' }); })();
@@ -786,10 +791,23 @@
 
   // ── GALERÍA ANTES/DESPUÉS ───────────────────────────────────
   (function () {
-    var PAIRS = [
+    var DEFAULT_PAIRS = [
       ['images/HeadStart/antes_despues/antes3.jpeg', 'images/HeadStart/antes_despues/despues3.png'],
       ['images/HeadStart/antes_despues/antes1.png',  'images/HeadStart/antes_despues/despues1.jpeg'],
     ];
+    var storedPairs = [];
+    try {
+      var raw = localStorage.getItem('dindustriales-beforeafter');
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          storedPairs = parsed
+            .filter(function (p) { return p && p.before && p.after; })
+            .map(function (p) { return [p.before, p.after]; });
+        }
+      }
+    } catch (e) { storedPairs = []; }
+    var PAIRS = storedPairs.length > 0 ? storedPairs : DEFAULT_PAIRS;
     var cur = 0, dragging = false;
     var comparison = document.getElementById('adComparison');
     var afterWrap  = document.getElementById('adAfterWrap');
@@ -800,8 +818,6 @@
     var totalEl    = document.getElementById('adTotal');
     var thumbsEl   = document.getElementById('adThumbs');
     if (!comparison) return;
-
-    totalEl.textContent = PAIRS.length;
 
     function setPos(pct) {
       pct = Math.max(3, Math.min(97, pct));
@@ -819,16 +835,34 @@
         t.classList.toggle('active', i === idx);
       });
       var active = thumbsEl.querySelector('.ad-thumb.active');
-      if (active) active.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'smooth' });
+      if (active) {
+        var targetLeft = active.offsetLeft - (thumbsEl.clientWidth - active.clientWidth) / 2;
+        thumbsEl.scrollTo ? thumbsEl.scrollTo({ left: targetLeft, behavior: 'smooth' })
+                          : (thumbsEl.scrollLeft = targetLeft);
+      }
     }
 
-    PAIRS.forEach(function(pair, i) {
-      var d = document.createElement('div');
-      d.className = 'ad-thumb' + (i === 0 ? ' active' : '');
-      d.innerHTML = '<img src="' + pair[0] + '" alt="Par ' + (i+1) + '" loading="lazy">';
-      d.addEventListener('click', function() { loadPair(i); });
-      thumbsEl.appendChild(d);
-    });
+    function buildThumbs() {
+      thumbsEl.innerHTML = '';
+      PAIRS.forEach(function(pair, i) {
+        var d = document.createElement('div');
+        d.className = 'ad-thumb' + (i === 0 ? ' active' : '');
+        d.innerHTML = '<img src="' + pair[0] + '" alt="Par ' + (i+1) + '" loading="lazy">';
+        d.addEventListener('click', function() { loadPair(i); });
+        thumbsEl.appendChild(d);
+      });
+      totalEl.textContent = PAIRS.length;
+    }
+
+    function setPairs(newPairs) {
+      if (!Array.isArray(newPairs) || newPairs.length === 0) return;
+      PAIRS = newPairs;
+      cur = 0;
+      buildThumbs();
+      loadPair(0);
+    }
+
+    buildThumbs();
 
     function getPct(clientX) {
       var r = comparison.getBoundingClientRect();
@@ -844,6 +878,21 @@
     document.getElementById('adNext').addEventListener('click', function(){ loadPair((cur + 1) % PAIRS.length); });
 
     loadPair(0);
+
+    // Si Firebase está configurado, intenta obtener los pares más recientes
+    // y actualiza la galería en cuanto lleguen (sin recargar la página).
+    if (window.fbStore && window.fbStore.isConfigured()) {
+      window.fbStore.load('beforeafter').then(function (remote) {
+        if (!Array.isArray(remote)) return;
+        var cloudPairs = remote
+          .filter(function (p) { return p && p.before && p.after; })
+          .map(function (p) { return [p.before, p.after]; });
+        if (cloudPairs.length > 0) {
+          setPairs(cloudPairs);
+          try { localStorage.setItem('dindustriales-beforeafter', JSON.stringify(remote)); } catch (e) {}
+        }
+      }).catch(function (err) { console.error('[galeria] Firebase load error:', err); });
+    }
   })();
 </script>
 </body>
