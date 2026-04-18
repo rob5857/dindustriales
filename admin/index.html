@@ -57,6 +57,21 @@
       padding: 0 24px; height: 64px; display: flex; align-items: center;
       justify-content: space-between; position: sticky; top: 0; z-index: 100;
     }
+    .admin-header-left { display: flex; align-items: center; gap: 12px; }
+    .admin-hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      width: 40px; height: 40px; flex-direction: column;
+      align-items: center; justify-content: center; gap: 5px; padding: 0;
+      border-radius: 8px; transition: background 0.2s;
+    }
+    .admin-hamburger:hover { background: var(--bg2); }
+    .admin-hamburger span {
+      width: 22px; height: 2px; background: var(--text); border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .admin-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .admin-hamburger.active span:nth-child(2) { opacity: 0; }
+    .admin-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
     .admin-logo { height: 40px; }
     .admin-header-right { display: flex; align-items: center; gap: 12px; }
     .admin-theme-btn {
@@ -294,12 +309,57 @@
     }
     .toast.show { transform: translateY(0); }
 
+    /* ===== SIDEBAR BACKDROP (móvil) ===== */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed; inset: 64px 0 0 0;
+      background: rgba(0,0,0,0.55); z-index: 199;
+      backdrop-filter: blur(2px);
+    }
+    .sidebar-backdrop.open { display: block; }
+
     @media (max-width: 900px) {
+      .admin-header { padding: 0 14px; }
+      .admin-logo { height: 34px; }
+      .admin-header-right { gap: 8px; }
+      .admin-hamburger { display: flex; }
+
       .admin-body { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
+      .sidebar {
+        display: block;
+        position: fixed;
+        top: 64px; left: 0; bottom: 0;
+        width: 260px; max-width: 85vw;
+        z-index: 200;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow-y: auto;
+        box-shadow: 4px 0 24px rgba(0,0,0,0.3);
+      }
+      .sidebar.open { transform: translateX(0); }
+
+      .main-content { padding: 20px 16px; }
       .stats-row { grid-template-columns: 1fr 1fr; }
       .gallery-mgmt-grid { grid-template-columns: 1fr 1fr; }
       .settings-grid, .form-grid { grid-template-columns: 1fr; }
+      .page-title { font-size: 1.3rem; }
+    }
+
+    @media (max-width: 540px) {
+      .admin-header-right .back-site,
+      .admin-header-right .btn-logout { padding: 8px 12px; font-size: 0; }
+      .admin-header-right .back-site i,
+      .admin-header-right .btn-logout i { font-size: 0.95rem; margin: 0; }
+      .stats-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .stat-card { padding: 14px; gap: 10px; }
+      .stat-icon { width: 38px; height: 38px; font-size: 1rem; }
+      .stat-num-sm { font-size: 1.4rem; }
+      .upload-section { padding: 18px; }
+      .drop-zone { padding: 28px 16px; }
+      .gallery-mgmt-grid { grid-template-columns: 1fr; }
+      .ba-pair-grid { grid-template-columns: 1fr; }
+      .modal-box { max-height: 95vh; }
+      .modal-body { padding: 18px; }
     }
   </style>
 </head>
@@ -323,7 +383,12 @@
 <!-- DASHBOARD -->
 <div id="dashboard">
   <header class="admin-header">
-    <img src="../logo3.png" alt="D Industriales" class="admin-logo" />
+    <div class="admin-header-left">
+      <button class="admin-hamburger" id="adminHamburger" onclick="toggleAdminMenu()" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+      <img src="../logo3.png" alt="D Industriales" class="admin-logo" />
+    </div>
     <div class="admin-header-right">
       <button class="admin-theme-btn" onclick="toggleAdminTheme()" id="adminThemeBtn"><i class="fas fa-sun"></i></button>
       <a href="../index.html" class="back-site"><i class="fas fa-external-link-alt"></i> Ver Sitio</a>
@@ -332,7 +397,8 @@
   </header>
 
   <div class="admin-body">
-    <aside class="sidebar">
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeAdminMenu()"></div>
+    <aside class="sidebar" id="adminSidebar">
       <div class="sidebar-label">Principal</div>
       <div class="sidebar-item active" onclick="showPage('overview', this)"><i class="fas fa-home"></i> Dashboard</div>
       <div class="sidebar-item" onclick="showPage('beforeafter', this)"><i class="fas fa-sliders-h"></i> Antes / Después</div>

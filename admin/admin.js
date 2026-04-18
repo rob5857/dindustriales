@@ -94,7 +94,40 @@ function showPage(name, el) {
   if (name === 'gallery') renderGalleryMgmt();
   if (name === 'beforeafter') renderBAList();
   if (name === 'settings') { loadSettings(); updateFbBadge(); }
+  // Cerrar el menú automáticamente en móvil al navegar
+  if (window.innerWidth <= 900) closeAdminMenu();
+  // Volver al tope de la página al cambiar de sección
+  const main = document.querySelector('.main-content');
+  if (main) main.scrollTop = 0;
+  window.scrollTo(0, 0);
 }
+
+// ── MOBILE MENU ────────────────────────────────────────────────
+function toggleAdminMenu() {
+  const sidebar = document.getElementById('adminSidebar');
+  const burger = document.getElementById('adminHamburger');
+  const backdrop = document.getElementById('sidebarBackdrop');
+  if (!sidebar) return;
+  const isOpen = sidebar.classList.toggle('open');
+  if (burger) burger.classList.toggle('active', isOpen);
+  if (backdrop) backdrop.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+
+function closeAdminMenu() {
+  const sidebar = document.getElementById('adminSidebar');
+  const burger = document.getElementById('adminHamburger');
+  const backdrop = document.getElementById('sidebarBackdrop');
+  if (sidebar) sidebar.classList.remove('open');
+  if (burger) burger.classList.remove('active');
+  if (backdrop) backdrop.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Cerrar con ESC
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeAdminMenu();
+});
 
 // ── INIT ───────────────────────────────────────────────────────
 function initDashboard() {
