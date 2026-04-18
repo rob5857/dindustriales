@@ -569,29 +569,55 @@ function baEdit(id) {
   document.getElementById('editDesc').value = pair.description || '';
   document.getElementById('editFileBefore').value = '';
   document.getElementById('editFileAfter').value = '';
+  // Limpiar estado "modified" de sesiones previas
+  document.getElementById('editSlotBefore').classList.remove('modified');
+  document.getElementById('editSlotAfter').classList.remove('modified');
   document.getElementById('baEditModal').classList.add('show');
 }
 
 function baEditClose() {
   document.getElementById('baEditModal').classList.remove('show');
   baEditingId = null; baEditBeforeNew = null; baEditAfterNew = null;
+  const sb = document.getElementById('editSlotBefore');
+  const sa = document.getElementById('editSlotAfter');
+  if (sb) sb.classList.remove('modified', 'dragover');
+  if (sa) sa.classList.remove('modified', 'dragover');
+}
+
+function baEditDragOver(event, which) {
+  event.preventDefault();
+  document.getElementById(which === 'before' ? 'editSlotBefore' : 'editSlotAfter').classList.add('dragover');
+}
+
+function baEditDrop(event, which) {
+  event.preventDefault();
+  const slot = document.getElementById(which === 'before' ? 'editSlotBefore' : 'editSlotAfter');
+  slot.classList.remove('dragover');
+  const file = event.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) baEditHandleFile(file, which);
 }
 
 function baEditSelect(event, which) {
   const file = event.target.files[0];
   if (!file) return;
+  baEditHandleFile(file, which);
+}
+
+function baEditHandleFile(file, which) {
   if (file.size > 15 * 1024 * 1024) { showToast('Imagen demasiado grande. Máx 15MB.', 'error'); return; }
   downscaleImage(file).then(result => {
     const entry = { blob: result.blob, dataUrl: result.dataUrl };
     if (which === 'before') {
       baEditBeforeNew = entry;
       document.getElementById('editBeforeImg').src = result.dataUrl;
+      document.getElementById('editSlotBefore').classList.add('modified');
     } else {
       baEditAfterNew = entry;
       document.getElementById('editAfterImg').src = result.dataUrl;
+      document.getElementById('editSlotAfter').classList.add('modified');
     }
   }).catch(err => {
-    console.error('[admin] baEditSelect:', err);
+    console.error('[admin] baEditHandleFile:', err);
     showToast('No se pudo procesar la imagen', 'error');
   });
 }

@@ -260,8 +260,29 @@
     .edit-img-slot {
       border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
       aspect-ratio: 1/1; background: var(--bg); margin-bottom: 10px; position: relative;
+      cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .edit-img-slot img { width: 100%; height: 100%; object-fit: cover; }
+    .edit-img-slot:hover { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(249,115,22,0.15); }
+    .edit-img-slot.dragover { border-color: var(--orange); border-style: dashed; box-shadow: 0 0 0 3px rgba(249,115,22,0.25); }
+    .edit-img-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .edit-img-slot .slot-overlay {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 6px;
+      background: rgba(0,0,0,0.55); color: #fff; opacity: 0; transition: opacity 0.2s;
+      font-size: 0.82rem; text-align: center; padding: 10px; pointer-events: none;
+    }
+    .edit-img-slot .slot-overlay i { font-size: 1.6rem; color: var(--orange); }
+    .edit-img-slot:hover .slot-overlay,
+    .edit-img-slot.dragover .slot-overlay { opacity: 1; }
+    .edit-img-slot .slot-badge {
+      position: absolute; top: 8px; right: 8px;
+      background: var(--orange); color: #fff; padding: 3px 8px; border-radius: 6px;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3px;
+      display: none; pointer-events: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .edit-img-slot.modified .slot-badge { display: block; }
+    .edit-img-slot.modified { border-color: var(--orange); }
     .btn-secondary {
       width: 100%; padding: 9px 14px; border: 1px solid var(--border); border-radius: 8px;
       background: var(--bg2); color: var(--text); cursor: pointer;
@@ -642,13 +663,29 @@ service firebase.storage {
       <div class="ba-dual">
         <div>
           <span class="ba-col-label">Antes</span>
-          <div class="edit-img-slot"><img id="editBeforeImg" src="" alt="Antes" /></div>
+          <div class="edit-img-slot" id="editSlotBefore"
+               onclick="document.getElementById('editFileBefore').click()"
+               ondragover="baEditDragOver(event,'before')"
+               ondragleave="this.classList.remove('dragover')"
+               ondrop="baEditDrop(event,'before')">
+            <img id="editBeforeImg" src="" alt="Antes" />
+            <div class="slot-overlay"><i class="fas fa-sync-alt"></i><span>Clic o arrastra<br/>para reemplazar</span></div>
+            <span class="slot-badge">Modificada</span>
+          </div>
           <input type="file" id="editFileBefore" accept="image/*" style="display:none;" onchange="baEditSelect(event,'before')" />
           <button class="btn-secondary" onclick="document.getElementById('editFileBefore').click()"><i class="fas fa-exchange-alt"></i> Reemplazar</button>
         </div>
         <div>
           <span class="ba-col-label">Después</span>
-          <div class="edit-img-slot"><img id="editAfterImg" src="" alt="Después" /></div>
+          <div class="edit-img-slot" id="editSlotAfter"
+               onclick="document.getElementById('editFileAfter').click()"
+               ondragover="baEditDragOver(event,'after')"
+               ondragleave="this.classList.remove('dragover')"
+               ondrop="baEditDrop(event,'after')">
+            <img id="editAfterImg" src="" alt="Después" />
+            <div class="slot-overlay"><i class="fas fa-sync-alt"></i><span>Clic o arrastra<br/>para reemplazar</span></div>
+            <span class="slot-badge">Modificada</span>
+          </div>
           <input type="file" id="editFileAfter" accept="image/*" style="display:none;" onchange="baEditSelect(event,'after')" />
           <button class="btn-secondary" onclick="document.getElementById('editFileAfter').click()"><i class="fas fa-exchange-alt"></i> Reemplazar</button>
         </div>
