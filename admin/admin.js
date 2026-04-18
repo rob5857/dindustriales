@@ -1,11 +1,14 @@
 /* ===== D INDUSTRIALES - ADMIN JS ===== */
 
 const STORAGE_KEY = 'dindustriales-gallery';
+const BA_KEY = 'dindustriales-beforeafter';
 const SETTINGS_KEY = 'dindustriales-settings';
 const SESSION_KEY = 'dindustriales-admin-session';
 const ADMIN_PASS = 'dindustriales2025'; // Change this password!
 
 // ── AUTH ───────────────────────────────────────────────────────
+function fbReady() { return window.fbStore && window.fbStore.isConfigured(); }
+
 function checkSession() {
   if (sessionStorage.getItem(SESSION_KEY) === 'ok') {
     document.getElementById('loginScreen').style.display = 'none';
@@ -14,26 +17,48 @@ function checkSession() {
   }
 }
 
+function finishLogin() {
+  sessionStorage.setItem(SESSION_KEY, 'ok');
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('loginErr').style.display = 'none';
+  initDashboard();
+}
+
+function showLoginError(msg) {
+  const errEl = document.getElementById('loginErr');
+  if (msg) errEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ' + msg;
+  errEl.style.display = 'block';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginPass').focus();
+}
+
 function doLogin() {
   const pass = document.getElementById('loginPass').value;
-  const errEl = document.getElementById('loginErr');
   const storedPass = localStorage.getItem('dindustriales-adminpass') || ADMIN_PASS;
-  if (pass === storedPass) {
-    sessionStorage.setItem(SESSION_KEY, 'ok');
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    errEl.style.display = 'none';
-    initDashboard();
-  } else {
-    errEl.style.display = 'block';
-    document.getElementById('loginPass').value = '';
-    document.getElementById('loginPass').focus();
+
+  // Con Firebase configurado, la contraseña debe ser la del usuario de Firebase.
+  if (fbReady()) {
+    window.fbStore.signIn(pass)
+      .then(finishLogin)
+      .catch(function (err) {
+        console.error('[admin] Firebase signIn falló:', err);
+        showLoginError('Contraseña incorrecta (Firebase)');
+      });
+    return;
   }
+
+  if (pass === storedPass) finishLogin();
+  else showLoginError();
 }
 
 function doLogout() {
   sessionStorage.removeItem(SESSION_KEY);
-  location.reload();
+  if (fbReady()) {
+    window.fbStore.signOut().finally(function () { location.reload(); });
+  } else {
+    location.reload();
+  }
 }
 
 // ── THEME ──────────────────────────────────────────────────────
@@ -67,13 +92,61 @@ function showPage(name, el) {
     });
   }
   if (name === 'gallery') renderGalleryMgmt();
-  if (name === 'settings') loadSettings();
+  if (name === 'beforeafter') renderBAList();
+  if (name === 'settings') { loadSettings(); updateFbBadge(); }
 }
 
 // ── INIT ───────────────────────────────────────────────────────
 function initDashboard() {
   updateStats();
   loadSettings();
+  updateFbBadge();
+  if (fbReady()) pullFromFirebase();
+}
+
+function updateFbBadge() {
+  const badge = document.getElementById('fbStatusBadge');
+  const text = document.getElementById('fbStatusText');
+  if (!badge || !text) return;
+  if (fbReady()) {
+    badge.classList.remove('off'); badge.classList.add('on');
+    text.textContent = 'Conectado';
+  } else {
+    badge.classList.remove('on'); badge.classList.add('off');
+    text.textContent = 'No configurado';
+  }
+}
+
+function pullFromFirebase() {
+  Promise.all([
+    window.fbStore.load('beforeafter'),
+    window.fbStore.load('gallery')
+  ]).then(function (results) {
+    const remotePairs = results[0];
+    const remoteGallery = results[1];
+    let changed = false;
+    if (Array.isArray(remotePairs)) {
+      localStorage.setItem(BA_KEY, JSON.stringify(remotePairs));
+      changed = true;
+    }
+    if (Array.isArray(remoteGallery)) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(remoteGallery));
+      changed = true;
+    }
+    if (changed) {
+      updateStats();
+      renderBAList();
+      renderGalleryMgmt();
+    }
+  }).catch(function (err) { console.error('[admin] pullFromFirebase:', err); });
+}
+
+function pushToFirebase(path, data) {
+  if (!fbReady()) return;
+  window.fbStore.save(path, data).catch(function (err) {
+    console.error('[admin] pushToFirebase:', err);
+    showToast('⚠ No se sincronizó en la nube (ver consola)', 'error');
+  });
 }
 
 function getGallery() {
@@ -82,15 +155,17 @@ function getGallery() {
 function saveGallery(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   updateStats();
+  pushToFirebase('gallery', data);
 }
 
 function updateStats() {
   const items = getGallery();
-  document.getElementById('totalPhotos').textContent = items.length;
-  document.getElementById('beforeAfterCount').textContent = items.filter(i => i.phase === 'before' || i.phase === 'after').length;
-  document.getElementById('projectCount').textContent = new Set(items.map(i => i.title)).size;
+  const pairs = getBAPairs();
+  document.getElementById('totalPhotos').textContent = items.length + pairs.length * 2;
+  document.getElementById('beforeAfterCount').textContent = pairs.length;
+  document.getElementById('projectCount').textContent = new Set([...items.map(i => i.title), ...pairs.map(p => p.title)].filter(Boolean)).size;
   // Estimate storage size
-  const raw = localStorage.getItem(STORAGE_KEY) || '';
+  const raw = (localStorage.getItem(STORAGE_KEY) || '') + (localStorage.getItem(BA_KEY) || '');
   const kb = (raw.length * 2 / 1024).toFixed(0);
   document.getElementById('storageUsed').textContent = kb > 1024 ? (kb / 1024).toFixed(1) + ' MB' : kb + ' KB';
 }
@@ -209,6 +284,204 @@ function clearGallery() {
   showToast('Galería borrada');
 }
 
+// ── BEFORE / AFTER PAIRS ───────────────────────────────────────
+function getBAPairs() { return JSON.parse(localStorage.getItem(BA_KEY) || '[]'); }
+function saveBAPairs(data) {
+  localStorage.setItem(BA_KEY, JSON.stringify(data));
+  updateStats();
+  pushToFirebase('beforeafter', data);
+}
+
+let baBefore = null, baAfter = null;
+
+function baDragOver(event, which) {
+  event.preventDefault();
+  document.getElementById(which === 'before' ? 'baDropBefore' : 'baDropAfter').classList.add('dragover');
+}
+
+function baDrop(event, which) {
+  event.preventDefault();
+  document.getElementById(which === 'before' ? 'baDropBefore' : 'baDropAfter').classList.remove('dragover');
+  const file = event.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) baProcessFile(file, which);
+}
+
+function baSelect(event, which) {
+  const file = event.target.files[0];
+  if (file) baProcessFile(file, which);
+}
+
+function baProcessFile(file, which) {
+  if (file.size > 5 * 1024 * 1024) { showToast('Imagen demasiado grande. Máx 5MB.', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const dataUrl = e.target.result;
+    if (which === 'before') baBefore = dataUrl; else baAfter = dataUrl;
+    const prev = document.getElementById(which === 'before' ? 'baPrevBefore' : 'baPrevAfter');
+    prev.innerHTML = `
+      <div class="preview-thumb">
+        <img src="${dataUrl}" alt="preview" />
+        <button class="rm" onclick="baClearPreview('${which}')">×</button>
+      </div>`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function baClearPreview(which) {
+  if (which === 'before') {
+    baBefore = null;
+    document.getElementById('baPrevBefore').innerHTML = '';
+    document.getElementById('baFileBefore').value = '';
+  } else {
+    baAfter = null;
+    document.getElementById('baPrevAfter').innerHTML = '';
+    document.getElementById('baFileAfter').value = '';
+  }
+}
+
+function baSave() {
+  if (!baBefore || !baAfter) { showToast('Sube las dos imágenes (antes y después)', 'error'); return; }
+  const pair = {
+    id: Date.now(),
+    before: baBefore,
+    after: baAfter,
+    title: document.getElementById('baTitle').value.trim(),
+    location: document.getElementById('baLocation').value.trim(),
+    description: document.getElementById('baDesc').value.trim(),
+    date: new Date().toLocaleDateString('es-PR'),
+  };
+  try {
+    const list = getBAPairs();
+    list.unshift(pair);
+    saveBAPairs(list);
+  } catch (err) {
+    showToast('Error al guardar: espacio de almacenamiento lleno', 'error');
+    return;
+  }
+  showToast('✅ Par guardado en la galería');
+  baClearPreview('before');
+  baClearPreview('after');
+  document.getElementById('baTitle').value = '';
+  document.getElementById('baLocation').value = '';
+  document.getElementById('baDesc').value = '';
+  renderBAList();
+}
+
+function renderBAList() {
+  const list = getBAPairs();
+  const el = document.getElementById('baList');
+  if (!el) return;
+  if (list.length === 0) {
+    el.innerHTML = '<div class="empty-state"><i class="fas fa-sliders-h"></i><h3>No hay pares aún</h3><p>Sube una imagen "antes" y su "después" para añadir tu primer par al comparador.</p></div>';
+    return;
+  }
+  el.innerHTML = `<div class="ba-pair-grid">${list.map((p, i) => `
+    <div class="ba-pair-card">
+      <div class="ba-pair-imgs">
+        <div data-label="ANTES"><img src="${p.before}" alt="Antes" /></div>
+        <div data-label="DESPUÉS"><img src="${p.after}" alt="Después" /></div>
+      </div>
+      <div class="ba-pair-info">
+        <h4>${p.title || 'Sin título'}</h4>
+        <p>${p.location || 'Puerto Rico'} · ${p.date || ''} · <span style="color:var(--orange);font-weight:700;">#${i + 1}</span></p>
+        ${p.description ? `<p style="margin-top:6px;">${p.description}</p>` : ''}
+        <div class="ba-pair-actions">
+          <button class="btn-icon" onclick="baMove(${p.id}, -1)" ${i === 0 ? 'disabled' : ''} title="Subir"><i class="fas fa-arrow-up"></i></button>
+          <button class="btn-icon" onclick="baMove(${p.id}, 1)" ${i === list.length - 1 ? 'disabled' : ''} title="Bajar"><i class="fas fa-arrow-down"></i></button>
+          <button class="btn-icon" onclick="baEdit(${p.id})"><i class="fas fa-edit"></i> Editar</button>
+          <button class="btn-del" onclick="baDelete(${p.id})"><i class="fas fa-trash"></i> Eliminar</button>
+        </div>
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+function baDelete(id) {
+  if (!confirm('¿Eliminar este par de la galería?')) return;
+  saveBAPairs(getBAPairs().filter(p => p.id !== id));
+  renderBAList();
+  showToast('Par eliminado');
+}
+
+function baMove(id, direction) {
+  const list = getBAPairs();
+  const idx = list.findIndex(p => p.id === id);
+  if (idx < 0) return;
+  const newIdx = idx + direction;
+  if (newIdx < 0 || newIdx >= list.length) return;
+  const [item] = list.splice(idx, 1);
+  list.splice(newIdx, 0, item);
+  saveBAPairs(list);
+  renderBAList();
+}
+
+// ── EDIT MODAL ─────────────────────────────────────────────────
+let baEditingId = null;
+let baEditBefore = null;
+let baEditAfter = null;
+
+function baEdit(id) {
+  const pair = getBAPairs().find(p => p.id === id);
+  if (!pair) return;
+  baEditingId = id;
+  baEditBefore = pair.before;
+  baEditAfter = pair.after;
+  document.getElementById('editBeforeImg').src = pair.before;
+  document.getElementById('editAfterImg').src = pair.after;
+  document.getElementById('editTitle').value = pair.title || '';
+  document.getElementById('editLocation').value = pair.location || '';
+  document.getElementById('editDesc').value = pair.description || '';
+  document.getElementById('editFileBefore').value = '';
+  document.getElementById('editFileAfter').value = '';
+  document.getElementById('baEditModal').classList.add('show');
+}
+
+function baEditClose() {
+  document.getElementById('baEditModal').classList.remove('show');
+  baEditingId = null; baEditBefore = null; baEditAfter = null;
+}
+
+function baEditSelect(event, which) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showToast('Imagen demasiado grande. Máx 5MB.', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const dataUrl = e.target.result;
+    if (which === 'before') {
+      baEditBefore = dataUrl;
+      document.getElementById('editBeforeImg').src = dataUrl;
+    } else {
+      baEditAfter = dataUrl;
+      document.getElementById('editAfterImg').src = dataUrl;
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function baEditSave() {
+  if (baEditingId == null) return;
+  const list = getBAPairs();
+  const idx = list.findIndex(p => p.id === baEditingId);
+  if (idx < 0) { baEditClose(); return; }
+  list[idx] = {
+    ...list[idx],
+    before: baEditBefore || list[idx].before,
+    after: baEditAfter || list[idx].after,
+    title: document.getElementById('editTitle').value.trim(),
+    location: document.getElementById('editLocation').value.trim(),
+    description: document.getElementById('editDesc').value.trim(),
+  };
+  try {
+    saveBAPairs(list);
+  } catch (err) {
+    showToast('Error al guardar: espacio de almacenamiento lleno', 'error');
+    return;
+  }
+  showToast('✅ Cambios guardados');
+  baEditClose();
+  renderBAList();
+}
+
 // ── SETTINGS ───────────────────────────────────────────────────
 function loadSettings() {
   const s = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
@@ -229,7 +502,12 @@ function saveSettings() {
 
 // ── EXPORT/IMPORT ──────────────────────────────────────────────
 function exportData() {
-  const data = { gallery: getGallery(), settings: JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}'), exported: new Date().toISOString() };
+  const data = {
+    gallery: getGallery(),
+    beforeafter: getBAPairs(),
+    settings: JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}'),
+    exported: new Date().toISOString()
+  };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -246,9 +524,12 @@ function importData(event) {
     try {
       const data = JSON.parse(e.target.result);
       if (data.gallery) saveGallery(data.gallery);
+      if (data.beforeafter) saveBAPairs(data.beforeafter);
       if (data.settings) localStorage.setItem(SETTINGS_KEY, JSON.stringify(data.settings));
-      showToast(`✅ ${data.gallery?.length || 0} fotos importadas`);
+      const n = (data.gallery?.length || 0) + (data.beforeafter?.length || 0);
+      showToast(`✅ ${n} elementos importados`);
       renderGalleryMgmt();
+      renderBAList();
     } catch { showToast('Error al importar el archivo', 'error'); }
   };
   reader.readAsText(file);
