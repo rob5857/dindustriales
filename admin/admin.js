@@ -8,6 +8,50 @@ const ADMIN_PASS = 'dindustriales2025'; // Change this password!
 
 // ── AUTH ───────────────────────────────────────────────────────
 function fbReady() { return window.fbStore && window.fbStore.isConfigured(); }
+function fbStorageReady() { return window.fbStore && window.fbStore.hasStorage && window.fbStore.hasStorage(); }
+
+// ── IMAGE HELPERS ──────────────────────────────────────────────
+// Redimensiona y comprime una imagen. Devuelve { blob, dataUrl, width, height }.
+function downscaleImage(file, maxDim, quality) {
+  maxDim = maxDim || 1600;
+  quality = quality || 0.82;
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('No se pudo leer el archivo'));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('Imagen inválida'));
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          const scale = Math.min(maxDim / width, maxDim / height);
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width; canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(blob => {
+          if (!blob) return reject(new Error('No se pudo generar el blob'));
+          const dataUrl = canvas.toDataURL('image/jpeg', quality);
+          resolve({ blob, dataUrl, width, height });
+        }, 'image/jpeg', quality);
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+// Sube un blob a Firebase Storage si está disponible y devuelve la URL.
+// Si Storage no está configurado, devuelve el dataUrl como fallback.
+function persistImage(blob, dataUrl, path) {
+  if (fbStorageReady() && blob) {
+    return window.fbStore.uploadImage(path, blob, 'image/jpeg');
+  }
+  return Promise.resolve(dataUrl);
+}
 
 function checkSession() {
   if (sessionStorage.getItem(SESSION_KEY) === 'ok') {
@@ -204,7 +248,7 @@ function updateStats() {
 }
 
 // ── FILE UPLOAD ────────────────────────────────────────────────
-let currentFile = null;
+let currentBlob = null;
 let currentDataUrl = null;
 
 function handleFileSelect(event) {
@@ -225,14 +269,13 @@ function handleDrop(event) {
 }
 
 function processFile(file) {
-  if (file.size > 5 * 1024 * 1024) {
-    showToast('Imagen demasiado grande. Máx 5MB.', 'error');
+  if (file.size > 15 * 1024 * 1024) {
+    showToast('Imagen demasiado grande. Máx 15MB.', 'error');
     return;
   }
-  currentFile = file;
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    currentDataUrl = e.target.result;
+  downscaleImage(file).then(result => {
+    currentBlob = result.blob;
+    currentDataUrl = result.dataUrl;
     const strip = document.getElementById('previewStrip');
     strip.innerHTML = `
       <div class="preview-thumb">
@@ -241,12 +284,14 @@ function processFile(file) {
       </div>`;
     document.getElementById('uploadFields').style.display = 'grid';
     document.getElementById('btnSave').style.display = 'flex';
-  };
-  reader.readAsDataURL(file);
+  }).catch(err => {
+    console.error('[admin] processFile:', err);
+    showToast('No se pudo procesar la imagen', 'error');
+  });
 }
 
 function clearPreview() {
-  currentFile = null; currentDataUrl = null;
+  currentBlob = null; currentDataUrl = null;
   document.getElementById('previewStrip').innerHTML = '';
   document.getElementById('uploadFields').style.display = 'none';
   document.getElementById('btnSave').style.display = 'none';
@@ -258,25 +303,47 @@ function savePhoto() {
   const title = document.getElementById('photoTitle').value.trim();
   if (!title) { showToast('El título es requerido', 'error'); return; }
 
-  const item = {
-    id: Date.now(),
-    src: currentDataUrl,
-    title: title,
-    type: document.getElementById('photoType').value,
-    location: document.getElementById('photoLocation').value.trim(),
-    phase: document.getElementById('photoPhase').value,
-    description: document.getElementById('photoDesc').value.trim(),
-    date: new Date().toLocaleDateString('es-PR'),
-  };
+  const id = Date.now();
+  const btn = document.getElementById('btnSave');
+  const prevLabel = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
 
-  const gallery = getGallery();
-  gallery.unshift(item);
-  saveGallery(gallery);
-  showToast('✅ Foto guardada exitosamente en la galería');
-  clearPreview();
-  document.getElementById('photoTitle').value = '';
-  document.getElementById('photoDesc').value = '';
-  document.getElementById('photoLocation').value = '';
+  persistImage(currentBlob, currentDataUrl, 'gallery/' + id + '.jpg')
+    .then(url => {
+      const item = {
+        id: id,
+        src: url,
+        storagePath: fbStorageReady() ? 'gallery/' + id + '.jpg' : null,
+        title: title,
+        type: document.getElementById('photoType').value,
+        location: document.getElementById('photoLocation').value.trim(),
+        phase: document.getElementById('photoPhase').value,
+        description: document.getElementById('photoDesc').value.trim(),
+        date: new Date().toLocaleDateString('es-PR'),
+      };
+      const gallery = getGallery();
+      gallery.unshift(item);
+      try {
+        saveGallery(gallery);
+      } catch (err) {
+        showToast('Error al guardar: espacio de almacenamiento lleno', 'error');
+        return;
+      }
+      showToast('✅ Foto guardada exitosamente en la galería');
+      clearPreview();
+      document.getElementById('photoTitle').value = '';
+      document.getElementById('photoDesc').value = '';
+      document.getElementById('photoLocation').value = '';
+    })
+    .catch(err => {
+      console.error('[admin] savePhoto:', err);
+      showToast('Error al subir la imagen: ' + (err.message || err), 'error');
+    })
+    .finally(() => {
+      btn.disabled = false;
+      btn.innerHTML = prevLabel;
+    });
 }
 
 // ── GALLERY MANAGEMENT ─────────────────────────────────────────
@@ -305,10 +372,14 @@ function renderGalleryMgmt() {
 
 function deletePhoto(id) {
   if (!confirm('¿Eliminar esta foto de la galería?')) return;
+  const item = getGallery().find(i => i.id === id);
   const gallery = getGallery().filter(i => i.id !== id);
   saveGallery(gallery);
   renderGalleryMgmt();
   showToast('Foto eliminada');
+  if (item && fbStorageReady() && (item.storagePath || (item.src && item.src.indexOf('http') === 0))) {
+    window.fbStore.deleteImage(item.storagePath || item.src);
+  }
 }
 
 function clearGallery() {
@@ -325,6 +396,7 @@ function saveBAPairs(data) {
   pushToFirebase('beforeafter', data);
 }
 
+// { blob, dataUrl } para cada lado
 let baBefore = null, baAfter = null;
 
 function baDragOver(event, which) {
@@ -345,19 +417,20 @@ function baSelect(event, which) {
 }
 
 function baProcessFile(file, which) {
-  if (file.size > 5 * 1024 * 1024) { showToast('Imagen demasiado grande. Máx 5MB.', 'error'); return; }
-  const reader = new FileReader();
-  reader.onload = e => {
-    const dataUrl = e.target.result;
-    if (which === 'before') baBefore = dataUrl; else baAfter = dataUrl;
+  if (file.size > 15 * 1024 * 1024) { showToast('Imagen demasiado grande. Máx 15MB.', 'error'); return; }
+  downscaleImage(file).then(result => {
+    const entry = { blob: result.blob, dataUrl: result.dataUrl };
+    if (which === 'before') baBefore = entry; else baAfter = entry;
     const prev = document.getElementById(which === 'before' ? 'baPrevBefore' : 'baPrevAfter');
     prev.innerHTML = `
       <div class="preview-thumb">
-        <img src="${dataUrl}" alt="preview" />
+        <img src="${result.dataUrl}" alt="preview" />
         <button class="rm" onclick="baClearPreview('${which}')">×</button>
       </div>`;
-  };
-  reader.readAsDataURL(file);
+  }).catch(err => {
+    console.error('[admin] baProcessFile:', err);
+    showToast('No se pudo procesar la imagen', 'error');
+  });
 }
 
 function baClearPreview(which) {
@@ -374,30 +447,50 @@ function baClearPreview(which) {
 
 function baSave() {
   if (!baBefore || !baAfter) { showToast('Sube las dos imágenes (antes y después)', 'error'); return; }
-  const pair = {
-    id: Date.now(),
-    before: baBefore,
-    after: baAfter,
-    title: document.getElementById('baTitle').value.trim(),
-    location: document.getElementById('baLocation').value.trim(),
-    description: document.getElementById('baDesc').value.trim(),
-    date: new Date().toLocaleDateString('es-PR'),
-  };
-  try {
-    const list = getBAPairs();
-    list.unshift(pair);
-    saveBAPairs(list);
-  } catch (err) {
-    showToast('Error al guardar: espacio de almacenamiento lleno', 'error');
-    return;
-  }
-  showToast('✅ Par guardado en la galería');
-  baClearPreview('before');
-  baClearPreview('after');
-  document.getElementById('baTitle').value = '';
-  document.getElementById('baLocation').value = '';
-  document.getElementById('baDesc').value = '';
-  renderBAList();
+  const id = Date.now();
+  const btn = document.querySelector('#page-beforeafter .btn-submit');
+  const prevLabel = btn ? btn.innerHTML : '';
+  if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...'; }
+
+  const beforePath = 'beforeafter/' + id + '_before.jpg';
+  const afterPath  = 'beforeafter/' + id + '_after.jpg';
+
+  Promise.all([
+    persistImage(baBefore.blob, baBefore.dataUrl, beforePath),
+    persistImage(baAfter.blob,  baAfter.dataUrl,  afterPath)
+  ]).then(([beforeUrl, afterUrl]) => {
+    const pair = {
+      id: id,
+      before: beforeUrl,
+      after: afterUrl,
+      beforePath: fbStorageReady() ? beforePath : null,
+      afterPath:  fbStorageReady() ? afterPath  : null,
+      title: document.getElementById('baTitle').value.trim(),
+      location: document.getElementById('baLocation').value.trim(),
+      description: document.getElementById('baDesc').value.trim(),
+      date: new Date().toLocaleDateString('es-PR'),
+    };
+    try {
+      const list = getBAPairs();
+      list.unshift(pair);
+      saveBAPairs(list);
+    } catch (err) {
+      showToast('Error al guardar: espacio de almacenamiento lleno', 'error');
+      return;
+    }
+    showToast('✅ Par guardado en la galería');
+    baClearPreview('before');
+    baClearPreview('after');
+    document.getElementById('baTitle').value = '';
+    document.getElementById('baLocation').value = '';
+    document.getElementById('baDesc').value = '';
+    renderBAList();
+  }).catch(err => {
+    console.error('[admin] baSave:', err);
+    showToast('Error al subir: ' + (err.message || err), 'error');
+  }).finally(() => {
+    if (btn) { btn.disabled = false; btn.innerHTML = prevLabel; }
+  });
 }
 
 function renderBAList() {
@@ -430,9 +523,19 @@ function renderBAList() {
 
 function baDelete(id) {
   if (!confirm('¿Eliminar este par de la galería?')) return;
+  const pair = getBAPairs().find(p => p.id === id);
   saveBAPairs(getBAPairs().filter(p => p.id !== id));
   renderBAList();
   showToast('Par eliminado');
+  // Borrar archivos de Storage en background (best-effort)
+  if (pair && fbStorageReady()) {
+    if (pair.beforePath || (pair.before && pair.before.indexOf('http') === 0)) {
+      window.fbStore.deleteImage(pair.beforePath || pair.before);
+    }
+    if (pair.afterPath || (pair.after && pair.after.indexOf('http') === 0)) {
+      window.fbStore.deleteImage(pair.afterPath || pair.after);
+    }
+  }
 }
 
 function baMove(id, direction) {
@@ -449,15 +552,16 @@ function baMove(id, direction) {
 
 // ── EDIT MODAL ─────────────────────────────────────────────────
 let baEditingId = null;
-let baEditBefore = null;
-let baEditAfter = null;
+// { blob, dataUrl } si se reemplazó, o null para conservar la existente
+let baEditBeforeNew = null;
+let baEditAfterNew = null;
 
 function baEdit(id) {
   const pair = getBAPairs().find(p => p.id === id);
   if (!pair) return;
   baEditingId = id;
-  baEditBefore = pair.before;
-  baEditAfter = pair.after;
+  baEditBeforeNew = null;
+  baEditAfterNew = null;
   document.getElementById('editBeforeImg').src = pair.before;
   document.getElementById('editAfterImg').src = pair.after;
   document.getElementById('editTitle').value = pair.title || '';
@@ -470,25 +574,26 @@ function baEdit(id) {
 
 function baEditClose() {
   document.getElementById('baEditModal').classList.remove('show');
-  baEditingId = null; baEditBefore = null; baEditAfter = null;
+  baEditingId = null; baEditBeforeNew = null; baEditAfterNew = null;
 }
 
 function baEditSelect(event, which) {
   const file = event.target.files[0];
   if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { showToast('Imagen demasiado grande. Máx 5MB.', 'error'); return; }
-  const reader = new FileReader();
-  reader.onload = e => {
-    const dataUrl = e.target.result;
+  if (file.size > 15 * 1024 * 1024) { showToast('Imagen demasiado grande. Máx 15MB.', 'error'); return; }
+  downscaleImage(file).then(result => {
+    const entry = { blob: result.blob, dataUrl: result.dataUrl };
     if (which === 'before') {
-      baEditBefore = dataUrl;
-      document.getElementById('editBeforeImg').src = dataUrl;
+      baEditBeforeNew = entry;
+      document.getElementById('editBeforeImg').src = result.dataUrl;
     } else {
-      baEditAfter = dataUrl;
-      document.getElementById('editAfterImg').src = dataUrl;
+      baEditAfterNew = entry;
+      document.getElementById('editAfterImg').src = result.dataUrl;
     }
-  };
-  reader.readAsDataURL(file);
+  }).catch(err => {
+    console.error('[admin] baEditSelect:', err);
+    showToast('No se pudo procesar la imagen', 'error');
+  });
 }
 
 function baEditSave() {
@@ -496,23 +601,48 @@ function baEditSave() {
   const list = getBAPairs();
   const idx = list.findIndex(p => p.id === baEditingId);
   if (idx < 0) { baEditClose(); return; }
-  list[idx] = {
-    ...list[idx],
-    before: baEditBefore || list[idx].before,
-    after: baEditAfter || list[idx].after,
-    title: document.getElementById('editTitle').value.trim(),
-    location: document.getElementById('editLocation').value.trim(),
-    description: document.getElementById('editDesc').value.trim(),
-  };
-  try {
-    saveBAPairs(list);
-  } catch (err) {
-    showToast('Error al guardar: espacio de almacenamiento lleno', 'error');
-    return;
-  }
-  showToast('✅ Cambios guardados');
-  baEditClose();
-  renderBAList();
+  const current = list[idx];
+
+  const btn = document.querySelector('#baEditModal .btn-save');
+  const prevLabel = btn ? btn.innerHTML : '';
+  if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...'; }
+
+  const beforePath = 'beforeafter/' + current.id + '_before.jpg';
+  const afterPath  = 'beforeafter/' + current.id + '_after.jpg';
+
+  const beforeP = baEditBeforeNew
+    ? persistImage(baEditBeforeNew.blob, baEditBeforeNew.dataUrl, beforePath)
+    : Promise.resolve(current.before);
+  const afterP = baEditAfterNew
+    ? persistImage(baEditAfterNew.blob, baEditAfterNew.dataUrl, afterPath)
+    : Promise.resolve(current.after);
+
+  Promise.all([beforeP, afterP]).then(([beforeUrl, afterUrl]) => {
+    list[idx] = {
+      ...current,
+      before: beforeUrl,
+      after: afterUrl,
+      beforePath: baEditBeforeNew && fbStorageReady() ? beforePath : current.beforePath || null,
+      afterPath:  baEditAfterNew  && fbStorageReady() ? afterPath  : current.afterPath  || null,
+      title: document.getElementById('editTitle').value.trim(),
+      location: document.getElementById('editLocation').value.trim(),
+      description: document.getElementById('editDesc').value.trim(),
+    };
+    try {
+      saveBAPairs(list);
+    } catch (err) {
+      showToast('Error al guardar: espacio de almacenamiento lleno', 'error');
+      return;
+    }
+    showToast('✅ Cambios guardados');
+    baEditClose();
+    renderBAList();
+  }).catch(err => {
+    console.error('[admin] baEditSave:', err);
+    showToast('Error al subir: ' + (err.message || err), 'error');
+  }).finally(() => {
+    if (btn) { btn.disabled = false; btn.innerHTML = prevLabel; }
+  });
 }
 
 // ── SETTINGS ───────────────────────────────────────────────────
