@@ -57,6 +57,30 @@
     onAuthChange: function (cb) {
       if (!CONFIGURED || !ensureApp()) return function () {};
       return firebase.auth().onAuthStateChanged(cb);
+    },
+
+    // ── STORAGE ────────────────────────────────────────────────
+    hasStorage: function () {
+      return !!(CONFIGURED && ensureApp() && typeof firebase.storage === 'function');
+    },
+
+    uploadImage: function (path, blob, contentType) {
+      if (!this.hasStorage()) return Promise.reject(new Error('Firebase Storage no disponible'));
+      var ref = firebase.storage().ref().child(path);
+      var meta = { contentType: contentType || (blob && blob.type) || 'image/jpeg', cacheControl: 'public,max-age=31536000' };
+      return ref.put(blob, meta).then(function (snap) { return snap.ref.getDownloadURL(); });
+    },
+
+    deleteImage: function (urlOrPath) {
+      if (!this.hasStorage() || !urlOrPath) return Promise.resolve(false);
+      try {
+        var ref = urlOrPath.indexOf('http') === 0
+          ? firebase.storage().refFromURL(urlOrPath)
+          : firebase.storage().ref().child(urlOrPath);
+        return ref.delete().then(function () { return true; }).catch(function () { return false; });
+      } catch (err) {
+        return Promise.resolve(false);
+      }
     }
   };
 })();
