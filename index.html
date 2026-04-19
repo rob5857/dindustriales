@@ -487,6 +487,7 @@
             <i class="fas fa-chevron-right"></i>
           </div>
         </div>
+        <div class="ad-finger" id="adFinger" aria-hidden="true"><i class="fas fa-hand-pointer"></i></div>
         <div class="ad-hud-tl"></div><div class="ad-hud-tr"></div>
         <div class="ad-hud-bl"></div><div class="ad-hud-br"></div>
       </div>
@@ -809,6 +810,10 @@
     } catch (e) { storedPairs = []; }
     var PAIRS = storedPairs.length > 0 ? storedPairs : DEFAULT_PAIRS;
     var cur = 0, dragging = false;
+    var userHasDragged = false;
+    var autoTimer = null, demoRAF = null, sectionVisible = true;
+    var AUTO_MS = 7000;
+
     var comparison = document.getElementById('adComparison');
     var afterWrap  = document.getElementById('adAfterWrap');
     var dividerEl  = document.getElementById('adDivider');
@@ -817,13 +822,53 @@
     var curEl      = document.getElementById('adCurrent');
     var totalEl    = document.getElementById('adTotal');
     var thumbsEl   = document.getElementById('adThumbs');
+    var fingerEl   = document.getElementById('adFinger');
     if (!comparison) return;
 
     function setPos(pct) {
       pct = Math.max(3, Math.min(97, pct));
       afterWrap.style.clipPath  = 'inset(0 ' + (100 - pct) + '% 0 0)';
       dividerEl.style.left = pct + '%';
+      if (fingerEl) fingerEl.style.left = pct + '%';
     }
+
+    // Demo: mueve el divisor de lado a lado con easing mostrando el dedo
+    function stopDemo() {
+      if (demoRAF) { cancelAnimationFrame(demoRAF); demoRAF = null; }
+      if (fingerEl) fingerEl.classList.remove('visible');
+    }
+    function playDemo() {
+      stopDemo();
+      if (userHasDragged || !fingerEl) { setPos(50); return; }
+      fingerEl.classList.add('visible');
+      var start = performance.now();
+      var DURATION = 2600;
+      var KF = [{t:0,p:50},{t:0.28,p:78},{t:0.62,p:22},{t:1,p:50}];
+      function frame(now) {
+        if (!fingerEl.classList.contains('visible')) return;
+        var t = Math.min(1, (now - start) / DURATION);
+        var seg = 1;
+        for (var i = 1; i < KF.length; i++) { if (t <= KF[i].t) { seg = i; break; } }
+        var a = KF[seg - 1], b = KF[seg];
+        var local = (t - a.t) / (b.t - a.t);
+        var ease = local < 0.5 ? 4*local*local*local : 1 - Math.pow(-2*local + 2, 3) / 2;
+        setPos(a.p + (b.p - a.p) * ease);
+        if (t < 1) { demoRAF = requestAnimationFrame(frame); }
+        else { demoRAF = null; fingerEl.classList.remove('visible'); }
+      }
+      demoRAF = requestAnimationFrame(frame);
+    }
+
+    function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
+    function startAuto() {
+      stopAuto();
+      if (!sectionVisible || document.hidden || PAIRS.length < 2) return;
+      autoTimer = setInterval(function () {
+        if (dragging) return;
+        loadPair((cur + 1) % PAIRS.length);
+      }, AUTO_MS);
+    }
+    function resetAuto() { stopAuto(); startAuto(); }
 
     function loadPair(idx) {
       cur = idx;
@@ -840,6 +885,9 @@
         thumbsEl.scrollTo ? thumbsEl.scrollTo({ left: targetLeft, behavior: 'smooth' })
                           : (thumbsEl.scrollLeft = targetLeft);
       }
+      // Demo tras un breve retraso para que la imagen cargue suave
+      setTimeout(playDemo, 350);
+      resetAuto();
     }
 
     function buildThumbs() {
@@ -868,14 +916,35 @@
       var r = comparison.getBoundingClientRect();
       return ((clientX - r.left) / r.width) * 100;
     }
-    comparison.addEventListener('mousedown',  function(e){ dragging=true; setPos(getPct(e.clientX)); });
+    function userDragStart(x) {
+      dragging = true;
+      userHasDragged = true;
+      stopDemo();
+      stopAuto();
+      setPos(getPct(x));
+    }
+    comparison.addEventListener('mousedown',  function(e){ userDragStart(e.clientX); });
     window.addEventListener('mousemove',  function(e){ if(dragging) setPos(getPct(e.clientX)); });
-    window.addEventListener('mouseup',    function(){ dragging=false; });
-    comparison.addEventListener('touchstart', function(e){ dragging=true; setPos(getPct(e.touches[0].clientX)); }, {passive:true});
+    window.addEventListener('mouseup',    function(){ if (dragging) { dragging=false; resetAuto(); } });
+    comparison.addEventListener('touchstart', function(e){ userDragStart(e.touches[0].clientX); }, {passive:true});
     window.addEventListener('touchmove',  function(e){ if(dragging) setPos(getPct(e.touches[0].clientX)); }, {passive:true});
-    window.addEventListener('touchend',   function(){ dragging=false; });
+    window.addEventListener('touchend',   function(){ if (dragging) { dragging=false; resetAuto(); } });
     document.getElementById('adPrev').addEventListener('click', function(){ loadPair((cur - 1 + PAIRS.length) % PAIRS.length); });
     document.getElementById('adNext').addEventListener('click', function(){ loadPair((cur + 1) % PAIRS.length); });
+
+    // Pausa auto-rotación cuando la sección no está visible o la pestaña está en 2º plano
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        sectionVisible = entries[0].isIntersecting;
+        if (sectionVisible) startAuto(); else stopAuto();
+      }, { threshold: 0.25 }).observe(comparison);
+    }
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stopAuto(); else if (sectionVisible) startAuto();
+    });
+    // Pausa en hover (desktop) — el usuario está mirando/interactuando
+    comparison.addEventListener('mouseenter', stopAuto);
+    comparison.addEventListener('mouseleave', function () { if (!dragging) startAuto(); });
 
     loadPair(0);
 
