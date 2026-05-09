@@ -480,7 +480,8 @@
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Guardado</span></div>
 <script src="admin.js"></script>
 <script type="module">
-import { db, TESTIMONIALS_COLLECTION, FORM_URL } from '../js/firebase-config.js';
+import { db, TESTIMONIALS_COLLECTION } from '../js/firebase-config.js';
+const FORM_URL = 'https://www.desarrollosindustrialespr.com/formulario-testimonio.html';
 import {
   collection, query, orderBy, onSnapshot,
   doc, updateDoc, deleteDoc, serverTimestamp
