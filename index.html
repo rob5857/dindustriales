@@ -791,11 +791,9 @@
   })();
 
   // ── GALERÍA ANTES/DESPUÉS ───────────────────────────────────
-  (function () {
-    var PAIRS = [
-      ['images/HeadStart/antes_despues/antes3.jpeg', 'images/HeadStart/antes_despues/despues3.png'],
-      ['images/HeadStart/antes_despues/antes1.png',  'images/HeadStart/antes_despues/despues1.jpeg'],
-    ];
+  // initADSlider es llamado por el módulo de Firebase Storage
+  window.initADSlider = function(PAIRS) {
+    if (!PAIRS || !PAIRS.length) return;
     var cur = 0, dragging = false;
     var comparison = document.getElementById('adComparison');
     var afterWrap  = document.getElementById('adAfterWrap');
@@ -807,11 +805,12 @@
     var thumbsEl   = document.getElementById('adThumbs');
     if (!comparison) return;
 
+    thumbsEl.innerHTML = '';
     totalEl.textContent = PAIRS.length;
 
     function setPos(pct) {
       pct = Math.max(3, Math.min(97, pct));
-      afterWrap.style.clipPath  = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      afterWrap.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
       dividerEl.style.left = pct + '%';
     }
 
@@ -831,7 +830,7 @@
     PAIRS.forEach(function(pair, i) {
       var d = document.createElement('div');
       d.className = 'ad-thumb' + (i === 0 ? ' active' : '');
-      d.innerHTML = '<img src="' + pair[0] + '" alt="Par ' + (i+1) + '" loading="lazy">';
+      d.innerHTML = '<img src="' + pair[0] + '" alt="Par ' + (i + 1) + '" loading="lazy">';
       d.addEventListener('click', function() { loadPair(i); });
       thumbsEl.appendChild(d);
     });
@@ -840,7 +839,7 @@
       var r = comparison.getBoundingClientRect();
       return ((clientX - r.left) / r.width) * 100;
     }
-    comparison.addEventListener('mousedown',  function(e){ dragging=true; setPos(getPct(e.clientX)); });
+    comparison.addEventListener('mousedown', function(e){ dragging=true; setPos(getPct(e.clientX)); });
     window.addEventListener('mousemove',  function(e){ if(dragging) setPos(getPct(e.clientX)); });
     window.addEventListener('mouseup',    function(){ dragging=false; });
     comparison.addEventListener('touchstart', function(e){ dragging=true; setPos(getPct(e.touches[0].clientX)); }, {passive:true});
@@ -850,7 +849,54 @@
     document.getElementById('adNext').addEventListener('click', function(){ loadPair((cur + 1) % PAIRS.length); });
 
     loadPair(0);
-  })();
+  };
+</script>
+
+<!-- Firebase Storage — Galería Antes/Después -->
+<script type="module">
+import { storage } from './js/firebase-config.js';
+import { ref, listAll, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
+
+async function loadSlider() {
+  try {
+    const folderRef = ref(storage, 'beforeafter');
+    const result    = await listAll(folderRef);
+
+    if (!result.items.length) return; // carpeta vacía
+
+    // Obtener todas las URLs en paralelo
+    const files = await Promise.all(
+      result.items.map(item =>
+        getDownloadURL(item).then(url => ({ name: item.name.toLowerCase(), url }))
+      )
+    );
+
+    // Separar en antes/después por nombre de archivo
+    const antes  = files.filter(f => f.name.includes('antes')).sort((a,b) => a.name.localeCompare(b.name));
+    const despues = files.filter(f => f.name.includes('despues') || f.name.includes('después')).sort((a,b) => a.name.localeCompare(b.name));
+
+    let pairs = [];
+
+    if (antes.length && despues.length) {
+      // Emparejar por posición (antes[0]↔despues[0], etc.)
+      const count = Math.min(antes.length, despues.length);
+      for (let i = 0; i < count; i++) pairs.push([antes[i].url, despues[i].url]);
+    } else {
+      // Sin convención de nombres: primera mitad = antes, segunda = después
+      const mid = Math.floor(files.length / 2);
+      for (let i = 0; i < mid; i++) pairs.push([files[i].url, files[mid + i]?.url]);
+      pairs = pairs.filter(p => p[0] && p[1]);
+    }
+
+    if (pairs.length && typeof window.initADSlider === 'function') {
+      window.initADSlider(pairs);
+    }
+  } catch (err) {
+    console.warn('Firebase Storage slider:', err.message);
+  }
+}
+
+loadSlider();
 </script>
 
 <!-- Firebase Testimonials Loader -->
