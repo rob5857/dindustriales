@@ -17,4 +17,3 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db  = getFirestore(app);
 export const TESTIMONIALS_COLLECTION = 'testimonials';
-export const FORM_URL = 'https://www.desarrollosindustrialespr.com/formulario-testimonio.html';
