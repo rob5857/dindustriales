@@ -487,7 +487,6 @@
             <i class="fas fa-chevron-right"></i>
           </div>
         </div>
-        <div class="ad-finger" id="adFinger" aria-hidden="true"><i class="fas fa-hand-pointer"></i></div>
         <div class="ad-hud-tl"></div><div class="ad-hud-tr"></div>
         <div class="ad-hud-bl"></div><div class="ad-hud-br"></div>
       </div>
@@ -514,8 +513,7 @@
 
     <div class="testi-slider-wrap" data-aos="fade-up" data-aos-delay="100">
       <div class="testi-track" id="testiTrack">
-
-        <!-- cards rendered by buildTestiCards() in main.js -->
+        <!-- cards rendered by buildTestiCardsFromFirestore() -->
       </div><!-- /.testi-track -->
 
       <!-- Controles -->
@@ -524,6 +522,13 @@
 
       <!-- Dots -->
       <div class="testi-dots" id="testiDots"></div>
+    </div>
+
+    <!-- CTA -->
+    <div style="text-align:center;margin-top:40px;" data-aos="fade-up" data-aos-delay="200">
+      <a href="formulario-testimonio.html" class="btn-primary" style="display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:linear-gradient(135deg,#ff6b35,#e63946);color:#fff;border-radius:10px;font-weight:700;text-decoration:none;font-size:0.95rem;">
+        <i class="fas fa-star"></i> <span data-i18n="testi_cta">Comparte tu experiencia</span>
+      </a>
     </div>
 
   </div>
@@ -747,11 +752,6 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<!-- Firebase (opcional para sincronizar la galería Antes/Después) -->
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
-<script src="js/firebase-config.js"></script>
-<script src="js/firebase-store.js"></script>
 <script>
   // ── EMAILJS INIT ── Reemplaza TU_PUBLIC_KEY con tu clave de EmailJS
   (function () { emailjs.init({ publicKey: 'qJaTG4K6yRXbxLT1p' }); })();
@@ -792,28 +792,11 @@
 
   // ── GALERÍA ANTES/DESPUÉS ───────────────────────────────────
   (function () {
-    var DEFAULT_PAIRS = [
+    var PAIRS = [
       ['images/HeadStart/antes_despues/antes3.jpeg', 'images/HeadStart/antes_despues/despues3.png'],
       ['images/HeadStart/antes_despues/antes1.png',  'images/HeadStart/antes_despues/despues1.jpeg'],
     ];
-    var storedPairs = [];
-    try {
-      var raw = localStorage.getItem('dindustriales-beforeafter');
-      if (raw) {
-        var parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) {
-          storedPairs = parsed
-            .filter(function (p) { return p && p.before && p.after; })
-            .map(function (p) { return [p.before, p.after]; });
-        }
-      }
-    } catch (e) { storedPairs = []; }
-    var PAIRS = storedPairs.length > 0 ? storedPairs : DEFAULT_PAIRS;
     var cur = 0, dragging = false;
-    var userHasDragged = false;
-    var autoTimer = null, demoRAF = null, sectionVisible = true;
-    var AUTO_MS = 7000;
-
     var comparison = document.getElementById('adComparison');
     var afterWrap  = document.getElementById('adAfterWrap');
     var dividerEl  = document.getElementById('adDivider');
@@ -822,53 +805,15 @@
     var curEl      = document.getElementById('adCurrent');
     var totalEl    = document.getElementById('adTotal');
     var thumbsEl   = document.getElementById('adThumbs');
-    var fingerEl   = document.getElementById('adFinger');
     if (!comparison) return;
+
+    totalEl.textContent = PAIRS.length;
 
     function setPos(pct) {
       pct = Math.max(3, Math.min(97, pct));
       afterWrap.style.clipPath  = 'inset(0 ' + (100 - pct) + '% 0 0)';
       dividerEl.style.left = pct + '%';
-      if (fingerEl) fingerEl.style.left = pct + '%';
     }
-
-    // Demo: mueve el divisor de lado a lado con easing mostrando el dedo
-    function stopDemo() {
-      if (demoRAF) { cancelAnimationFrame(demoRAF); demoRAF = null; }
-      if (fingerEl) fingerEl.classList.remove('visible');
-    }
-    function playDemo() {
-      stopDemo();
-      if (userHasDragged || !fingerEl) { setPos(50); return; }
-      fingerEl.classList.add('visible');
-      var start = performance.now();
-      var DURATION = 2600;
-      var KF = [{t:0,p:50},{t:0.28,p:78},{t:0.62,p:22},{t:1,p:50}];
-      function frame(now) {
-        if (!fingerEl.classList.contains('visible')) return;
-        var t = Math.min(1, (now - start) / DURATION);
-        var seg = 1;
-        for (var i = 1; i < KF.length; i++) { if (t <= KF[i].t) { seg = i; break; } }
-        var a = KF[seg - 1], b = KF[seg];
-        var local = (t - a.t) / (b.t - a.t);
-        var ease = local < 0.5 ? 4*local*local*local : 1 - Math.pow(-2*local + 2, 3) / 2;
-        setPos(a.p + (b.p - a.p) * ease);
-        if (t < 1) { demoRAF = requestAnimationFrame(frame); }
-        else { demoRAF = null; fingerEl.classList.remove('visible'); }
-      }
-      demoRAF = requestAnimationFrame(frame);
-    }
-
-    function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
-    function startAuto() {
-      stopAuto();
-      if (!sectionVisible || document.hidden || PAIRS.length < 2) return;
-      autoTimer = setInterval(function () {
-        if (dragging) return;
-        loadPair((cur + 1) % PAIRS.length);
-      }, AUTO_MS);
-    }
-    function resetAuto() { stopAuto(); startAuto(); }
 
     function loadPair(idx) {
       cur = idx;
@@ -880,89 +825,82 @@
         t.classList.toggle('active', i === idx);
       });
       var active = thumbsEl.querySelector('.ad-thumb.active');
-      if (active) {
-        var targetLeft = active.offsetLeft - (thumbsEl.clientWidth - active.clientWidth) / 2;
-        thumbsEl.scrollTo ? thumbsEl.scrollTo({ left: targetLeft, behavior: 'smooth' })
-                          : (thumbsEl.scrollLeft = targetLeft);
-      }
-      // Demo tras un breve retraso para que la imagen cargue suave
-      setTimeout(playDemo, 350);
-      resetAuto();
+      if (active) active.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'smooth' });
     }
 
-    function buildThumbs() {
-      thumbsEl.innerHTML = '';
-      PAIRS.forEach(function(pair, i) {
-        var d = document.createElement('div');
-        d.className = 'ad-thumb' + (i === 0 ? ' active' : '');
-        d.innerHTML = '<img src="' + pair[0] + '" alt="Par ' + (i+1) + '" loading="lazy">';
-        d.addEventListener('click', function() { loadPair(i); });
-        thumbsEl.appendChild(d);
-      });
-      totalEl.textContent = PAIRS.length;
-    }
-
-    function setPairs(newPairs) {
-      if (!Array.isArray(newPairs) || newPairs.length === 0) return;
-      PAIRS = newPairs;
-      cur = 0;
-      buildThumbs();
-      loadPair(0);
-    }
-
-    buildThumbs();
+    PAIRS.forEach(function(pair, i) {
+      var d = document.createElement('div');
+      d.className = 'ad-thumb' + (i === 0 ? ' active' : '');
+      d.innerHTML = '<img src="' + pair[0] + '" alt="Par ' + (i+1) + '" loading="lazy">';
+      d.addEventListener('click', function() { loadPair(i); });
+      thumbsEl.appendChild(d);
+    });
 
     function getPct(clientX) {
       var r = comparison.getBoundingClientRect();
       return ((clientX - r.left) / r.width) * 100;
     }
-    function userDragStart(x) {
-      dragging = true;
-      userHasDragged = true;
-      stopDemo();
-      stopAuto();
-      setPos(getPct(x));
-    }
-    comparison.addEventListener('mousedown',  function(e){ userDragStart(e.clientX); });
+    comparison.addEventListener('mousedown',  function(e){ dragging=true; setPos(getPct(e.clientX)); });
     window.addEventListener('mousemove',  function(e){ if(dragging) setPos(getPct(e.clientX)); });
-    window.addEventListener('mouseup',    function(){ if (dragging) { dragging=false; resetAuto(); } });
-    comparison.addEventListener('touchstart', function(e){ userDragStart(e.touches[0].clientX); }, {passive:true});
+    window.addEventListener('mouseup',    function(){ dragging=false; });
+    comparison.addEventListener('touchstart', function(e){ dragging=true; setPos(getPct(e.touches[0].clientX)); }, {passive:true});
     window.addEventListener('touchmove',  function(e){ if(dragging) setPos(getPct(e.touches[0].clientX)); }, {passive:true});
-    window.addEventListener('touchend',   function(){ if (dragging) { dragging=false; resetAuto(); } });
+    window.addEventListener('touchend',   function(){ dragging=false; });
     document.getElementById('adPrev').addEventListener('click', function(){ loadPair((cur - 1 + PAIRS.length) % PAIRS.length); });
     document.getElementById('adNext').addEventListener('click', function(){ loadPair((cur + 1) % PAIRS.length); });
 
-    // Pausa auto-rotación cuando la sección no está visible o la pestaña está en 2º plano
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        sectionVisible = entries[0].isIntersecting;
-        if (sectionVisible) startAuto(); else stopAuto();
-      }, { threshold: 0.25 }).observe(comparison);
-    }
-    document.addEventListener('visibilitychange', function () {
-      if (document.hidden) stopAuto(); else if (sectionVisible) startAuto();
-    });
-    // Pausa en hover (desktop) — el usuario está mirando/interactuando
-    comparison.addEventListener('mouseenter', stopAuto);
-    comparison.addEventListener('mouseleave', function () { if (!dragging) startAuto(); });
-
     loadPair(0);
-
-    // Si Firebase está configurado, intenta obtener los pares más recientes
-    // y actualiza la galería en cuanto lleguen (sin recargar la página).
-    if (window.fbStore && window.fbStore.isConfigured()) {
-      window.fbStore.load('beforeafter').then(function (remote) {
-        if (!Array.isArray(remote)) return;
-        var cloudPairs = remote
-          .filter(function (p) { return p && p.before && p.after; })
-          .map(function (p) { return [p.before, p.after]; });
-        if (cloudPairs.length > 0) {
-          setPairs(cloudPairs);
-          try { localStorage.setItem('dindustriales-beforeafter', JSON.stringify(remote)); } catch (e) {}
-        }
-      }).catch(function (err) { console.error('[galeria] Firebase load error:', err); });
-    }
   })();
+</script>
+
+<!-- Firebase Testimonials Loader -->
+<script type="module">
+import { db, TESTIMONIALS_COLLECTION } from './js/firebase-config.js';
+import { collection, query, where, orderBy, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+// Inject Schema.org Review structured data
+function injectReviewSchema(items) {
+  const old = document.getElementById('reviewSchema');
+  if (old) old.remove();
+  if (!items.length) return;
+  const reviews = items.map(t => ({
+    "@type": "Review",
+    "author": { "@type": "Person", "name": t.publicName || t.name || "Cliente" },
+    "reviewBody": t.testimonial,
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": String(Math.round(((t.rating_quality||5)+(t.rating_communication||5)+(t.rating_speed||5)+(t.rating_result||5))/4)),
+      "bestRating": "5"
+    },
+    "datePublished": t.createdAt?.toDate ? t.createdAt.toDate().toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
+  }));
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Desarrollos Industriales LLC",
+    "review": reviews
+  };
+  const s = document.createElement('script');
+  s.type = 'application/ld+json';
+  s.id = 'reviewSchema';
+  s.textContent = JSON.stringify(schema);
+  document.head.appendChild(s);
+}
+
+const q = query(
+  collection(db, TESTIMONIALS_COLLECTION),
+  where('status', '==', 'approved'),
+  where('visible', '==', true),
+  orderBy('createdAt', 'desc')
+);
+
+onSnapshot(q, snap => {
+  const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  if (typeof window.buildTestiCardsFromFirestore === 'function') {
+    window.buildTestiCardsFromFirestore(items);
+  }
+  injectReviewSchema(items);
+});
 </script>
 </body>
 </html>
