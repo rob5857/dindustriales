@@ -125,6 +125,7 @@ const TRANSLATIONS = {
     testi_label: 'Lo que dicen nuestros clientes',
     testi_h2: 'Historias <span class="gradient-text">Reales</span>',
     testi_verified_title: 'Cliente verificado',
+    testi_cta: 'Comparte tu experiencia',
     testi_data: [
       { quote: 'El incendio destruyó parte de mi cocina y sala. No sabía por dónde empezar. Llamé a D Industriales y en menos de 24 horas ya tenían todo documentado para la aseguradora. En semanas mi casa estaba restaurada. ¡Increíble servicio!', date: 'Marzo 2025' },
       { quote: 'La aseguradora quería pagarme mucho menos de lo que necesitaba. D Industriales me resolvio, gestionó todo el proceso y logré recibir lo que realmente me correspondía. Sin ellos no lo hubiera conseguido.', date: 'Enero 2025' },
@@ -236,6 +237,7 @@ const TRANSLATIONS = {
     testi_label: 'What our clients say',
     testi_h2: 'Real <span class="gradient-text">Stories</span>',
     testi_verified_title: 'Verified client',
+    testi_cta: 'Share your experience',
     testi_data: [
       { quote: 'The fire destroyed part of my kitchen and living room. I didn\'t know where to start. I called D Industriales and in less than 24 hours they had everything documented for the insurer. In weeks my house was restored. Incredible service!', date: 'March 2025' },
       { quote: 'The insurance company wanted to pay me much less than I needed. D Industriales assist me, managed the entire process, and I received what I truly deserved. Without them I wouldn\'t have gotten it.', date: 'January 2025' },
@@ -255,6 +257,58 @@ const TESTI_STATIC = [
   { name: 'Ana Torres',     location: 'Arecibo, PR',  avatar: 'https://randomuser.me/api/portraits/women/12.jpg' },
 ];
 let _testiTimer = null;
+let _testiFromFirebase = false; // true once Firestore cards are loaded
+
+// ── BUILD TESTIMONIAL CARDS FROM FIRESTORE ────────────────────
+// Called by the Firebase module script in index.html
+window.buildTestiCardsFromFirestore = function(items) {
+  const track   = document.getElementById('testiTrack');
+  const section = document.getElementById('testimonios');
+  if (!track) return;
+  if (!items || !items.length) { if (section) section.style.display = 'none'; return; }
+
+  clearInterval(_testiTimer);
+  track.style.transform = 'translateX(0)';
+
+  function escH(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function starsHTML(n){ return '<i class="fas fa-star"></i>'.repeat(Math.min(5,Math.max(0,Math.round(n||0)))); }
+  function avgRating(t){ const v=[t.rating_quality,t.rating_communication,t.rating_speed,t.rating_result].filter(Boolean); return v.length?(v.reduce((a,b)=>a+b,0)/v.length):5; }
+
+  const lang = localStorage.getItem('dindustriales-lang') || 'en';
+  const t    = TRANSLATIONS[lang] || TRANSLATIONS.es;
+  const verifiedTitle = t.testi_verified_title || 'Cliente verificado';
+
+  track.innerHTML = items.map(item => {
+    const avg  = avgRating(item);
+    const dateStr = item.createdAt?.toDate
+      ? item.createdAt.toDate().toLocaleDateString('es-PR', { month: 'long', year: 'numeric' })
+      : '';
+    const initials = String(item.publicName || item.name || '?').split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+    return `
+      <article class="testi-card">
+        <div class="testi-top">
+          <div class="testi-avatar-wrap">
+            <div class="testi-avatar-initials" aria-label="${escH(item.publicName||item.name)}">${initials}</div>
+            <span class="testi-verified" title="${verifiedTitle}"><i class="fas fa-check-circle"></i></span>
+          </div>
+          <div class="testi-meta">
+            <strong class="testi-name">${escH(item.publicName || item.name)}</strong>
+            <span class="testi-location"><i class="fas fa-map-marker-alt"></i> ${escH(item.town)}, PR</span>
+            <div class="testi-stars">${starsHTML(avg)}</div>
+          </div>
+        </div>
+        <blockquote class="testi-quote">
+          <i class="fas fa-quote-left testi-icon-quote"></i>
+          ${escH(item.testimonial)}
+        </blockquote>
+        <span class="testi-date">${escH(item.service)}${dateStr ? ' · ' + dateStr : ''}</span>
+      </article>`;
+  }).join('');
+
+  _testiFromFirebase = true;
+  if (section) section.style.display = '';
+  initTestiSlider();
+};
 
 function applyLanguage(lang) {
   const t = TRANSLATIONS[lang];
@@ -291,8 +345,8 @@ function applyLanguage(lang) {
   // Save preference (only marks language, NOT that user explicitly chose via modal)
   localStorage.setItem('dindustriales-lang', lang);
 
-  // Rebuild testimonials in the chosen language
-  buildTestiCards(lang);
+  // Rebuild testimonials in the chosen language (only if Firebase hasn't taken over)
+  if (!_testiFromFirebase) buildTestiCards(lang);
 }
 
 function applyLanguageAndSave(lang) {

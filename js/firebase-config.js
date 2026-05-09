@@ -1,53 +1,20 @@
-/* ===== FIREBASE CONFIG ======================================================
- * Configuración de Firebase para sincronizar la galería Antes/Después
- * entre todos los visitantes del sitio. Esta capa es OPCIONAL — si dejas los
- * valores por defecto (YOUR_*), el sitio sigue funcionando con localStorage.
- *
- * CÓMO CONFIGURARLO:
- *   1) Crea un proyecto en https://console.firebase.google.com/
- *   2) Activa "Realtime Database" (modo test o con reglas personalizadas).
- *   3) Activa "Storage" (para alojar las imágenes).
- *   4) Activa "Authentication" → método "Correo electrónico/Contraseña"
- *      y crea un usuario admin (ej: admin@dindustriales.com).
- *   5) En Configuración del proyecto → Tus apps (web), copia los valores
- *      del objeto firebaseConfig y pégalos abajo (incluye storageBucket).
- *   6) Pon abajo el email del usuario admin que creaste en el paso 4.
- *   7) Sube los cambios al hosting. La contraseña que usas para entrar al
- *      panel admin ahora será la contraseña del usuario de Firebase.
- *
- * REGLAS RECOMENDADAS para Realtime Database:
- *   {
- *     "rules": {
- *       ".read": true,
- *       "beforeafter": { ".write": "auth != null" },
- *       "gallery":     { ".write": "auth != null" }
- *     }
- *   }
- *
- * REGLAS RECOMENDADAS para Storage (las puedes ver también en el panel admin):
- *   rules_version = '2';
- *   service firebase.storage {
- *     match /b/{bucket}/o {
- *       match /{allPaths=**} {
- *         allow read;
- *         allow write: if request.auth != null
- *                      && request.resource.size < 10 * 1024 * 1024
- *                      && request.resource.contentType.matches('image/.*');
- *       }
- *     }
- *   }
- * ========================================================================== */
+// ===== FIREBASE CONFIGURATION — Desarrollos Industriales LLC =====
 
-window.FIREBASE_CONFIG = {
-  apiKey: "AIzaSyAx01yX-dHxqSr53VJLodjdI09Ac2tOB9c",
-  authDomain: "desarrollosindustrialesllc.firebaseapp.com",
-  databaseURL: "https://desarrollosindustrialesllc-default-rtdb.firebaseio.com",
-  projectId: "desarrollosindustrialesllc",
-  storageBucket: "desarrollosindustrialesllc.firebasestorage.app",
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyAx01yX-dHxqSr53VJLodjdI09Ac2tOB9c",
+  authDomain:        "desarrollosindustrialesllc.firebaseapp.com",
+  databaseURL:       "https://desarrollosindustrialesllc-default-rtdb.firebaseio.com",
+  projectId:         "desarrollosindustrialesllc",
+  storageBucket:     "desarrollosindustrialesllc.firebasestorage.app",
   messagingSenderId: "718687155766",
-  appId: "1:718687155766:web:ed8a4bd7adda9f4168ca97",
-  measurementId: "G-LKE82HQT13"
+  appId:             "1:718687155766:web:ed8a4bd7adda9f4168ca97",
+  measurementId:     "G-LKE82HQT13"
 };
 
-// Email del usuario admin creado en Firebase Authentication.
-window.FIREBASE_ADMIN_EMAIL = "admin@dindustriales.com";
+const app = initializeApp(firebaseConfig);
+export const db  = getFirestore(app);
+export const TESTIMONIALS_COLLECTION = 'testimonials';
+export const FORM_URL = 'https://www.desarrollosindustrialespr.com/formulario-testimonio.html';
