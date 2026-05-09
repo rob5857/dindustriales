@@ -933,19 +933,24 @@ function injectReviewSchema(items) {
   document.head.appendChild(s);
 }
 
+// Single where + orderBy avoids the need for a Firestore composite index.
+// visible === false is filtered client-side.
 const q = query(
   collection(db, TESTIMONIALS_COLLECTION),
   where('status', '==', 'approved'),
-  where('visible', '==', true),
   orderBy('createdAt', 'desc')
 );
 
 onSnapshot(q, snap => {
-  const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  const items = snap.docs
+    .map(d => ({ id: d.id, ...d.data() }))
+    .filter(t => t.visible !== false);   // keep visible:true and visible:undefined
   if (typeof window.buildTestiCardsFromFirestore === 'function') {
     window.buildTestiCardsFromFirestore(items);
   }
   injectReviewSchema(items);
+}, err => {
+  console.error('Firestore testimonials error:', err.message);
 });
 </script>
 </body>
