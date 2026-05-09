@@ -265,12 +265,46 @@
     .edit-inline input { width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; color: var(--text); font-family: 'Inter',sans-serif; font-size: 0.88rem; outline: none; margin-bottom: 10px; }
     .edit-inline textarea:focus, .edit-inline input:focus { border-color: var(--orange); }
 
+    /* HAMBURGER BUTTON */
+    .hamburger-btn {
+      display: none; flex-direction: column; justify-content: center; align-items: center;
+      gap: 5px; width: 40px; height: 40px; border: 1px solid var(--border);
+      border-radius: 8px; background: var(--bg2); cursor: pointer; padding: 0;
+    }
+    .hamburger-btn span {
+      display: block; width: 20px; height: 2px; background: var(--text);
+      border-radius: 2px; transition: all 0.3s;
+    }
+    .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+    .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* SIDEBAR OVERLAY */
+    .sidebar-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      z-index: 199; backdrop-filter: blur(2px);
+    }
+    .sidebar-overlay.open { display: block; }
+
     @media (max-width: 900px) {
+      .hamburger-btn { display: flex; }
       .admin-body { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
+      .sidebar {
+        position: fixed; top: 64px; left: 0; bottom: 0; width: 270px;
+        z-index: 200; transform: translateX(-100%); transition: transform 0.3s ease;
+        overflow-y: auto;
+      }
+      .sidebar.open { transform: translateX(0); }
       .stats-row, .testi-stats-row { grid-template-columns: 1fr 1fr; }
       .gallery-mgmt-grid { grid-template-columns: 1fr 1fr; }
       .settings-grid, .form-grid { grid-template-columns: 1fr; }
+      .main-content { padding: 20px 16px; }
+    }
+    @media (max-width: 500px) {
+      .stats-row, .testi-stats-row { grid-template-columns: 1fr; }
+      .gallery-mgmt-grid { grid-template-columns: 1fr; }
+      .admin-header { padding: 0 14px; }
+      .back-site span { display: none; }
     }
   </style>
 </head>
@@ -294,16 +328,24 @@
 <!-- DASHBOARD -->
 <div id="dashboard">
   <header class="admin-header">
-    <img src="../logo3.png" alt="D Industriales" class="admin-logo" />
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+      <img src="../logo3.png" alt="D Industriales" class="admin-logo" />
+    </div>
     <div class="admin-header-right">
       <button class="admin-theme-btn" onclick="toggleAdminTheme()" id="adminThemeBtn"><i class="fas fa-sun"></i></button>
-      <a href="../index.html" class="back-site"><i class="fas fa-external-link-alt"></i> Ver Sitio</a>
+      <a href="../index.html" class="back-site"><i class="fas fa-external-link-alt"></i> <span>Ver Sitio</span></a>
       <button class="btn-logout" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Salir</button>
     </div>
   </header>
 
+  <!-- Overlay that closes sidebar when tapping outside -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
   <div class="admin-body">
-    <aside class="sidebar">
+    <aside class="sidebar" id="adminSidebar">
       <div class="sidebar-label">Principal</div>
       <div class="sidebar-item active" onclick="showPage('overview', this)"><i class="fas fa-home"></i> Dashboard</div>
       <div class="sidebar-item" onclick="showPage('beforeafter', this)"><i class="fas fa-images"></i> Fotos Antes/Después</div>
@@ -562,6 +604,27 @@
 </div>
 
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Guardado</span></div>
+
+<script>
+// ── SIDEBAR HAMBURGER ─────────────────────────────────────────
+function toggleSidebar() {
+  const sidebar  = document.getElementById('adminSidebar');
+  const overlay  = document.getElementById('sidebarOverlay');
+  const btn      = document.getElementById('hamburgerBtn');
+  const isOpen   = sidebar.classList.contains('open');
+  sidebar.classList.toggle('open', !isOpen);
+  overlay.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+}
+function closeSidebar() {
+  document.getElementById('adminSidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+  document.getElementById('hamburgerBtn').classList.remove('open');
+}
+// Close sidebar on Escape key
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
+</script>
+
 <script src="admin.js"></script>
 <script type="module">
 import { db, TESTIMONIALS_COLLECTION } from '../js/firebase-config.js';
@@ -728,11 +791,12 @@ window._tSaveEdit = async (id) => {
   if (window.showToast) showToast('✅ Testimonio actualizado');
 };
 
-// Hook into showPage so testimonials load when tab is opened
+// Hook into showPage: load gallery + close sidebar on mobile
 const origShowPage = window.showPage;
 window.showPage = function(name, el) {
   origShowPage(name, el);
   if (name === 'beforeafter') window.baLoadGallery();
+  if (typeof closeSidebar === 'function') closeSidebar();
 };
 </script>
 
