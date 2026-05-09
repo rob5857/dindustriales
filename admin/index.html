@@ -410,46 +410,80 @@
       <!-- ANTES/DESPUÉS FIREBASE -->
       <div class="page" id="page-beforeafter">
         <h1 class="page-title">Fotos Antes/Después</h1>
-        <p class="page-subtitle">Sube fotos directamente a Firebase Storage — aparecen automáticamente en el slider del sitio</p>
+        <p class="page-subtitle">Sube un par de fotos y aparecen automáticamente en el slider del sitio web</p>
 
-        <!-- Upload card -->
-        <div class="upload-section" style="margin-bottom:24px;">
-          <h3><i class="fas fa-cloud-upload-alt"></i> Subir Nueva Foto</h3>
-          <div class="drop-zone" id="baDropZone" onclick="document.getElementById('baFileInput').click()"
-               ondragover="event.preventDefault();this.classList.add('dragover')"
-               ondrop="event.preventDefault();this.classList.remove('dragover');window.baHandleDrop(event)"
-               ondragleave="this.classList.remove('dragover')">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <p>Arrastra la foto aquí o <span>haz clic para seleccionar</span></p>
-            <p style="font-size:0.78rem;color:var(--text2);margin-top:6px;">JPG, PNG, WEBP – Máx 10MB</p>
-          </div>
-          <input type="file" id="baFileInput" accept="image/*" style="display:none;" onchange="window.baHandleFile(event)" />
-
-          <div id="baPreviewWrap" style="display:none;margin-top:20px;">
-            <img id="baPreviewImg" style="max-height:200px;border-radius:10px;border:2px solid var(--border);display:block;margin-bottom:16px;" />
-            <div class="form-grid">
-              <div class="form-field">
-                <label>Tipo de foto <span style="color:var(--orange)">*</span></label>
-                <select id="baPhase">
-                  <option value="antes">📷 ANTES — Estado inicial del daño</option>
-                  <option value="despues">✅ DESPUÉS — Resultado final</option>
-                </select>
-              </div>
-              <div class="form-field">
-                <label>Número del par <span style="color:var(--orange)">*</span></label>
-                <input type="number" id="baPairNum" min="1" max="99" value="1" placeholder="Ej: 1" />
-                <span style="font-size:0.75rem;color:var(--text2);margin-top:4px;">antes<b>1</b>.jpg se empareja con despues<b>1</b>.jpg</span>
-              </div>
+        <!-- Pair selector -->
+        <div class="upload-section" style="margin-bottom:20px;">
+          <h3><i class="fas fa-layer-group"></i> Número de Par</h3>
+          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <button onclick="window.baPairDec()" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--bg2);color:var(--text1);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">−</button>
+              <span id="baPairDisplay" style="font-size:2rem;font-weight:800;color:var(--orange);min-width:48px;text-align:center;">1</span>
+              <button onclick="window.baPairInc()" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--bg2);color:var(--text1);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">+</button>
+              <input type="hidden" id="baPairNum" value="1" />
             </div>
-            <button class="btn-submit" id="baUploadBtn" onclick="window.baUpload()" style="margin-top:16px;">
-              <i class="fas fa-cloud-upload-alt"></i> Subir a Firebase Storage
-            </button>
+            <p style="color:var(--text2);font-size:0.82rem;margin:0;"><i class="fas fa-info-circle"></i> &nbsp;<b>antes1</b>.jpg se empareja automáticamente con <b>despues1</b>.jpg</p>
           </div>
         </div>
 
-        <!-- Gallery from Firebase -->
+        <!-- Two-column uploader -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
+
+          <!-- ANTES -->
+          <div class="upload-section" style="border-top:4px solid #e67e22;">
+            <h3 style="color:#e67e22;"><i class="fas fa-camera"></i> ANTES</h3>
+            <p style="color:var(--text2);font-size:0.82rem;margin:-8px 0 12px;">Estado inicial / el daño</p>
+            <div class="drop-zone" id="baDropAntes"
+                 onclick="document.getElementById('baFileAntes').click()"
+                 ondragover="event.preventDefault();this.classList.add('dragover')"
+                 ondrop="event.preventDefault();this.classList.remove('dragover');window.baHandleDrop(event,'antes')"
+                 ondragleave="this.classList.remove('dragover')"
+                 style="border-color:#e67e22;">
+              <i class="fas fa-camera" style="color:#e67e22;"></i>
+              <p>Arrastra o <span>selecciona</span> la foto <b>ANTES</b></p>
+            </div>
+            <input type="file" id="baFileAntes" accept="image/*" style="display:none;" onchange="window.baHandleFile(event,'antes')" />
+            <div id="baPreviewAntes" style="display:none;margin-top:12px;text-align:center;">
+              <img id="baImgAntes" style="max-height:180px;border-radius:8px;border:2px solid #e67e22;max-width:100%;" />
+              <p id="baNameAntes" style="font-size:0.75rem;color:var(--text2);margin-top:6px;word-break:break-all;"></p>
+              <button onclick="window.baClear('antes')" style="margin-top:4px;background:none;border:none;color:var(--text2);cursor:pointer;font-size:0.75rem;"><i class="fas fa-times"></i> Quitar</button>
+            </div>
+          </div>
+
+          <!-- DESPUÉS -->
+          <div class="upload-section" style="border-top:4px solid #27ae60;">
+            <h3 style="color:#27ae60;"><i class="fas fa-check-circle"></i> DESPUÉS</h3>
+            <p style="color:var(--text2);font-size:0.82rem;margin:-8px 0 12px;">Resultado final / trabajo terminado</p>
+            <div class="drop-zone" id="baDropDespues"
+                 onclick="document.getElementById('baFileDespues').click()"
+                 ondragover="event.preventDefault();this.classList.add('dragover')"
+                 ondrop="event.preventDefault();this.classList.remove('dragover');window.baHandleDrop(event,'despues')"
+                 ondragleave="this.classList.remove('dragover')"
+                 style="border-color:#27ae60;">
+              <i class="fas fa-check-circle" style="color:#27ae60;"></i>
+              <p>Arrastra o <span>selecciona</span> la foto <b>DESPUÉS</b></p>
+            </div>
+            <input type="file" id="baFileDespues" accept="image/*" style="display:none;" onchange="window.baHandleFile(event,'despues')" />
+            <div id="baPreviewDespues" style="display:none;margin-top:12px;text-align:center;">
+              <img id="baImgDespues" style="max-height:180px;border-radius:8px;border:2px solid #27ae60;max-width:100%;" />
+              <p id="baNameDespues" style="font-size:0.75rem;color:var(--text2);margin-top:6px;word-break:break-all;"></p>
+              <button onclick="window.baClear('despues')" style="margin-top:4px;background:none;border:none;color:var(--text2);cursor:pointer;font-size:0.75rem;"><i class="fas fa-times"></i> Quitar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload button -->
+        <div style="text-align:center;margin-bottom:32px;">
+          <button class="btn-submit" id="baUploadBtn" onclick="window.baUpload()" style="min-width:260px;">
+            <i class="fas fa-cloud-upload-alt"></i> Subir Par a Firebase
+          </button>
+          <p id="baUploadStatus" style="margin-top:10px;font-size:0.82rem;color:var(--text2);min-height:20px;"></p>
+        </div>
+
+        <!-- Gallery pairs -->
         <div class="upload-section">
-          <h3><i class="fas fa-images"></i> Fotos en Firebase Storage
+          <h3 style="display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-images"></i> Pares en Firebase Storage
             <button onclick="window.baLoadGallery()" style="margin-left:auto;background:none;border:1px solid var(--border);border-radius:6px;padding:5px 12px;color:var(--text2);cursor:pointer;font-size:0.78rem;"><i class="fas fa-sync-alt"></i> Recargar</button>
           </h3>
           <div id="baGallery"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p style="margin-top:8px;">Cargando...</p></div></div>
@@ -710,73 +744,96 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 
 const FOLDER = 'beforeafter';
-let _baFile = null;
+const _files = { antes: null, despues: null };
+
+// ── PAIR NUMBER CONTROLS ──────────────────────────────────────
+let _pairNum = 1;
+window.baPairInc = () => { _pairNum = Math.min(99, _pairNum + 1); document.getElementById('baPairNum').value = _pairNum; document.getElementById('baPairDisplay').textContent = _pairNum; };
+window.baPairDec = () => { _pairNum = Math.max(1, _pairNum - 1); document.getElementById('baPairNum').value = _pairNum; document.getElementById('baPairDisplay').textContent = _pairNum; };
 
 // ── DROP / FILE SELECT ────────────────────────────────────────
-window.baHandleDrop = (e) => {
+window.baHandleDrop = (e, phase) => {
   const file = e.dataTransfer.files[0];
-  if (file && file.type.startsWith('image/')) previewFile(file);
+  if (file && file.type.startsWith('image/')) previewFile(file, phase);
 };
-window.baHandleFile = (e) => {
+window.baHandleFile = (e, phase) => {
   const file = e.target.files[0];
-  if (file) previewFile(file);
+  if (file) previewFile(file, phase);
+};
+window.baClear = (phase) => {
+  _files[phase] = null;
+  document.getElementById(`baPreview${phase.charAt(0).toUpperCase()+phase.slice(1)}`).style.display = 'none';
+  document.getElementById(`baFile${phase.charAt(0).toUpperCase()+phase.slice(1)}`).value = '';
+  setStatus('');
 };
 
-function previewFile(file) {
+function previewFile(file, phase) {
   if (file.size > 10 * 1024 * 1024) { showToast('Imagen demasiado grande. Máx 10MB.', 'error'); return; }
-  _baFile = file;
+  _files[phase] = file;
+  const id = phase.charAt(0).toUpperCase() + phase.slice(1);
   const reader = new FileReader();
-  reader.onload = e => {
-    document.getElementById('baPreviewImg').src = e.target.result;
-    document.getElementById('baPreviewWrap').style.display = 'block';
+  reader.onload = ev => {
+    document.getElementById(`baImg${id}`).src = ev.target.result;
+    document.getElementById(`baName${id}`).textContent = file.name;
+    document.getElementById(`baPreview${id}`).style.display = 'block';
   };
   reader.readAsDataURL(file);
+  setStatus('');
 }
+
+function setStatus(msg) { document.getElementById('baUploadStatus').textContent = msg; }
 
 // ── UPLOAD TO FIREBASE STORAGE ────────────────────────────────
 window.baUpload = async () => {
-  if (!_baFile) { showToast('Selecciona una imagen', 'error'); return; }
-  const phase   = document.getElementById('baPhase').value;
   const pairNum = document.getElementById('baPairNum').value;
-  if (!pairNum) { showToast('Indica el número del par', 'error'); return; }
+  if (!_files.antes && !_files.despues) { showToast('Selecciona al menos una foto', 'error'); return; }
 
-  const ext      = _baFile.name.split('.').pop().toLowerCase();
-  const fileName = `${phase}${pairNum}.${ext}`;
-  const btn      = document.getElementById('baUploadBtn');
-
+  const btn = document.getElementById('baUploadBtn');
   btn.disabled = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
+  setStatus('');
 
-  try {
-    const storageRef = ref(storage, `${FOLDER}/${fileName}`);
-    await uploadBytes(storageRef, _baFile);
-    showToast(`✅ ${fileName} subido correctamente`);
-    // Reset form
-    _baFile = null;
-    document.getElementById('baPreviewWrap').style.display = 'none';
-    document.getElementById('baFileInput').value = '';
-    window.baLoadGallery();
-  } catch (err) {
-    console.error(err);
-    showToast('Error al subir: ' + err.message, 'error');
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir a Firebase Storage';
+  const uploads = [];
+  if (_files.antes)   uploads.push({ file: _files.antes,   phase: 'antes' });
+  if (_files.despues) uploads.push({ file: _files.despues, phase: 'despues' });
+
+  const results = [];
+  for (const { file, phase } of uploads) {
+    const ext      = file.name.split('.').pop().toLowerCase();
+    const fileName = `${phase}${pairNum}.${ext}`;
+    setStatus(`Subiendo ${fileName}...`);
+    try {
+      await uploadBytes(ref(storage, `${FOLDER}/${fileName}`), file);
+      results.push(`✅ ${fileName}`);
+    } catch (err) {
+      results.push(`❌ ${fileName}: ${err.message}`);
+    }
   }
+
+  // Reset
+  _files.antes = null; _files.despues = null;
+  ['Antes','Despues'].forEach(id => {
+    document.getElementById(`baPreview${id}`).style.display = 'none';
+    document.getElementById(`baFile${id}`).value = '';
+  });
+
+  showToast(results.join(' · '));
+  setStatus(results.join(' | '));
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Par a Firebase';
+  window.baLoadGallery();
 };
 
-// ── LOAD GALLERY FROM FIREBASE STORAGE ───────────────────────
+// ── LOAD GALLERY AS PAIRS ─────────────────────────────────────
 window.baLoadGallery = async () => {
   const wrap = document.getElementById('baGallery');
   if (!wrap) return;
   wrap.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p style="margin-top:8px;">Cargando...</p></div>';
 
   try {
-    const folderRef = ref(storage, FOLDER);
-    const result    = await listAll(folderRef);
-
+    const result = await listAll(ref(storage, FOLDER));
     if (!result.items.length) {
-      wrap.innerHTML = '<div class="empty-state"><i class="fas fa-images"></i><p style="margin-top:12px;">No hay fotos en Firebase Storage todavía.</p></div>';
+      wrap.innerHTML = '<div class="empty-state"><i class="fas fa-images"></i><p style="margin-top:12px;">No hay fotos todavía. ¡Sube el primer par!</p></div>';
       return;
     }
 
@@ -784,35 +841,39 @@ window.baLoadGallery = async () => {
       result.items.map(item => getDownloadURL(item).then(url => ({ name: item.name, url, path: item.fullPath })))
     );
 
-    // Separar en antes/después y ordenar
-    const antes   = files.filter(f => f.name.toLowerCase().includes('antes')).sort((a,b) => a.name.localeCompare(b.name));
-    const despues = files.filter(f => f.name.toLowerCase().includes('despues')).sort((a,b) => a.name.localeCompare(b.name));
-    const otros   = files.filter(f => !f.name.toLowerCase().includes('antes') && !f.name.toLowerCase().includes('despues'));
-    const sorted  = [...antes, ...despues, ...otros];
+    // Build pair map  { '1': { antes: {...}, despues: {...} }, ... }
+    const pairs = {};
+    const standalone = [];
+    files.forEach(f => {
+      const m = f.name.match(/^(antes|despues)(\d+)\./i);
+      if (m) {
+        const num = m[2];
+        if (!pairs[num]) pairs[num] = {};
+        pairs[num][m[1].toLowerCase()] = f;
+      } else {
+        standalone.push(f);
+      }
+    });
 
-    wrap.innerHTML = `<div class="gallery-mgmt-grid">${sorted.map(f => `
-      <div class="gallery-mgmt-card">
-        <span class="gallery-badge-sm">${f.name.toLowerCase().includes('antes') ? '📷 ANTES' : f.name.toLowerCase().includes('despues') ? '✅ DESPUÉS' : '📁'}</span>
-        <img src="${f.url}" alt="${f.name}" loading="lazy" />
-        <div class="gallery-mgmt-info">
-          <h4 style="word-break:break-all;">${f.name}</h4>
-          <div class="gallery-mgmt-actions">
-            <button class="btn-del" onclick="window.baDelete('${f.path}','${f.name}')">
-              <i class="fas fa-trash"></i> Eliminar
-            </button>
-          </div>
-        </div>
-      </div>`).join('')}
-    </div>`;
+    const pairNums = Object.keys(pairs).sort((a,b) => Number(a)-Number(b));
+
+    const pairHTML = pairNums.map(num => {
+      const p = pairs[num];
+      const antesCard  = p.antes   ? `<div style="flex:1;text-align:center;"><span style="display:inline-block;background:#e67e2222;color:#e67e22;border-radius:4px;font-size:0.7rem;font-weight:700;padding:2px 8px;margin-bottom:6px;">📷 ANTES</span><br><img src="${p.antes.url}" loading="lazy" style="max-height:140px;max-width:100%;border-radius:8px;border:2px solid #e67e22;"/><br><span style="font-size:0.7rem;color:var(--text2);">${p.antes.name}</span><br><button class="btn-del" style="margin-top:6px;" onclick="window.baDelete('${p.antes.path}','${p.antes.name}')"><i class="fas fa-trash"></i></button></div>` : `<div style="flex:1;text-align:center;border:2px dashed #e67e2266;border-radius:8px;padding:20px;color:#e67e2299;font-size:0.8rem;">📷 ANTES<br><small>sin foto</small></div>`;
+      const despuesCard = p.despues ? `<div style="flex:1;text-align:center;"><span style="display:inline-block;background:#27ae6022;color:#27ae60;border-radius:4px;font-size:0.7rem;font-weight:700;padding:2px 8px;margin-bottom:6px;">✅ DESPUÉS</span><br><img src="${p.despues.url}" loading="lazy" style="max-height:140px;max-width:100%;border-radius:8px;border:2px solid #27ae60;"/><br><span style="font-size:0.7rem;color:var(--text2);">${p.despues.name}</span><br><button class="btn-del" style="margin-top:6px;" onclick="window.baDelete('${p.despues.path}','${p.despues.name}')"><i class="fas fa-trash"></i></button></div>` : `<div style="flex:1;text-align:center;border:2px dashed #27ae6066;border-radius:8px;padding:20px;color:#27ae6099;font-size:0.8rem;">✅ DESPUÉS<br><small>sin foto</small></div>`;
+      return `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px;"><div style="font-weight:700;color:var(--text1);margin-bottom:12px;font-size:0.9rem;"><i class="fas fa-layer-group" style="color:var(--orange);margin-right:6px;"></i>Par #${num}</div><div style="display:flex;gap:16px;flex-wrap:wrap;">${antesCard}<div style="display:flex;align-items:center;color:var(--text2);font-size:1.5rem;">⇄</div>${despuesCard}</div></div>`;
+    }).join('');
+
+    wrap.innerHTML = pairHTML || '<div class="empty-state"><p>No hay pares todavía.</p></div>';
   } catch (err) {
     console.error(err);
     wrap.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p style="margin-top:12px;">Error al cargar. Revisa la consola.</p></div>';
   }
 };
 
-// ── DELETE FROM FIREBASE STORAGE ─────────────────────────────
+// ── DELETE ────────────────────────────────────────────────────
 window.baDelete = async (path, name) => {
-  if (!confirm(`¿Eliminar "${name}" de Firebase Storage? Esta acción no se puede deshacer.`)) return;
+  if (!confirm(`¿Eliminar "${name}"? Esta acción no se puede deshacer.`)) return;
   try {
     await deleteObject(ref(storage, path));
     showToast(`🗑️ ${name} eliminado`);
