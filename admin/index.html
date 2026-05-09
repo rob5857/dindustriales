@@ -306,8 +306,9 @@
     <aside class="sidebar">
       <div class="sidebar-label">Principal</div>
       <div class="sidebar-item active" onclick="showPage('overview', this)"><i class="fas fa-home"></i> Dashboard</div>
-      <div class="sidebar-item" onclick="showPage('upload', this)"><i class="fas fa-cloud-upload-alt"></i> Subir Fotos</div>
-      <div class="sidebar-item" onclick="showPage('gallery', this)"><i class="fas fa-images"></i> Gestionar Galería</div>
+      <div class="sidebar-item" onclick="showPage('beforeafter', this)"><i class="fas fa-images"></i> Fotos Antes/Después</div>
+      <div class="sidebar-item" onclick="showPage('upload', this)"><i class="fas fa-cloud-upload-alt"></i> Subir Fotos (Local)</div>
+      <div class="sidebar-item" onclick="showPage('gallery', this)"><i class="fas fa-folder"></i> Galería Local</div>
       <div class="sidebar-label" style="margin-top:16px;">Testimonios</div>
       <div class="sidebar-item" onclick="showPage('testimonials', this)"><i class="fas fa-star"></i> Gestionar Testimonios <span id="pendingBadge" style="display:none;background:var(--orange);color:#fff;border-radius:50px;font-size:0.7rem;font-weight:700;padding:2px 7px;margin-left:auto;"></span></div>
       <div class="sidebar-label" style="margin-top:16px;">Configuración</div>
@@ -404,6 +405,55 @@
         <h1 class="page-title">Gestionar Galería</h1>
         <p class="page-subtitle">Administra las fotos de la galería del sitio web</p>
         <div id="galleryMgmt"></div>
+      </div>
+
+      <!-- ANTES/DESPUÉS FIREBASE -->
+      <div class="page" id="page-beforeafter">
+        <h1 class="page-title">Fotos Antes/Después</h1>
+        <p class="page-subtitle">Sube fotos directamente a Firebase Storage — aparecen automáticamente en el slider del sitio</p>
+
+        <!-- Upload card -->
+        <div class="upload-section" style="margin-bottom:24px;">
+          <h3><i class="fas fa-cloud-upload-alt"></i> Subir Nueva Foto</h3>
+          <div class="drop-zone" id="baDropZone" onclick="document.getElementById('baFileInput').click()"
+               ondragover="event.preventDefault();this.classList.add('dragover')"
+               ondrop="event.preventDefault();this.classList.remove('dragover');window.baHandleDrop(event)"
+               ondragleave="this.classList.remove('dragover')">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Arrastra la foto aquí o <span>haz clic para seleccionar</span></p>
+            <p style="font-size:0.78rem;color:var(--text2);margin-top:6px;">JPG, PNG, WEBP – Máx 10MB</p>
+          </div>
+          <input type="file" id="baFileInput" accept="image/*" style="display:none;" onchange="window.baHandleFile(event)" />
+
+          <div id="baPreviewWrap" style="display:none;margin-top:20px;">
+            <img id="baPreviewImg" style="max-height:200px;border-radius:10px;border:2px solid var(--border);display:block;margin-bottom:16px;" />
+            <div class="form-grid">
+              <div class="form-field">
+                <label>Tipo de foto <span style="color:var(--orange)">*</span></label>
+                <select id="baPhase">
+                  <option value="antes">📷 ANTES — Estado inicial del daño</option>
+                  <option value="despues">✅ DESPUÉS — Resultado final</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label>Número del par <span style="color:var(--orange)">*</span></label>
+                <input type="number" id="baPairNum" min="1" max="99" value="1" placeholder="Ej: 1" />
+                <span style="font-size:0.75rem;color:var(--text2);margin-top:4px;">antes<b>1</b>.jpg se empareja con despues<b>1</b>.jpg</span>
+              </div>
+            </div>
+            <button class="btn-submit" id="baUploadBtn" onclick="window.baUpload()" style="margin-top:16px;">
+              <i class="fas fa-cloud-upload-alt"></i> Subir a Firebase Storage
+            </button>
+          </div>
+        </div>
+
+        <!-- Gallery from Firebase -->
+        <div class="upload-section">
+          <h3><i class="fas fa-images"></i> Fotos en Firebase Storage
+            <button onclick="window.baLoadGallery()" style="margin-left:auto;background:none;border:1px solid var(--border);border-radius:6px;padding:5px 12px;color:var(--text2);cursor:pointer;font-size:0.78rem;"><i class="fas fa-sync-alt"></i> Recargar</button>
+          </h3>
+          <div id="baGallery"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p style="margin-top:8px;">Cargando...</p></div></div>
+        </div>
       </div>
 
       <!-- TESTIMONIALS -->
@@ -648,7 +698,128 @@ window._tSaveEdit = async (id) => {
 const origShowPage = window.showPage;
 window.showPage = function(name, el) {
   origShowPage(name, el);
-  // testimonials page renders via onSnapshot – nothing extra needed
+  if (name === 'beforeafter') window.baLoadGallery();
+};
+</script>
+
+<!-- Firebase Storage — Antes/Después Admin -->
+<script type="module">
+import { storage } from '../js/firebase-config.js';
+import {
+  ref, uploadBytes, getDownloadURL, listAll, deleteObject
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
+
+const FOLDER = 'beforeafter';
+let _baFile = null;
+
+// ── DROP / FILE SELECT ────────────────────────────────────────
+window.baHandleDrop = (e) => {
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) previewFile(file);
+};
+window.baHandleFile = (e) => {
+  const file = e.target.files[0];
+  if (file) previewFile(file);
+};
+
+function previewFile(file) {
+  if (file.size > 10 * 1024 * 1024) { showToast('Imagen demasiado grande. Máx 10MB.', 'error'); return; }
+  _baFile = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('baPreviewImg').src = e.target.result;
+    document.getElementById('baPreviewWrap').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── UPLOAD TO FIREBASE STORAGE ────────────────────────────────
+window.baUpload = async () => {
+  if (!_baFile) { showToast('Selecciona una imagen', 'error'); return; }
+  const phase   = document.getElementById('baPhase').value;
+  const pairNum = document.getElementById('baPairNum').value;
+  if (!pairNum) { showToast('Indica el número del par', 'error'); return; }
+
+  const ext      = _baFile.name.split('.').pop().toLowerCase();
+  const fileName = `${phase}${pairNum}.${ext}`;
+  const btn      = document.getElementById('baUploadBtn');
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
+
+  try {
+    const storageRef = ref(storage, `${FOLDER}/${fileName}`);
+    await uploadBytes(storageRef, _baFile);
+    showToast(`✅ ${fileName} subido correctamente`);
+    // Reset form
+    _baFile = null;
+    document.getElementById('baPreviewWrap').style.display = 'none';
+    document.getElementById('baFileInput').value = '';
+    window.baLoadGallery();
+  } catch (err) {
+    console.error(err);
+    showToast('Error al subir: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir a Firebase Storage';
+  }
+};
+
+// ── LOAD GALLERY FROM FIREBASE STORAGE ───────────────────────
+window.baLoadGallery = async () => {
+  const wrap = document.getElementById('baGallery');
+  if (!wrap) return;
+  wrap.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p style="margin-top:8px;">Cargando...</p></div>';
+
+  try {
+    const folderRef = ref(storage, FOLDER);
+    const result    = await listAll(folderRef);
+
+    if (!result.items.length) {
+      wrap.innerHTML = '<div class="empty-state"><i class="fas fa-images"></i><p style="margin-top:12px;">No hay fotos en Firebase Storage todavía.</p></div>';
+      return;
+    }
+
+    const files = await Promise.all(
+      result.items.map(item => getDownloadURL(item).then(url => ({ name: item.name, url, path: item.fullPath })))
+    );
+
+    // Separar en antes/después y ordenar
+    const antes   = files.filter(f => f.name.toLowerCase().includes('antes')).sort((a,b) => a.name.localeCompare(b.name));
+    const despues = files.filter(f => f.name.toLowerCase().includes('despues')).sort((a,b) => a.name.localeCompare(b.name));
+    const otros   = files.filter(f => !f.name.toLowerCase().includes('antes') && !f.name.toLowerCase().includes('despues'));
+    const sorted  = [...antes, ...despues, ...otros];
+
+    wrap.innerHTML = `<div class="gallery-mgmt-grid">${sorted.map(f => `
+      <div class="gallery-mgmt-card">
+        <span class="gallery-badge-sm">${f.name.toLowerCase().includes('antes') ? '📷 ANTES' : f.name.toLowerCase().includes('despues') ? '✅ DESPUÉS' : '📁'}</span>
+        <img src="${f.url}" alt="${f.name}" loading="lazy" />
+        <div class="gallery-mgmt-info">
+          <h4 style="word-break:break-all;">${f.name}</h4>
+          <div class="gallery-mgmt-actions">
+            <button class="btn-del" onclick="window.baDelete('${f.path}','${f.name}')">
+              <i class="fas fa-trash"></i> Eliminar
+            </button>
+          </div>
+        </div>
+      </div>`).join('')}
+    </div>`;
+  } catch (err) {
+    console.error(err);
+    wrap.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p style="margin-top:12px;">Error al cargar. Revisa la consola.</p></div>';
+  }
+};
+
+// ── DELETE FROM FIREBASE STORAGE ─────────────────────────────
+window.baDelete = async (path, name) => {
+  if (!confirm(`¿Eliminar "${name}" de Firebase Storage? Esta acción no se puede deshacer.`)) return;
+  try {
+    await deleteObject(ref(storage, path));
+    showToast(`🗑️ ${name} eliminado`);
+    window.baLoadGallery();
+  } catch (err) {
+    showToast('Error al eliminar: ' + err.message, 'error');
+  }
 };
 </script>
 </body>
