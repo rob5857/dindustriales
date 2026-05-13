@@ -29,7 +29,7 @@
   <meta name="twitter:description" content="Empresa líder en restauración de daños por incendio, humo, inundación y construcción en general. Trabajamos toda la Isla. Inspección gratuita, respuesta en 24 horas." />
   <meta name="twitter:image" content="https://www.desarrollosindustriales.com/images/logoTacoma.png" />
 
-  <link rel="icon" href="logo3.png" type="image/png" />
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
@@ -794,7 +794,7 @@
   // initADSlider es llamado por el módulo de Firebase Storage
   window.initADSlider = function(PAIRS) {
     if (!PAIRS || !PAIRS.length) return;
-    var cur = 0, dragging = false;
+    var cur = 0, dragging = false, initialized = false;
     var comparison = document.getElementById('adComparison');
     var afterWrap  = document.getElementById('adAfterWrap');
     var dividerEl  = document.getElementById('adDivider');
@@ -823,8 +823,11 @@
       document.querySelectorAll('.ad-thumb').forEach(function(t, i) {
         t.classList.toggle('active', i === idx);
       });
-      var active = thumbsEl.querySelector('.ad-thumb.active');
-      if (active) active.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'smooth' });
+      // Only scroll thumbnails into view after the user has interacted (not on initial load)
+      if (initialized) {
+        var active = thumbsEl.querySelector('.ad-thumb.active');
+        if (active) active.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'smooth' });
+      }
     }
 
     PAIRS.forEach(function(pair, i) {
@@ -849,6 +852,7 @@
     document.getElementById('adNext').addEventListener('click', function(){ loadPair((cur + 1) % PAIRS.length); });
 
     loadPair(0);
+    initialized = true; // allow scrollIntoView only after first load
   };
 </script>
 

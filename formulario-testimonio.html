@@ -7,7 +7,7 @@
   <meta name="description" content="Comparte tu experiencia con Desarrollos Industriales LLC. Tu testimonio nos ayuda a seguir sirviendo a familias en Puerto Rico." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://www.desarrollosindustrialespr.com/formulario-testimonio.html" />
-  <link rel="icon" href="logo3.png" type="image/png" />
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
@@ -259,60 +259,69 @@ document.getElementById('testiForm').addEventListener('submit', async (e) => {
   const btn = document.getElementById('btnSend');
   btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
 
+  // ── PASO 1: Guardar en Firestore ─────────────────────────────
   try {
     await addDoc(collection(db, TESTIMONIALS_COLLECTION), {
-      name: escapeHTML(name),
-      publicName: escapeHTML(publicName),
-      town: escapeHTML(town),
-      service: escapeHTML(service),
+      name:                 escapeHTML(name),
+      publicName:           escapeHTML(publicName),
+      town:                 escapeHTML(town),
+      service:              escapeHTML(service),
       rating_quality:       ratings.rating_quality || 0,
       rating_communication: ratings.rating_communication || 0,
       rating_speed:         ratings.rating_speed || 0,
       rating_result:        ratings.rating_result || 0,
-      testimonial: escapeHTML(testimonial),
-      recommend: recommend === 'si',
-      authorized: true,
-      contact: escapeHTML(contact),
-      status: 'pending',
-      visible: false,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
+      testimonial:          escapeHTML(testimonial),
+      recommend:            recommend === 'si',
+      authorized:           true,
+      contact:              escapeHTML(contact),
+      status:               'pending',
+      visible:              false,
+      createdAt:            serverTimestamp(),
+      updatedAt:            serverTimestamp()
     });
-
-    // ── Notificación por email al admin ──────────────────────────
-    try {
-      if (!window.emailjs) throw new Error('EmailJS no cargado');
-      const emailResult = await window.emailjs.send('service_981iqui', 'template_testimonio', {
-        cliente_nombre:    name,
-        cliente_publico:   publicName,
-        cliente_municipio: town,
-        servicio:          service,
-        testimonio:        testimonial,
-        recomienda:        recommend === 'si' ? 'Sí' : 'No',
-        contacto:          contact || 'No proporcionado',
-        calidad:           window.starText(ratings.rating_quality),
-        comunicacion:      window.starText(ratings.rating_communication),
-        velocidad:         window.starText(ratings.rating_speed),
-        resultado:         window.starText(ratings.rating_result),
-        admin_url:         'https://www.desarrollosindustrialespr.com/admin/index.html',
-        fecha:             new Date().toLocaleDateString('es-PR', { day:'2-digit', month:'long', year:'numeric' })
-      });
-      console.log('✅ Email enviado — status:', emailResult.status, emailResult.text);
-    } catch (emailErr) {
-      // El testimonio ya fue guardado — el email es solo aviso, no bloquea el flujo
-      console.error('❌ EmailJS error:', emailErr.status || '', emailErr.text || emailErr.message || emailErr);
-    }
-
-    document.getElementById('testiForm').style.display = 'none';
-    document.getElementById('successMsg').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } catch (err) {
-    console.error(err);
-    errEl.textContent = 'Error al enviar. Por favor intenta de nuevo.';
+  } catch (firestoreErr) {
+    console.error('❌ Firestore error:', firestoreErr);
+    const code = firestoreErr.code || firestoreErr.message || String(firestoreErr);
+    let msg = '❌ Error al guardar el testimonio: ' + code;
+    if (code.includes('permission'))  msg = '❌ Firestore: permisos insuficientes. Revisa las reglas de seguridad en Firebase Console.';
+    if (code.includes('not-found'))   msg = '❌ Firestore: base de datos no encontrada. ¿Creaste Firestore en Firebase Console?';
+    if (code.includes('unavailable')) msg = '❌ Firestore no disponible. Verifica tu conexión y que el dominio esté autorizado en Firebase.';
+    errEl.textContent = msg;
     errEl.style.display = 'block';
     btn.disabled = false;
     btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Testimonio';
+    return;
   }
+
+  // ── PASO 2: Enviar email de notificación ─────────────────────
+  try {
+    if (!window.emailjs) throw new Error('EmailJS no cargado — revisa que el script CDN esté incluido');
+    const emailResult = await window.emailjs.send('service_981iqui', 'template_testimonio', {
+      cliente_nombre:    name,
+      cliente_publico:   publicName,
+      cliente_municipio: town,
+      servicio:          service,
+      testimonio:        testimonial,
+      recomienda:        recommend === 'si' ? 'Sí' : 'No',
+      contacto:          contact || 'No proporcionado',
+      calidad:           window.starText(ratings.rating_quality),
+      comunicacion:      window.starText(ratings.rating_communication),
+      velocidad:         window.starText(ratings.rating_speed),
+      resultado:         window.starText(ratings.rating_result),
+      admin_url:         'https://www.desarrollosindustrialespr.com/admin/index.html',
+      fecha:             new Date().toLocaleDateString('es-PR', { day:'2-digit', month:'long', year:'numeric' })
+    });
+    console.log('✅ Email enviado — status:', emailResult.status, emailResult.text);
+  } catch (emailErr) {
+    // El testimonio YA fue guardado en Firestore — el email falla silenciosamente
+    const detail = emailErr.text || emailErr.message || String(emailErr);
+    console.error('❌ EmailJS error:', emailErr.status || '', detail);
+  }
+
+  // ── PASO 3: Mostrar pantalla de éxito ────────────────────────
+  document.getElementById('testiForm').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 </script>
 </body>
