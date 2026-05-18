@@ -2,26 +2,122 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-  <!-- Página principal — Español (default) -->
+  <!-- ===== PÁGINA PRINCIPAL ===== -->
   <url>
-    <loc>https://www.desarrollosindustriales.com/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustriales.com/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.desarrollosindustriales.com/?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustriales.com/"/>
-    <lastmod>2025-04-06</lastmod>
+    <loc>https://www.desarrollosindustrialespr.com/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/"/>
+    <lastmod>2025-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- Página principal — Inglés -->
+  <!-- ===== PAR: Restauración por Incendio ===== -->
   <url>
-    <loc>https://www.desarrollosindustriales.com/?lang=en</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustriales.com/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.desarrollosindustriales.com/?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustriales.com/"/>
-    <lastmod>2025-04-06</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.desarrollosindustrialespr.com/restauracion-incendios-puerto-rico.html</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/restauracion-incendios-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.desarrollosindustrialespr.com/fire-restoration-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/restauracion-incendios-puerto-rico.html"/>
+    <lastmod>2025-05-18</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/fire-restoration-puerto-rico.html</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/restauracion-incendios-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.desarrollosindustrialespr.com/fire-restoration-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/restauracion-incendios-puerto-rico.html"/>
+    <lastmod>2025-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ===== PAR: Limpieza de Humo y Hollín ===== -->
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/limpieza-humo-hollin-puerto-rico.html</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/limpieza-humo-hollin-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.desarrollosindustrialespr.com/smoke-cleaning-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/limpieza-humo-hollin-puerto-rico.html"/>
+    <lastmod>2025-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/smoke-cleaning-puerto-rico.html</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/limpieza-humo-hollin-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.desarrollosindustrialespr.com/smoke-cleaning-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/limpieza-humo-hollin-puerto-rico.html"/>
+    <lastmod>2025-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ===== PAR: Reclamación de Seguro ===== -->
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/reclamacion-seguro-incendio-puerto-rico.html</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/reclamacion-seguro-incendio-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.desarrollosindustrialespr.com/fire-insurance-claim-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/reclamacion-seguro-incendio-puerto-rico.html"/>
+    <lastmod>2025-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/fire-insurance-claim-puerto-rico.html</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/reclamacion-seguro-incendio-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.desarrollosindustrialespr.com/fire-insurance-claim-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/reclamacion-seguro-incendio-puerto-rico.html"/>
+    <lastmod>2025-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ===== PAR: Restauración por Inundación ===== -->
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/restauracion-inundacion-puerto-rico.html</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/restauracion-inundacion-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.desarrollosindustrialespr.com/water-damage-restoration-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/restauracion-inundacion-puerto-rico.html"/>
+    <lastmod>2025-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/water-damage-restoration-puerto-rico.html</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/restauracion-inundacion-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.desarrollosindustrialespr.com/water-damage-restoration-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/restauracion-inundacion-puerto-rico.html"/>
+    <lastmod>2025-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ===== PAR: Emergencia 24/7 ===== -->
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/emergencia-incendio-inundacion.html</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/emergencia-incendio-inundacion.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.desarrollosindustrialespr.com/emergency-fire-flood-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/emergencia-incendio-inundacion.html"/>
+    <lastmod>2025-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/emergency-fire-flood-puerto-rico.html</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/emergencia-incendio-inundacion.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.desarrollosindustrialespr.com/emergency-fire-flood-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/emergencia-incendio-inundacion.html"/>
+    <lastmod>2025-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ===== Formulario de testimonios ===== -->
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/formulario-testimonio.html</loc>
+    <lastmod>2025-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
   </url>
 
 </urlset>
