@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Comparte tu Experiencia – Desarrollos Industriales LLC</title>
-  <meta name="description" content="Comparte tu experiencia con Desarrollos Industriales LLC. Tu testimonio nos ayuda a seguir sirviendo a familias en Puerto Rico." />
+  <title>Share Your Experience – Desarrollos Industriales LLC</title>
+  <meta name="description" content="Share your experience with Desarrollos Industriales LLC. Your story helps other families in Puerto Rico find the help they need." />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://www.desarrollosindustrialespr.com/formulario-testimonio.html" />
+  <link rel="canonical" href="https://www.desarrollosindustrialespr.com/share-your-experience.html" />
   <link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/formulario-testimonio.html" />
   <link rel="alternate" hreflang="en" href="https://www.desarrollosindustrialespr.com/share-your-experience.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/formulario-testimonio.html" />
@@ -18,7 +18,6 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
     a{color:var(--orange);text-decoration:none}
-    /* HEADER */
     .site-header{background:var(--card);border-bottom:1px solid var(--border);padding:0 24px;height:68px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
     .header-logo{height:44px}
     .header-right{display:flex;align-items:center;gap:14px}
@@ -27,19 +26,15 @@
     .lang-toggle{width:36px;height:36px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;transition:border-color .2s,transform .2s;flex-shrink:0;}
     .lang-toggle:hover{border-color:var(--orange);transform:scale(1.1);}
     .lang-flag-img{width:36px;height:36px;object-fit:cover;border-radius:50%;display:block;}
-    /* HERO BANNER */
     .form-hero{background:linear-gradient(135deg,rgba(255,107,53,.12),rgba(230,57,70,.08));border-bottom:1px solid var(--border);padding:48px 24px;text-align:center}
     .form-hero .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,107,53,.15);border:1px solid rgba(255,107,53,.3);border-radius:50px;padding:6px 16px;font-size:.78rem;font-weight:700;color:var(--orange);letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
     .form-hero h1{font-family:'Poppins',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;margin-bottom:12px}
     .form-hero p{color:var(--text2);max-width:520px;margin:0 auto;font-size:0.95rem}
     .gradient-text{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    /* CONTAINER */
     .form-wrap{max-width:760px;margin:0 auto;padding:40px 20px 80px}
-    /* CARD SECTIONS */
     .form-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
     .form-card-title{font-size:1rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;padding-bottom:12px;border-bottom:1px solid var(--border)}
     .form-card-title i{color:var(--orange)}
-    /* FIELDS */
     .field-group{display:grid;gap:16px;margin-bottom:0}
     .field-group.two-col{grid-template-columns:1fr 1fr}
     .field{display:flex;flex-direction:column;gap:6px}
@@ -49,30 +44,24 @@
     .field input:focus,.field select,.field textarea:focus{border-color:var(--orange)}
     .field select option{background:var(--card)}
     .field textarea{resize:vertical;min-height:110px}
-    /* STAR RATING */
     .rating-row{display:flex;flex-direction:column;gap:14px}
     .rating-item{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
     .rating-label{font-size:.88rem;color:var(--text2);flex:1;min-width:140px}
     .stars-input{display:flex;gap:6px}
     .star-btn{background:none;border:none;cursor:pointer;font-size:1.5rem;color:var(--border);transition:color .15s,transform .15s;line-height:1}
     .star-btn:hover,.star-btn.active{color:var(--yellow);transform:scale(1.15)}
-    /* RADIO */
     .radio-group{display:flex;gap:16px;flex-wrap:wrap}
     .radio-opt{display:flex;align-items:center;gap:8px;cursor:pointer;padding:10px 18px;border:1px solid var(--border);border-radius:8px;font-size:.9rem;transition:all .2s}
     .radio-opt input[type=radio]{display:none}
     .radio-opt:has(input:checked){border-color:var(--orange);background:rgba(255,107,53,.1);color:var(--orange)}
-    /* SUBMIT */
     .btn-submit{width:100%;padding:16px;border:none;border-radius:10px;background:var(--gradient);color:#fff;font-size:1.05rem;font-weight:700;cursor:pointer;transition:opacity .2s,transform .2s;display:flex;align-items:center;justify-content:center;gap:10px}
     .btn-submit:hover{opacity:.9;transform:translateY(-2px)}
     .btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none}
-    /* SUCCESS */
     #successMsg{display:none;text-align:center;padding:60px 20px}
     .success-icon{font-size:4rem;margin-bottom:16px;display:block}
     #successMsg h2{font-family:'Poppins',sans-serif;font-size:1.8rem;margin-bottom:8px}
     #successMsg p{color:var(--text2);max-width:420px;margin:0 auto}
-    /* HINT */
     .field-hint{font-size:.75rem;color:var(--text2);margin-top:2px}
-    /* RESPONSIVE */
     @media(max-width:580px){.field-group.two-col{grid-template-columns:1fr}.rating-item{flex-direction:column;align-items:flex-start}}
   </style>
 </head>
@@ -81,83 +70,83 @@
 <header class="site-header">
   <img src="logo3.png" alt="Desarrollos Industriales LLC" class="header-logo" />
   <div class="header-right">
-    <a href="share-your-experience.html" class="lang-toggle" aria-label="Switch to English" title="Switch to English">
-      <img src="images/us.png" alt="English" class="lang-flag-img" width="36" height="36" />
+    <a href="formulario-testimonio.html" class="lang-toggle" aria-label="Ver en Español" title="Ver en Español">
+      <img src="images/pr.png" alt="Español" class="lang-flag-img" width="36" height="36" />
     </a>
-    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Volver al sitio</a>
+    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to site</a>
   </div>
 </header>
 
 <div class="form-hero">
-  <div class="badge"><i class="fas fa-star"></i> Testimonio Oficial</div>
-  <h1>Comparte tu <span class="gradient-text">Experiencia</span></h1>
-  <p>Tu historia inspira a otras familias. Cuéntanos cómo te ayudamos a recuperar tu hogar y tu tranquilidad.</p>
+  <div class="badge"><i class="fas fa-star"></i> Official Testimonial</div>
+  <h1>Share Your <span class="gradient-text">Experience</span></h1>
+  <p>Your story inspires other families. Tell us how we helped you recover your home and your peace of mind.</p>
 </div>
 
 <div class="form-wrap">
   <form id="testiForm" novalidate>
 
-    <!-- IDENTIDAD -->
+    <!-- IDENTITY -->
     <div class="form-card">
-      <div class="form-card-title"><i class="fas fa-user"></i> Tu Información</div>
+      <div class="form-card-title"><i class="fas fa-user"></i> Your Information</div>
       <div class="field-group two-col">
         <div class="field">
-          <label>Nombre completo <span class="req">*</span></label>
-          <input type="text" id="f_name" required placeholder="Ej: María González" />
+          <label>Full name <span class="req">*</span></label>
+          <input type="text" id="f_name" required placeholder="e.g. Maria González" />
         </div>
         <div class="field">
-          <label>Nombre público <span class="req">*</span></label>
-          <input type="text" id="f_publicName" required placeholder="Ej: María G." />
-          <span class="field-hint">Así aparecerá en el sitio web</span>
+          <label>Public name <span class="req">*</span></label>
+          <input type="text" id="f_publicName" required placeholder="e.g. Maria G." />
+          <span class="field-hint">This is how it will appear on the website</span>
         </div>
         <div class="field">
-          <label>Municipio <span class="req">*</span></label>
+          <label>Municipality <span class="req">*</span></label>
           <select id="f_town" required>
-            <option value="">-- Selecciona tu municipio --</option>
+            <option value="">-- Select your municipality --</option>
             <option>Adjuntas</option><option>Aguada</option><option>Aguadilla</option><option>Aguas Buenas</option><option>Aibonito</option><option>Añasco</option><option>Arecibo</option><option>Arroyo</option><option>Barceloneta</option><option>Barranquitas</option><option>Bayamón</option><option>Cabo Rojo</option><option>Caguas</option><option>Camuy</option><option>Canóvanas</option><option>Carolina</option><option>Cataño</option><option>Cayey</option><option>Ceiba</option><option>Ciales</option><option>Cidra</option><option>Coamo</option><option>Comerío</option><option>Corozal</option><option>Culebra</option><option>Dorado</option><option>Fajardo</option><option>Florida</option><option>Guánica</option><option>Guayama</option><option>Guayanilla</option><option>Guaynabo</option><option>Gurabo</option><option>Hatillo</option><option>Hormigueros</option><option>Humacao</option><option>Isabela</option><option>Jayuya</option><option>Juana Díaz</option><option>Juncos</option><option>Lajas</option><option>Lares</option><option>Las Marías</option><option>Las Piedras</option><option>Loíza</option><option>Luquillo</option><option>Manatí</option><option>Maricao</option><option>Maunabo</option><option>Mayagüez</option><option>Moca</option><option>Morovis</option><option>Naguabo</option><option>Naranjito</option><option>Orocovis</option><option>Patillas</option><option>Peñuelas</option><option>Ponce</option><option>Quebradillas</option><option>Rincón</option><option>Río Grande</option><option>Sabana Grande</option><option>Salinas</option><option>San Germán</option><option>San Juan</option><option>San Lorenzo</option><option>San Sebastián</option><option>Santa Isabel</option><option>Toa Alta</option><option>Toa Baja</option><option>Trujillo Alto</option><option>Utuado</option><option>Vega Alta</option><option>Vega Baja</option><option>Vieques</option><option>Villalba</option><option>Yabucoa</option><option>Yauco</option>
           </select>
         </div>
         <div class="field">
-          <label>Servicio recibido <span class="req">*</span></label>
+          <label>Service received <span class="req">*</span></label>
           <select id="f_service" required>
-            <option value="">-- Selecciona el servicio --</option>
-            <option>Restauración por Incendio</option>
-            <option>Limpieza de Humo y Hollín</option>
-            <option>Daños por Agua / Inundación</option>
-            <option>Remoción de Moho y Humedad</option>
-            <option>Reclamación de Seguro</option>
-            <option>Reconstrucción Estructural</option>
-            <option>Construcción en General</option>
-            <option>Múltiples Servicios</option>
+            <option value="">-- Select the service --</option>
+            <option>Fire Damage Restoration</option>
+            <option>Smoke &amp; Soot Cleanup</option>
+            <option>Water Damage / Flood Restoration</option>
+            <option>Mold &amp; Moisture Remediation</option>
+            <option>Insurance Claim Assistance</option>
+            <option>Structural Reconstruction</option>
+            <option>General Construction</option>
+            <option>Multiple Services</option>
           </select>
         </div>
       </div>
     </div>
 
-    <!-- CALIFICACIONES -->
+    <!-- RATINGS -->
     <div class="form-card">
-      <div class="form-card-title"><i class="fas fa-star"></i> Calificaciones</div>
+      <div class="form-card-title"><i class="fas fa-star"></i> Ratings</div>
       <div class="rating-row">
         <div class="rating-item">
-          <span class="rating-label">Calidad del servicio</span>
+          <span class="rating-label">Quality of service</span>
           <div class="stars-input" data-field="rating_quality">
             <button type="button" class="star-btn" data-val="1">★</button><button type="button" class="star-btn" data-val="2">★</button><button type="button" class="star-btn" data-val="3">★</button><button type="button" class="star-btn" data-val="4">★</button><button type="button" class="star-btn" data-val="5">★</button>
           </div>
         </div>
         <div class="rating-item">
-          <span class="rating-label">Comunicación y atención</span>
+          <span class="rating-label">Communication &amp; attention</span>
           <div class="stars-input" data-field="rating_communication">
             <button type="button" class="star-btn" data-val="1">★</button><button type="button" class="star-btn" data-val="2">★</button><button type="button" class="star-btn" data-val="3">★</button><button type="button" class="star-btn" data-val="4">★</button><button type="button" class="star-btn" data-val="5">★</button>
           </div>
         </div>
         <div class="rating-item">
-          <span class="rating-label">Tiempo de respuesta</span>
+          <span class="rating-label">Response time</span>
           <div class="stars-input" data-field="rating_speed">
             <button type="button" class="star-btn" data-val="1">★</button><button type="button" class="star-btn" data-val="2">★</button><button type="button" class="star-btn" data-val="3">★</button><button type="button" class="star-btn" data-val="4">★</button><button type="button" class="star-btn" data-val="5">★</button>
           </div>
         </div>
         <div class="rating-item">
-          <span class="rating-label">Resultado final</span>
+          <span class="rating-label">Final result</span>
           <div class="stars-input" data-field="rating_result">
             <button type="button" class="star-btn" data-val="1">★</button><button type="button" class="star-btn" data-val="2">★</button><button type="button" class="star-btn" data-val="3">★</button><button type="button" class="star-btn" data-val="4">★</button><button type="button" class="star-btn" data-val="5">★</button>
           </div>
@@ -165,55 +154,53 @@
       </div>
     </div>
 
-    <!-- TESTIMONIO -->
+    <!-- TESTIMONIAL -->
     <div class="form-card">
-      <div class="form-card-title"><i class="fas fa-comment-dots"></i> Tu Testimonio</div>
+      <div class="form-card-title"><i class="fas fa-comment-dots"></i> Your Testimonial</div>
       <div class="field-group">
         <div class="field">
-          <label>Cuéntanos tu experiencia <span class="req">*</span></label>
-          <textarea id="f_testimonial" required minlength="50" placeholder="Describe cómo D Industriales te ayudó. ¿Qué problema tenías? ¿Cómo te lo resolvieron? ¿Cómo te sentiste durante el proceso?..."></textarea>
-          <span class="field-hint" id="charCount">Mínimo 50 caracteres (0 escritos)</span>
+          <label>Tell us about your experience <span class="req">*</span></label>
+          <textarea id="f_testimonial" required minlength="50" placeholder="Describe how D Industriales helped you. What problem did you have? How did they solve it? How did you feel during the process?..."></textarea>
+          <span class="field-hint" id="charCount">Minimum 50 characters (0 written)</span>
         </div>
         <div class="field">
-          <label>¿Recomendarías D Industriales? <span class="req">*</span></label>
+          <label>Would you recommend D Industriales? <span class="req">*</span></label>
           <div class="radio-group">
-            <label class="radio-opt"><input type="radio" name="recommend" value="si" required /> <i class="fas fa-thumbs-up"></i> Sí, definitivamente</label>
+            <label class="radio-opt"><input type="radio" name="recommend" value="si" required /> <i class="fas fa-thumbs-up"></i> Yes, definitely</label>
             <label class="radio-opt"><input type="radio" name="recommend" value="no" /> <i class="fas fa-thumbs-down"></i> No</label>
           </div>
         </div>
         <div class="field">
-          <label>¿Autorizas publicar tu testimonio en el sitio web? <span class="req">*</span></label>
+          <label>Do you authorize publishing your testimonial on the website? <span class="req">*</span></label>
           <div class="radio-group">
-            <label class="radio-opt"><input type="radio" name="authorized" value="si" required /> <i class="fas fa-check-circle"></i> Sí, autorizo</label>
-            <label class="radio-opt"><input type="radio" name="authorized" value="no" /> <i class="fas fa-times-circle"></i> No autorizo</label>
+            <label class="radio-opt"><input type="radio" name="authorized" value="si" required /> <i class="fas fa-check-circle"></i> Yes, I authorize</label>
+            <label class="radio-opt"><input type="radio" name="authorized" value="no" /> <i class="fas fa-times-circle"></i> I do not authorize</label>
           </div>
         </div>
         <div class="field">
-          <label>Contacto (opcional)</label>
-          <input type="text" id="f_contact" placeholder="Email o teléfono para verificación interna (no se publica)" />
+          <label>Contact (optional)</label>
+          <input type="text" id="f_contact" placeholder="Email or phone for internal verification only (not published)" />
         </div>
       </div>
     </div>
 
     <div id="formError" style="display:none;background:rgba(230,57,70,.15);border:1px solid var(--red);border-radius:8px;padding:14px 18px;margin-bottom:16px;color:var(--red);font-size:.88rem;"></div>
-    <button type="submit" class="btn-submit" id="btnSend"><i class="fas fa-paper-plane"></i> Enviar Testimonio</button>
+    <button type="submit" class="btn-submit" id="btnSend"><i class="fas fa-paper-plane"></i> Submit Testimonial</button>
   </form>
 
   <!-- SUCCESS -->
   <div id="successMsg">
     <span class="success-icon">🎉</span>
-    <h2>¡Gracias por tu testimonio!</h2>
-    <p style="margin-bottom:20px;">Tu historia ha sido recibida. Nuestro equipo la revisará y, una vez aprobada, aparecerá en nuestra página principal.</p>
-    <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--gradient);color:#fff;border-radius:10px;font-weight:700;text-decoration:none;"><i class="fas fa-home"></i> Volver al sitio</a>
+    <h2>Thank you for your testimonial!</h2>
+    <p style="margin-bottom:20px;">Your story has been received. Our team will review it and, once approved, it will appear on our main page.</p>
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--gradient);color:#fff;border-radius:10px;font-weight:700;text-decoration:none;"><i class="fas fa-home"></i> Back to site</a>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-// ── EMAILJS INIT ──────────────────────────────────────────────
 (function(){ emailjs.init({ publicKey: 'qJaTG4K6yRXbxLT1p' }); })();
 
-// ── STAR RATING INTERACTION ───────────────────────────────────
 const ratings = {};
 document.querySelectorAll('.stars-input').forEach(wrap => {
   const field = wrap.dataset.field;
@@ -226,19 +213,17 @@ document.querySelectorAll('.stars-input').forEach(wrap => {
   });
 });
 
-// ── CHAR COUNT ────────────────────────────────────────────────
 const testiArea = document.getElementById('f_testimonial');
 const charCountEl = document.getElementById('charCount');
 testiArea.addEventListener('input', () => {
   const len = testiArea.value.length;
-  charCountEl.textContent = `Mínimo 50 caracteres (${len} escritos)`;
+  charCountEl.textContent = `Minimum 50 characters (${len} written)`;
   charCountEl.style.color = len >= 50 ? '#22c55e' : 'var(--text2)';
 });
 
 function escapeHTML(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
 window.starText = function(n) {
   return '★'.repeat(Math.max(0, n||0)) + '☆'.repeat(5 - Math.max(0, n||0));
 };
@@ -253,7 +238,6 @@ document.getElementById('testiForm').addEventListener('submit', async (e) => {
   const errEl = document.getElementById('formError');
   errEl.style.display = 'none';
 
-  // Validate required fields
   const name        = document.getElementById('f_name').value.trim();
   const publicName  = document.getElementById('f_publicName').value.trim();
   const town        = document.getElementById('f_town').value;
@@ -263,15 +247,14 @@ document.getElementById('testiForm').addEventListener('submit', async (e) => {
   const authorized  = document.querySelector('input[name="authorized"]:checked')?.value;
   const contact     = document.getElementById('f_contact').value.trim();
 
-  if (!name || !publicName || !town || !service) { errEl.textContent = 'Por favor completa todos los campos requeridos.'; errEl.style.display = 'block'; return; }
-  if (testimonial.length < 50) { errEl.textContent = 'El testimonio debe tener al menos 50 caracteres.'; errEl.style.display = 'block'; return; }
-  if (!recommend) { errEl.textContent = 'Indica si recomendarías D Industriales.'; errEl.style.display = 'block'; return; }
-  if (authorized !== 'si') { errEl.textContent = 'Debes autorizar la publicación para enviar el formulario.'; errEl.style.display = 'block'; return; }
+  if (!name || !publicName || !town || !service) { errEl.textContent = 'Please complete all required fields.'; errEl.style.display = 'block'; return; }
+  if (testimonial.length < 50) { errEl.textContent = 'Your testimonial must be at least 50 characters.'; errEl.style.display = 'block'; return; }
+  if (!recommend) { errEl.textContent = 'Please indicate whether you would recommend D Industriales.'; errEl.style.display = 'block'; return; }
+  if (authorized !== 'si') { errEl.textContent = 'You must authorize publication to submit the form.'; errEl.style.display = 'block'; return; }
 
   const btn = document.getElementById('btnSend');
-  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
 
-  // ── PASO 1: Guardar en Firestore ─────────────────────────────
   try {
     await addDoc(collection(db, TESTIMONIALS_COLLECTION), {
       name:                 escapeHTML(name),
@@ -288,49 +271,40 @@ document.getElementById('testiForm').addEventListener('submit', async (e) => {
       contact:              escapeHTML(contact),
       status:               'pending',
       visible:              false,
+      lang:                 'en',
       createdAt:            serverTimestamp(),
       updatedAt:            serverTimestamp()
     });
   } catch (firestoreErr) {
-    console.error('❌ Firestore error:', firestoreErr);
-    const code = firestoreErr.code || firestoreErr.message || String(firestoreErr);
-    let msg = '❌ Error al guardar el testimonio: ' + code;
-    if (code.includes('permission'))  msg = '❌ Firestore: permisos insuficientes. Revisa las reglas de seguridad en Firebase Console.';
-    if (code.includes('not-found'))   msg = '❌ Firestore: base de datos no encontrada. ¿Creaste Firestore en Firebase Console?';
-    if (code.includes('unavailable')) msg = '❌ Firestore no disponible. Verifica tu conexión y que el dominio esté autorizado en Firebase.';
-    errEl.textContent = msg;
+    console.error('Firestore error:', firestoreErr);
+    errEl.textContent = '❌ Error saving testimonial. Please try again or contact us directly.';
     errEl.style.display = 'block';
     btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Testimonio';
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Testimonial';
     return;
   }
 
-  // ── PASO 2: Enviar email de notificación ─────────────────────
   try {
-    if (!window.emailjs) throw new Error('EmailJS no cargado — revisa que el script CDN esté incluido');
-    const emailResult = await window.emailjs.send('service_981iqui', 'template_testimonio', {
+    if (!window.emailjs) throw new Error('EmailJS not loaded');
+    await window.emailjs.send('service_981iqui', 'template_testimonio', {
       cliente_nombre:    name,
       cliente_publico:   publicName,
       cliente_municipio: town,
       servicio:          service,
       testimonio:        testimonial,
-      recomienda:        recommend === 'si' ? 'Sí' : 'No',
-      contacto:          contact || 'No proporcionado',
+      recomienda:        recommend === 'si' ? 'Yes' : 'No',
+      contacto:          contact || 'Not provided',
       calidad:           window.starText(ratings.rating_quality),
       comunicacion:      window.starText(ratings.rating_communication),
       velocidad:         window.starText(ratings.rating_speed),
       resultado:         window.starText(ratings.rating_result),
       admin_url:         'https://www.desarrollosindustrialespr.com/admin/index.html',
-      fecha:             new Date().toLocaleDateString('es-PR', { day:'2-digit', month:'long', year:'numeric' })
+      fecha:             new Date().toLocaleDateString('en-US', { day:'2-digit', month:'long', year:'numeric' })
     });
-    console.log('✅ Email enviado — status:', emailResult.status, emailResult.text);
   } catch (emailErr) {
-    // El testimonio YA fue guardado en Firestore — el email falla silenciosamente
-    const detail = emailErr.text || emailErr.message || String(emailErr);
-    console.error('❌ EmailJS error:', emailErr.status || '', detail);
+    console.error('EmailJS error:', emailErr);
   }
 
-  // ── PASO 3: Mostrar pantalla de éxito ────────────────────────
   document.getElementById('testiForm').style.display = 'none';
   document.getElementById('successMsg').style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
