@@ -113,6 +113,37 @@ ul { list-style: none; }
 .nav-whatsapp-mobile { display: none; }
 /* Ocultar iconos en desktop nav */
 .nav-link i { display: none; }
+.nav-chevron { display: inline-flex !important; font-size: 0.65rem; margin-left: 2px; transition: transform 0.2s; }
+
+/* ── Dropdown de Servicios ── */
+.has-dropdown { position: relative; }
+.nav-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px); left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px;
+  min-width: 240px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  z-index: 9999;
+  list-style: none;
+}
+.nav-dropdown li a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: 8px;
+  font-size: 0.88rem; font-weight: 500;
+  color: var(--text-secondary);
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.nav-dropdown li a i { display: inline-flex !important; color: var(--fire-orange); width: 16px; }
+.nav-dropdown li a:hover { color: var(--fire-orange); background: rgba(255,107,53,0.08); }
+.has-dropdown:hover .nav-dropdown,
+.has-dropdown:focus-within .nav-dropdown { display: block; }
+.has-dropdown:hover .nav-chevron { transform: rotate(180deg); }
 .nav-actions { display: flex; align-items: center; gap: 12px; }
 .theme-toggle {
   width: 40px; height: 40px; border-radius: 50%; border: none; cursor: pointer;
@@ -1028,6 +1059,30 @@ ul { list-style: none; }
   }
   .nav-link:last-child { border-bottom: none; }
   .nav-admin { margin-top: 8px; }
+
+  /* Dropdown de Servicios en móvil: se muestra como lista indentada */
+  .has-dropdown { position: static; }
+  .nav-dropdown {
+    display: block;
+    position: static;
+    transform: none;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0 0 0 16px;
+    min-width: unset;
+    box-shadow: none;
+    border-left: 2px solid var(--fire-orange);
+    margin: 4px 0 8px 16px;
+  }
+  .nav-dropdown li a {
+    font-size: 0.92rem;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .nav-dropdown li:last-child a { border-bottom: none; }
+  .nav-chevron { display: none !important; }
 
   /* Botones de acción: tema + hamburger en la derecha */
   .nav-actions {
