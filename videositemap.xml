@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+
+  <!-- ===== Video institucional: Del caos a la claridad ===== -->
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/#promo-video</loc>
+    <video:video>
+      <video:thumbnail_loc>https://www.desarrollosindustrialespr.com/videos/desarrollos-video-poster.jpg</video:thumbnail_loc>
+      <video:title>Del caos a la claridad — Desarrollos Industriales LLC</video:title>
+      <video:description>Video institucional de Desarrollos Industriales LLC: restauración profesional de daños por incendio, humo e inundación en Puerto Rico, con acompañamiento directo en reclamaciones de seguros y respuesta en 24 horas.</video:description>
+      <video:content_loc>https://www.desarrollosindustrialespr.com/videos/desarrollos-industriales-promo.mp4</video:content_loc>
+      <video:player_loc allow_embed="yes">https://www.desarrollosindustrialespr.com/#promo-video</video:player_loc>
+      <video:publication_date>2025-01-15T00:00:00-04:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:requires_subscription>no</video:requires_subscription>
+      <video:live>no</video:live>
+      <video:uploader info="https://www.desarrollosindustrialespr.com/">Desarrollos Industriales LLC</video:uploader>
+      <video:platform relationship="allow">web mobile tv</video:platform>
+      <video:restriction relationship="allow">US PR</video:restriction>
+      <video:tag>restauración por incendio</video:tag>
+      <video:tag>restauración por inundación</video:tag>
+      <video:tag>limpieza de humo y hollín</video:tag>
+      <video:tag>reclamación de seguros</video:tag>
+      <video:tag>Puerto Rico</video:tag>
+      <video:tag>emergencia 24/7</video:tag>
+      <video:category>Restoration Services</video:category>
+    </video:video>
+  </url>
+
+</urlset>
