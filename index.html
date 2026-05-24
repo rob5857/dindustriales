@@ -47,13 +47,13 @@
     {
       "@context": "https://schema.org",
       "@type": ["LocalBusiness", "HomeAndConstructionBusiness"],
-      "@id": "https://www.desarrollosindustriales.com/#business",
+      "@id": "https://www.desarrollosindustrialespr.com/#business",
       "name": "Desarrollos Industriales LLC",
       "alternateName": "D Industriales",
       "description": "Empresa especializada en restauración de daños por incendio, humo, inundación y reclamaciones de seguros de propiedad en Puerto Rico. Más de 15 años de experiencia.",
-      "url": "https://www.desarrollosindustriales.com/",
-      "logo": "https://www.desarrollosindustriales.com/images/logoTacoma.png",
-      "image": "https://www.desarrollosindustriales.com/images/logoTacoma.png",
+      "url": "https://www.desarrollosindustrialespr.com/",
+      "logo": "https://www.desarrollosindustrialespr.com/images/logoTacoma.png",
+      "image": "https://www.desarrollosindustrialespr.com/images/logoTacoma.png",
       "telephone": "+1-973-392-0478",
       "email": "info@desarrollosindustriales.com",
       "address": {
@@ -81,11 +81,11 @@
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "@id": "https://www.desarrollosindustriales.com/#website",
-      "url": "https://www.desarrollosindustriales.com/",
+      "@id": "https://www.desarrollosindustrialespr.com/#website",
+      "url": "https://www.desarrollosindustrialespr.com/",
       "name": "Desarrollos Industriales LLC",
       "description": "Restauración de daños por incendio, humo, inundación y reclamaciones de seguros en Puerto Rico",
-      "publisher": {"@id": "https://www.desarrollosindustriales.com/#business"},
+      "publisher": {"@id": "https://www.desarrollosindustrialespr.com/#business"},
       "inLanguage": ["es", "en"]
     },
     {
@@ -123,6 +123,19 @@
           "acceptedAnswer": {"@type":"Answer","text":"El tiempo varía según la magnitud de los daños. Nos distingue comenzar la reparación simultáneamente con la gestión de la reclamación, reduciendo tiempos de espera. Respondemos en 24 horas y mantenemos a nuestros clientes informados en todo momento."}
         }
       ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "@id": "https://www.desarrollosindustrialespr.com/#promo-video",
+      "name": "Del caos a la claridad — Desarrollos Industriales LLC",
+      "description": "Video institucional de Desarrollos Industriales LLC: restauración profesional de daños por incendio, humo e inundación en Puerto Rico, con acompañamiento directo en reclamaciones de seguros y respuesta en 24 horas.",
+      "thumbnailUrl": "https://www.desarrollosindustrialespr.com/videos/desarrollos-video-poster.jpg",
+      "uploadDate": "2025-01-15",
+      "contentUrl": "https://www.desarrollosindustrialespr.com/videos/desarrollos-industriales-promo.mp4",
+      "embedUrl": "https://www.desarrollosindustrialespr.com/#promo-video",
+      "inLanguage": "es",
+      "publisher": {"@id": "https://www.desarrollosindustrialespr.com/#business"}
     }
   ]
   </script>
@@ -251,6 +264,100 @@
     </div>
   </div>
 </section>
+
+<!-- ===== PROMO VIDEO SECTION (cinematic) ===== -->
+<section class="section promo-video" id="promo-video" aria-labelledby="promoVideoTitle">
+  <div class="promo-bg" aria-hidden="true">
+    <div class="promo-bg-glow promo-bg-glow--red"></div>
+    <div class="promo-bg-glow promo-bg-glow--orange"></div>
+    <div class="promo-bg-noise"></div>
+  </div>
+  <div class="container promo-video-inner">
+    <div class="promo-copy" data-aos="fade-right" data-aos-duration="900">
+      <span class="promo-eyebrow" data-i18n="promo_eyebrow">
+        <span class="promo-eyebrow-dot" aria-hidden="true"></span>
+        NUESTRA RESPUESTA EN ACCION
+      </span>
+      <h2 id="promoVideoTitle" class="promo-title" data-i18n="promo_h2">
+        Respuesta, Reclamo y Restauración <span class="gradient-text">Emergencia Bajo Control</span>
+      </h2>
+      <p class="promo-subtitle" data-i18n="promo_subtitle">
+        Cuando el fuego, el humo o el agua afectan tu propiedad, también comienza una batalla con documentos, aseguradoras y decisiones urgentes. En <strong>Desarrollos Industriales LLC</strong> te acompañamos desde la primera inspección hasta la restauración final.
+      </p>
+      <p class="promo-support" data-i18n="promo_support">
+        Respondemos rápido, documentamos los daños y trabajamos directamente con tu aseguradora para ayudarte a recuperar tu propiedad con tranquilidad.
+      </p>
+      <ul class="promo-microcopy" aria-label="Garantías de servicio">
+        <li><i class="fas fa-bolt" aria-hidden="true"></i> <span data-i18n="promo_micro1">Emergencias 24/7</span></li>
+        <li><i class="fas fa-hard-hat" aria-hidden="true"></i> <span data-i18n="promo_micro2">Restauración profesional</span></li>
+        <li><i class="fas fa-file-contract" aria-hidden="true"></i> <span data-i18n="promo_micro3">Reclamaciones con aseguradoras</span></li>
+      </ul>
+      <div class="promo-ctas">
+        <a href="#contacto" class="btn btn-primary btn-lg promo-cta-primary">
+          <i class="fas fa-calendar-check" aria-hidden="true"></i>
+          <span data-i18n="promo_cta1">Solicitar inspección gratuita</span>
+        </a>
+        <button type="button" class="btn btn-emergency btn-lg promo-cta-play" id="promoPlayBtn" aria-haspopup="dialog" aria-controls="promoVideoModal">
+          <span class="promo-play-icon" aria-hidden="true"><i class="fas fa-play"></i></span>
+          <span data-i18n="promo_cta2">Ver video</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="promo-card-wrap" data-aos="fade-left" data-aos-duration="900" data-aos-delay="120">
+      <div class="promo-card" id="promoCard">
+        <span class="promo-badge">
+          <span class="promo-badge-pulse" aria-hidden="true"></span>
+          <span data-i18n="promo_badge">Respuesta inmediata · 24/7</span>
+        </span>
+        <div class="promo-video-frame">
+          <video
+            class="promo-trailer"
+            id="promoTrailer"
+            muted
+            loop
+            playsinline
+            preload="none"
+            poster="videos/desarrollos-video-poster.jpg"
+            aria-label="Trailer promocional Desarrollos Industriales LLC">
+            <source data-src="videos/desarrollos-industriales-trailer.mp4" type="video/mp4" />
+          </video>
+          <div class="promo-video-overlay" aria-hidden="true"></div>
+          <button type="button" class="promo-play-fab" id="promoPlayFab" aria-label="Reproducir video institucional completo" aria-haspopup="dialog" aria-controls="promoVideoModal">
+            <i class="fas fa-play" aria-hidden="true"></i>
+          </button>
+          <div class="promo-card-caption" aria-hidden="true">
+            <span class="promo-card-caption-title" data-i18n="promo_caption_title">La Recuperación Comienza Aquí</span>
+            <span class="promo-card-caption-sub" data-i18n="promo_caption_sub">Tu Reclamación, Nuestra Misión</span>
+          </div>
+        </div>
+      </div>
+      <div class="promo-card-glow" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROMO VIDEO MODAL ===== -->
+<div class="promo-modal" id="promoVideoModal" role="dialog" aria-modal="true" aria-labelledby="promoModalTitle" aria-hidden="true">
+  <div class="promo-modal-backdrop" data-promo-close></div>
+  <div class="promo-modal-dialog" role="document">
+    <h3 id="promoModalTitle" class="visually-hidden" data-i18n="promo_modal_title">Video institucional Desarrollos Industriales LLC</h3>
+    <button type="button" class="promo-modal-close" data-promo-close aria-label="Cerrar video">
+      <i class="fas fa-times" aria-hidden="true"></i>
+    </button>
+    <div class="promo-modal-video-wrap">
+      <video
+        id="promoFullVideo"
+        class="promo-modal-video"
+        controls
+        playsinline
+        preload="none"
+        poster="videos/desarrollos-video-poster.jpg">
+        <!-- sources injected on open for true lazy load -->
+      </video>
+    </div>
+  </div>
+</div>
 
 <!-- ===== SERVICIOS ===== -->
 <section class="section servicios" id="servicios">
