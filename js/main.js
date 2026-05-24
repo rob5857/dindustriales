@@ -35,6 +35,15 @@ const TRANSLATIONS = {
     hero_cta1: 'Inspecciones para Seguros', hero_cta2: 'Emergencias 24/7', hero_scroll: 'Scroll',
     stat_years: 'Años de Experiencia', stat_jobs: 'Trabajos Completados',
     stat_insurers: 'Aseguradoras Afiliadas', stat_claims: 'Reclamos Exitosos',
+    promo_eyebrow: '<span class="promo-eyebrow-dot" aria-hidden="true"></span>NUESTRA RESPUESTA EN ACCION',
+    promo_h2: 'Respuesta, Reclamo y Restauración <span class="gradient-text">Emergencia Bajo Control</span>',
+    promo_subtitle: 'Cuando el fuego, el humo o el agua afectan tu propiedad, también comienza una batalla con documentos, aseguradoras y decisiones urgentes. En <strong>Desarrollos Industriales LLC</strong> te acompañamos desde la primera inspección hasta la restauración final.',
+    promo_support: 'Respondemos rápido, documentamos los daños y trabajamos directamente con tu aseguradora para ayudarte a recuperar tu propiedad con tranquilidad.',
+    promo_micro1: 'Emergencias 24/7', promo_micro2: 'Restauración profesional', promo_micro3: 'Reclamaciones con aseguradoras',
+    promo_cta1: 'Solicitar inspección gratuita', promo_cta2: 'Ver video',
+    promo_badge: 'Respuesta inmediata · 24/7',
+    promo_caption_title: 'La Recuperación Comienza Aquí', promo_caption_sub: 'Tu Reclamación, Nuestra Misión',
+    promo_modal_title: 'Video institucional Desarrollos Industriales LLC',
     services_label: 'Nuestros Servicios',
     services_h2: 'Restauración Completa <span class="gradient-text">Post-Incendio</span>',
     services_p: 'Manejamos cada etapa del proceso de restauración, desde la emergencia hasta la reconstrucción final.',
@@ -147,6 +156,15 @@ const TRANSLATIONS = {
     hero_cta1: 'Insurance Inspections', hero_cta2: '24/7 Emergencies', hero_scroll: 'Scroll',
     stat_years: 'Years of Experience', stat_jobs: 'Completed Jobs',
     stat_insurers: 'Affiliated Insurers', stat_claims: 'Successful Claims',
+    promo_eyebrow: '<span class="promo-eyebrow-dot" aria-hidden="true"></span>OUR RESPONSE IN ACTION',
+    promo_h2: 'Response, Claim &amp; Restoration <span class="gradient-text">Emergency Under Control</span>',
+    promo_subtitle: 'When fire, smoke or water hits your property, a second battle begins — paperwork, insurers and urgent decisions. At <strong>Desarrollos Industriales LLC</strong> we walk with you from the first inspection to the final restoration.',
+    promo_support: 'We respond fast, document the damage and work directly with your insurer to help you recover your property with peace of mind.',
+    promo_micro1: '24/7 Emergencies', promo_micro2: 'Professional restoration', promo_micro3: 'Insurance claims handled',
+    promo_cta1: 'Request a free inspection', promo_cta2: 'Watch video',
+    promo_badge: 'Immediate response · 24/7',
+    promo_caption_title: 'Recovery Starts Here', promo_caption_sub: 'Your Claim, Our Mission',
+    promo_modal_title: 'Desarrollos Industriales LLC institutional video',
     services_label: 'Our Services',
     services_h2: 'Complete <span class="gradient-text">Post-Fire Restoration</span>',
     services_p: 'We handle every stage of the restoration process, from the emergency to the final reconstruction.',
@@ -877,3 +895,99 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
 loadGallery();
 
 // Formulario colapsable y reveal de teléfonos gestionados en index.html (inline script)
+
+// ── PROMO VIDEO SECTION ───────────────────────────────────────
+(function initPromoVideo() {
+  const card        = document.getElementById('promoCard');
+  const trailer     = document.getElementById('promoTrailer');
+  const playBtn     = document.getElementById('promoPlayBtn');
+  const playFab     = document.getElementById('promoPlayFab');
+  const modal       = document.getElementById('promoVideoModal');
+  const fullVideo   = document.getElementById('promoFullVideo');
+  if (!card || !modal || !fullVideo) return;
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Lazy-load trailer sources only when the card scrolls into view,
+  // and only autoplay when visible. Skips autoplay if user prefers reduced motion.
+  if (trailer && !prefersReducedMotion && 'IntersectionObserver' in window) {
+    let loaded = false;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!loaded) {
+            trailer.querySelectorAll('source[data-src]').forEach(s => {
+              s.src = s.getAttribute('data-src');
+              s.removeAttribute('data-src');
+            });
+            try { trailer.load(); } catch (_) {}
+            loaded = true;
+          }
+          const p = trailer.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        } else {
+          trailer.pause();
+        }
+      });
+    }, { threshold: 0.25 });
+    io.observe(card);
+  }
+
+  // ── Modal: full promotional video (lazy injects sources on open) ──
+  let sourcesInjected = false;
+  function injectFullSources() {
+    if (sourcesInjected) return;
+    const webm = document.createElement('source');
+    webm.src = 'videos/desarrollos-industriales-promo.webm';
+    webm.type = 'video/webm';
+    const mp4 = document.createElement('source');
+    mp4.src = 'videos/desarrollos-industriales-promo.mp4';
+    mp4.type = 'video/mp4';
+    fullVideo.appendChild(webm);
+    fullVideo.appendChild(mp4);
+    try { fullVideo.load(); } catch (_) {}
+    sourcesInjected = true;
+  }
+
+  let lastFocus = null;
+  function openModal(triggerEl) {
+    lastFocus = triggerEl || document.activeElement;
+    injectFullSources();
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('promo-modal-open');
+    // Pause the looping trailer while modal is open
+    if (trailer) { try { trailer.pause(); } catch (_) {} }
+    // Try to play (user gesture present)
+    setTimeout(() => {
+      const p = fullVideo.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
+      const closeBtn = modal.querySelector('.promo-modal-close');
+      if (closeBtn) closeBtn.focus();
+    }, 60);
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('promo-modal-open');
+    try { fullVideo.pause(); fullVideo.currentTime = 0; } catch (_) {}
+    // Resume trailer if conditions allow
+    if (trailer && !prefersReducedMotion) {
+      const p = trailer.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
+    }
+    if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+  }
+
+  if (playBtn) playBtn.addEventListener('click', () => openModal(playBtn));
+  if (playFab) playFab.addEventListener('click', () => openModal(playFab));
+
+  modal.querySelectorAll('[data-promo-close]').forEach(el => {
+    el.addEventListener('click', closeModal);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+  });
+})();
