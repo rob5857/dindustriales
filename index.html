@@ -243,37 +243,17 @@
   </div>
 </section>
 
-<!-- ===== STATS BAR ===== -->
-<section class="stats-bar" id="stats">
-  <div class="container stats-grid">
-    <div class="stat-item" data-aos="fade-up">
-      <span class="stat-num" data-count="15">0</span><span class="stat-unit">+</span>
-      <p data-i18n="stat_years">Años de Experiencia</p>
-    </div>
-    <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
-      <span class="stat-num" data-count="150">0</span><span class="stat-unit">+</span>
-      <p data-i18n="stat_jobs">Trabajos Completados</p>
-    </div>
-    <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
-      <span class="stat-num" data-count="6">0</span><span class="stat-unit">+</span>
-      <p data-i18n="stat_insurers">Aseguradoras Afiliadas</p>
-    </div>
-    <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
-      <span class="stat-num" data-count="100">0</span><span class="stat-unit">%</span>
-      <p data-i18n="stat_claims">Reclamos Exitosos</p>
-    </div>
-  </div>
-</section>
-
-<!-- ===== PROMO VIDEO SECTION (cinematic) ===== -->
-<section class="section promo-video" id="promo-video" aria-labelledby="promoVideoTitle">
+<!-- ===== PROMO VIDEO SECTION (cinematic, stacked) ===== -->
+<section class="section promo-video promo-video--stacked" id="promo-video" aria-labelledby="promoVideoTitle">
   <div class="promo-bg" aria-hidden="true">
     <div class="promo-bg-glow promo-bg-glow--red"></div>
     <div class="promo-bg-glow promo-bg-glow--orange"></div>
     <div class="promo-bg-noise"></div>
   </div>
   <div class="container promo-video-inner">
-    <div class="promo-copy" data-aos="fade-right" data-aos-duration="900">
+
+    <!-- 1) Cabecera: solo eyebrow + título -->
+    <header class="promo-header" data-aos="fade-up" data-aos-duration="800">
       <span class="promo-eyebrow" data-i18n="promo_eyebrow">
         <span class="promo-eyebrow-dot" aria-hidden="true"></span>
         NUESTRA RESPUESTA EN ACCION
@@ -281,30 +261,10 @@
       <h2 id="promoVideoTitle" class="promo-title" data-i18n="promo_h2">
         Respuesta, Reclamo y Restauración <span class="gradient-text">Emergencia Bajo Control</span>
       </h2>
-      <p class="promo-subtitle" data-i18n="promo_subtitle">
-        Cuando el fuego, el humo o el agua afectan tu propiedad, también comienza una batalla con documentos, aseguradoras y decisiones urgentes. En <strong>Desarrollos Industriales LLC</strong> te acompañamos desde la primera inspección hasta la restauración final.
-      </p>
-      <p class="promo-support" data-i18n="promo_support">
-        Respondemos rápido, documentamos los daños y trabajamos directamente con tu aseguradora para ayudarte a recuperar tu propiedad con tranquilidad.
-      </p>
-      <ul class="promo-microcopy" aria-label="Garantías de servicio">
-        <li><i class="fas fa-bolt" aria-hidden="true"></i> <span data-i18n="promo_micro1">Emergencias 24/7</span></li>
-        <li><i class="fas fa-hard-hat" aria-hidden="true"></i> <span data-i18n="promo_micro2">Restauración profesional</span></li>
-        <li><i class="fas fa-file-contract" aria-hidden="true"></i> <span data-i18n="promo_micro3">Reclamaciones con aseguradoras</span></li>
-      </ul>
-      <div class="promo-ctas">
-        <a href="#contacto" class="btn btn-primary btn-lg promo-cta-primary">
-          <i class="fas fa-calendar-check" aria-hidden="true"></i>
-          <span data-i18n="promo_cta1">Solicitar inspección gratuita</span>
-        </a>
-        <button type="button" class="btn btn-emergency btn-lg promo-cta-play" id="promoPlayBtn" aria-haspopup="dialog" aria-controls="promoVideoModal">
-          <span class="promo-play-icon" aria-hidden="true"><i class="fas fa-play"></i></span>
-          <span data-i18n="promo_cta2">Ver video</span>
-        </button>
-      </div>
-    </div>
+    </header>
 
-    <div class="promo-card-wrap" data-aos="fade-left" data-aos-duration="900" data-aos-delay="120">
+    <!-- 2) Video featured grande -->
+    <div class="promo-card-wrap" data-aos="zoom-in-up" data-aos-duration="900" data-aos-delay="120">
       <div class="promo-card" id="promoCard">
         <span class="promo-badge">
           <span class="promo-badge-pulse" aria-hidden="true"></span>
@@ -333,6 +293,54 @@
         </div>
       </div>
       <div class="promo-card-glow" aria-hidden="true"></div>
+    </div>
+
+    <!-- 3) Texto de apoyo + CTAs debajo del video -->
+    <div class="promo-copy" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+      <p class="promo-subtitle" data-i18n="promo_subtitle">
+        Cuando el fuego, el humo o el agua afectan tu propiedad, también comienza una batalla con documentos, aseguradoras y decisiones urgentes. En <strong>Desarrollos Industriales LLC</strong> te acompañamos desde la primera inspección hasta la restauración final.
+      </p>
+      <p class="promo-support" data-i18n="promo_support">
+        Respondemos rápido, documentamos los daños y trabajamos directamente con tu aseguradora para ayudarte a recuperar tu propiedad con tranquilidad.
+      </p>
+      <ul class="promo-microcopy" aria-label="Garantías de servicio">
+        <li><i class="fas fa-bolt" aria-hidden="true"></i> <span data-i18n="promo_micro1">Emergencias 24/7</span></li>
+        <li><i class="fas fa-hard-hat" aria-hidden="true"></i> <span data-i18n="promo_micro2">Restauración profesional</span></li>
+        <li><i class="fas fa-file-contract" aria-hidden="true"></i> <span data-i18n="promo_micro3">Reclamaciones con aseguradoras</span></li>
+      </ul>
+      <div class="promo-ctas">
+        <a href="#contacto" class="btn btn-primary btn-lg promo-cta-primary">
+          <i class="fas fa-calendar-check" aria-hidden="true"></i>
+          <span data-i18n="promo_cta1">Solicitar inspección gratuita</span>
+        </a>
+        <button type="button" class="btn btn-emergency btn-lg promo-cta-play" id="promoPlayBtn" aria-haspopup="dialog" aria-controls="promoVideoModal">
+          <span class="promo-play-icon" aria-hidden="true"><i class="fas fa-play"></i></span>
+          <span data-i18n="promo_cta2">Ver video</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<section class="stats-bar" id="stats">
+  <div class="container stats-grid">
+    <div class="stat-item" data-aos="fade-up">
+      <span class="stat-num" data-count="15">0</span><span class="stat-unit">+</span>
+      <p data-i18n="stat_years">Años de Experiencia</p>
+    </div>
+    <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+      <span class="stat-num" data-count="150">0</span><span class="stat-unit">+</span>
+      <p data-i18n="stat_jobs">Trabajos Completados</p>
+    </div>
+    <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+      <span class="stat-num" data-count="6">0</span><span class="stat-unit">+</span>
+      <p data-i18n="stat_insurers">Aseguradoras Afiliadas</p>
+    </div>
+    <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+      <span class="stat-num" data-count="100">0</span><span class="stat-unit">%</span>
+      <p data-i18n="stat_claims">Reclamos Exitosos</p>
     </div>
   </div>
 </section>
