@@ -365,6 +365,9 @@ function applyLanguage(lang) {
 
   // Rebuild testimonials in the chosen language (only if Firebase hasn't taken over)
   if (!_testiFromFirebase) buildTestiCards(lang);
+
+  // Swap promo video (trailer + modal) to the chosen language
+  if (typeof window._promoSetLang === 'function') window._promoSetLang(lang);
 }
 
 function applyLanguageAndSave(lang) {
@@ -392,6 +395,24 @@ function closeLangModal(lang) {
 
 document.getElementById('pickEs').addEventListener('click', () => closeLangModal('es'));
 document.getElementById('pickEn').addEventListener('click', () => closeLangModal('en'));
+
+// ── URL ?lang= param (deep-link from hreflang / shared links) ─
+// If URL carries ?lang=es or ?lang=en, treat it as an explicit pick
+// and align the canonical tag with the URL the visitor actually landed on.
+(function syncLangFromUrl() {
+  try {
+    const urlLang = new URLSearchParams(window.location.search).get('lang');
+    if (urlLang === 'es' || urlLang === 'en') {
+      localStorage.setItem('dindustriales-lang', urlLang);
+      localStorage.setItem('dindustriales-lang-chosen', '1');
+    }
+    const canon = document.querySelector('link[rel="canonical"]');
+    if (canon) {
+      const base = 'https://www.desarrollosindustrialespr.com/';
+      canon.setAttribute('href', urlLang === 'en' ? base + '?lang=en' : base);
+    }
+  } catch (_) {}
+})();
 
 // Show modal only if user NEVER explicitly picked a language via the modal
 const userChose  = localStorage.getItem('dindustriales-lang-chosen');
@@ -896,10 +917,11 @@ loadGallery();
 
 // Formulario colapsable y reveal de teléfonos gestionados en index.html (inline script)
 
-// ── PROMO VIDEO SECTION ───────────────────────────────────────
+// ── PROMO VIDEO SECTION (bilingual) ───────────────────────────
 (function initPromoVideo() {
   const card        = document.getElementById('promoCard');
   const trailer     = document.getElementById('promoTrailer');
+  const trailerSrc  = document.getElementById('promoTrailerSource');
   const playBtn     = document.getElementById('promoPlayBtn');
   const playFab     = document.getElementById('promoPlayFab');
   const modal       = document.getElementById('promoVideoModal');
@@ -908,21 +930,37 @@ loadGallery();
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Lazy-load trailer sources only when the card scrolls into view,
-  // and only autoplay when visible. Skips autoplay if user prefers reduced motion.
+  function getLang() {
+    const l = localStorage.getItem('dindustriales-lang');
+    return (l === 'es' || l === 'en') ? l : 'es';
+  }
+
+  // ── Trailer (autoplay/loop) bilingual + lazy ──
+  let trailerLoaded = false;
+  let cardInView = false;
+
+  function applyTrailerPoster(lang) {
+    if (!trailer) return;
+    const poster = trailer.getAttribute('data-poster-' + lang);
+    if (poster) trailer.setAttribute('poster', poster);
+  }
+
+  function loadTrailerSources(lang) {
+    if (!trailerSrc) return;
+    const url = trailerSrc.getAttribute('data-src-' + lang);
+    if (!url) return;
+    trailerSrc.src = url;
+    applyTrailerPoster(lang);
+    try { trailer.load(); } catch (_) {}
+    trailerLoaded = true;
+  }
+
   if (trailer && !prefersReducedMotion && 'IntersectionObserver' in window) {
-    let loaded = false;
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
+        cardInView = entry.isIntersecting;
         if (entry.isIntersecting) {
-          if (!loaded) {
-            trailer.querySelectorAll('source[data-src]').forEach(s => {
-              s.src = s.getAttribute('data-src');
-              s.removeAttribute('data-src');
-            });
-            try { trailer.load(); } catch (_) {}
-            loaded = true;
-          }
+          if (!trailerLoaded) loadTrailerSources(getLang());
           const p = trailer.play();
           if (p && typeof p.catch === 'function') p.catch(() => {});
         } else {
@@ -933,32 +971,74 @@ loadGallery();
     io.observe(card);
   }
 
-  // ── Modal: full promotional video (lazy injects sources on open) ──
-  let sourcesInjected = false;
-  function injectFullSources() {
-    if (sourcesInjected) return;
-    const webm = document.createElement('source');
-    webm.src = 'videos/desarrollos-industriales-promo.webm';
-    webm.type = 'video/webm';
-    const mp4 = document.createElement('source');
-    mp4.src = 'videos/desarrollos-industriales-promo.mp4';
-    mp4.type = 'video/mp4';
-    fullVideo.appendChild(webm);
-    fullVideo.appendChild(mp4);
+  // ── Modal: full promotional video (lazy + bilingual injection) ──
+  let injectedLang = null;
+  function injectFullSources(lang) {
+    if (injectedLang === lang) return;
+    while (fullVideo.firstChild) fullVideo.removeChild(fullVideo.firstChild);
+    const webmUrl = fullVideo.getAttribute('data-webm-' + lang);
+    const mp4Url  = fullVideo.getAttribute('data-mp4-'  + lang);
+    if (webmUrl) {
+      const webm = document.createElement('source');
+      webm.src = webmUrl; webm.type = 'video/webm';
+      fullVideo.appendChild(webm);
+    }
+    if (mp4Url) {
+      const mp4 = document.createElement('source');
+      mp4.src = mp4Url; mp4.type = 'video/mp4';
+      fullVideo.appendChild(mp4);
+    }
+    const poster = fullVideo.getAttribute('data-poster-' + lang);
+    if (poster) fullVideo.setAttribute('poster', poster);
     try { fullVideo.load(); } catch (_) {}
-    sourcesInjected = true;
+    injectedLang = lang;
   }
+
+  // ── Public hook: called by applyLanguage() when user toggles ──
+  window._promoSetLang = function(lang) {
+    if (lang !== 'es' && lang !== 'en') return;
+
+    // Trailer
+    if (trailerSrc && trailerLoaded) {
+      const newUrl = trailerSrc.getAttribute('data-src-' + lang);
+      if (newUrl && trailerSrc.src.indexOf(newUrl) === -1) {
+        const wasPlaying = trailer && !trailer.paused;
+        trailerSrc.src = newUrl;
+        applyTrailerPoster(lang);
+        try { trailer.load(); } catch (_) {}
+        if (wasPlaying || cardInView) {
+          const p = trailer.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        }
+      }
+    } else {
+      applyTrailerPoster(lang);
+    }
+
+    // Modal full video
+    if (modal.classList.contains('active')) {
+      const wasPlaying = !fullVideo.paused;
+      injectedLang = null;
+      injectFullSources(lang);
+      if (wasPlaying) {
+        const p = fullVideo.play();
+        if (p && typeof p.catch === 'function') p.catch(() => {});
+      }
+    } else {
+      injectedLang = null; // re-inject on next open
+      const poster = fullVideo.getAttribute('data-poster-' + lang);
+      if (poster) fullVideo.setAttribute('poster', poster);
+    }
+  };
 
   let lastFocus = null;
   function openModal(triggerEl) {
     lastFocus = triggerEl || document.activeElement;
-    injectFullSources();
+    injectFullSources(getLang());
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('promo-modal-open');
-    // Pause the looping trailer while modal is open
     if (trailer) { try { trailer.pause(); } catch (_) {} }
-    // Try to play (user gesture present)
     setTimeout(() => {
       const p = fullVideo.play();
       if (p && typeof p.catch === 'function') p.catch(() => {});
@@ -972,7 +1052,6 @@ loadGallery();
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('promo-modal-open');
     try { fullVideo.pause(); fullVideo.currentTime = 0; } catch (_) {}
-    // Resume trailer if conditions allow
     if (trailer && !prefersReducedMotion) {
       const p = trailer.play();
       if (p && typeof p.catch === 'function') p.catch(() => {});
@@ -990,4 +1069,9 @@ loadGallery();
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
   });
+
+  // Initial poster sync (covers returning visitors who already chose EN)
+  applyTrailerPoster(getLang());
+  const initFullPoster = fullVideo.getAttribute('data-poster-' + getLang());
+  if (initFullPoster) fullVideo.setAttribute('poster', initFullPoster);
 })();
