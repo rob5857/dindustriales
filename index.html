@@ -12,6 +12,7 @@
   <meta name="author" content="Desarrollos Industriales LLC" />
   <link rel="canonical" href="https://www.desarrollosindustrialespr.com/" />
   <link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/" />
+  <link rel="alternate" hreflang="en" href="https://www.desarrollosindustrialespr.com/?lang=en" />
   <link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/" />
 
   <!-- ===== Open Graph ===== -->
@@ -35,6 +36,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <!-- LCP optimization: preload hero logo (above-the-fold) -->
+  <link rel="preload" as="image" href="logo3.png" fetchpriority="high" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -127,14 +130,27 @@
     {
       "@context": "https://schema.org",
       "@type": "VideoObject",
-      "@id": "https://www.desarrollosindustrialespr.com/#promo-video",
-      "name": "Del caos a la claridad — Desarrollos Industriales LLC",
+      "@id": "https://www.desarrollosindustrialespr.com/#promo-video-es",
+      "name": "Respuesta, Reclamo y Restauración — Emergencia Bajo Control | Desarrollos Industriales LLC",
       "description": "Video institucional de Desarrollos Industriales LLC: restauración profesional de daños por incendio, humo e inundación en Puerto Rico, con acompañamiento directo en reclamaciones de seguros y respuesta en 24 horas.",
       "thumbnailUrl": "https://www.desarrollosindustrialespr.com/videos/desarrollos-video-poster.jpg",
       "uploadDate": "2025-01-15",
       "contentUrl": "https://www.desarrollosindustrialespr.com/videos/desarrollos-industriales-promo.mp4",
       "embedUrl": "https://www.desarrollosindustrialespr.com/#promo-video",
       "inLanguage": "es",
+      "publisher": {"@id": "https://www.desarrollosindustrialespr.com/#business"}
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "@id": "https://www.desarrollosindustrialespr.com/#promo-video-en",
+      "name": "Response, Claim & Restoration — Emergency Under Control | Desarrollos Industriales LLC",
+      "description": "Institutional video of Desarrollos Industriales LLC: professional fire, smoke and flood damage restoration in Puerto Rico, with direct insurance claim assistance and 24-hour response.",
+      "thumbnailUrl": "https://www.desarrollosindustrialespr.com/videos/desarrollos-video-poster-en.jpg",
+      "uploadDate": "2025-01-15",
+      "contentUrl": "https://www.desarrollosindustrialespr.com/videos/desarrollos-industriales-promo-en.mp4",
+      "embedUrl": "https://www.desarrollosindustrialespr.com/#promo-video",
+      "inLanguage": "en",
       "publisher": {"@id": "https://www.desarrollosindustrialespr.com/#business"}
     }
   ]
@@ -145,16 +161,16 @@
 <!-- ===== LANGUAGE SELECTOR POPUP ===== -->
 <div class="lang-modal-overlay" id="langModal">
   <div class="lang-modal">
-    <img src="logo3.png" alt="D Industriales" class="lang-modal-logo" />
+    <img src="logo3.png" alt="D Industriales" class="lang-modal-logo" width="1680" height="945" decoding="async" />
     <h2 data-i18n="modal_title">Selecciona tu idioma</h2>
     <p data-i18n="modal_subtitle">Elige el idioma en que deseas navegar</p>
     <div class="lang-modal-btns">
       <button class="lang-modal-btn" id="pickEs">
-        <img src="images/pr.png" alt="Puerto Rico" class="lang-modal-flag" />
+        <img src="images/pr.png" alt="Puerto Rico" class="lang-modal-flag" width="256" height="256" decoding="async" />
         <span class="lang-name" data-i18n="modal_btn_es">Español</span>
       </button>
       <button class="lang-modal-btn" id="pickEn">
-        <img src="images/us.png" alt="USA" class="lang-modal-flag" />
+        <img src="images/us.png" alt="USA" class="lang-modal-flag" width="283" height="279" decoding="async" />
         <span class="lang-name" data-i18n="modal_btn_en">English</span>
       </button>
     </div>
@@ -165,7 +181,7 @@
 <header class="header" id="header">
   <nav class="nav container">
     <a href="#hero" class="nav-logo">
-      <img src="logo3.png" alt="D Industriales Logo" class="logo-img" />
+      <img src="logo3.png" alt="D Industriales Logo" class="logo-img" width="1680" height="945" decoding="async" fetchpriority="high" />
     </a>
     <ul class="nav-menu" id="navMenu">
       <li class="has-dropdown">
@@ -188,7 +204,7 @@
     </ul>
     <div class="nav-actions">
       <button class="lang-toggle" id="langToggle" aria-label="Cambiar idioma">
-        <img src="images/us.png" alt="English" class="lang-flag-img" id="langFlagImg" width="42" height="42">
+        <img src="images/us.png" alt="English" class="lang-flag-img" id="langFlagImg" width="42" height="42" decoding="async">
       </button>
       <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
         <i class="fas fa-sun" id="themeIcon"></i>
@@ -212,7 +228,7 @@
   <div class="hero-overlay"></div>
   <div class="hero-content container">
     <div class="hero-logo-wrap" data-aos="zoom-in" data-aos-duration="1000">
-      <img src="logo3.png" alt="Desarrollos Industriales LLC - Restauración de daños por incendio e inundación en Puerto Rico" class="hero-logo" />
+      <img src="logo3.png" alt="Desarrollos Industriales LLC - Restauración de daños por incendio e inundación en Puerto Rico" class="hero-logo" width="1680" height="945" decoding="async" fetchpriority="high" />
       <div class="hero-logo-glow"></div>
     </div>
     <h1 class="hero-title" data-aos="fade-up" data-aos-delay="300" data-i18n="hero_title">
@@ -279,8 +295,14 @@
             playsinline
             preload="none"
             poster="videos/desarrollos-video-poster.jpg"
+            data-poster-es="videos/desarrollos-video-poster.jpg"
+            data-poster-en="videos/desarrollos-video-poster-en.jpg"
             aria-label="Trailer promocional Desarrollos Industriales LLC">
-            <source data-src="videos/desarrollos-industriales-trailer.mp4" type="video/mp4" />
+            <source
+              id="promoTrailerSource"
+              data-src-es="videos/desarrollos-industriales-trailer.mp4"
+              data-src-en="videos/desarrollos-industriales-trailer-en.mp4"
+              type="video/mp4" />
           </video>
           <div class="promo-video-overlay" aria-hidden="true"></div>
           <button type="button" class="promo-play-fab" id="promoPlayFab" aria-label="Reproducir video institucional completo" aria-haspopup="dialog" aria-controls="promoVideoModal">
@@ -360,7 +382,13 @@
         controls
         playsinline
         preload="none"
-        poster="videos/desarrollos-video-poster.jpg">
+        poster="videos/desarrollos-video-poster.jpg"
+        data-poster-es="videos/desarrollos-video-poster.jpg"
+        data-poster-en="videos/desarrollos-video-poster-en.jpg"
+        data-webm-es="videos/desarrollos-industriales-promo.webm"
+        data-mp4-es="videos/desarrollos-industriales-promo.mp4"
+        data-webm-en="videos/desarrollos-industriales-promo-en.webm"
+        data-mp4-en="videos/desarrollos-industriales-promo-en.mp4">
         <!-- sources injected on open for true lazy load -->
       </video>
     </div>
@@ -460,7 +488,7 @@
 
       <!-- Logo animado -->
       <div class="bp-logo-wrap" data-aos="zoom-in" data-aos-duration="800">
-        <img src="images/logoTacoma.png" alt="Desarrollos Industriales LLC - Empresa de restauración por incendio e inundación en Puerto Rico" class="bp-logo" />
+        <img src="images/logoTacoma.png" alt="Desarrollos Industriales LLC - Empresa de restauración por incendio e inundación en Puerto Rico" class="bp-logo" width="1536" height="1024" loading="lazy" decoding="async" />
         <div class="bp-logo-ring"></div>
       </div>
 
@@ -598,11 +626,11 @@
       <div class="ad-scanlines"></div>
       <div class="ad-comparison" id="adComparison">
         <div class="ad-before">
-          <img id="adBeforeImg" src="" alt="Antes de la restauración" />
+          <img id="adBeforeImg" src="" alt="Antes de la restauración" width="1600" height="900" loading="lazy" decoding="async" />
           <div class="ad-label ad-label-before"><span class="ad-label-dot"></span><span data-i18n="gallery_before">ANTES</span></div>
         </div>
         <div class="ad-after" id="adAfterWrap">
-          <img id="adAfterImg" src="" alt="Después de la restauración" />
+          <img id="adAfterImg" src="" alt="Después de la restauración" width="1600" height="900" loading="lazy" decoding="async" />
           <div class="ad-label ad-label-after"><span class="ad-label-dot"></span><span data-i18n="gallery_after">DESPUÉS</span></div>
         </div>
         <div class="ad-divider" id="adDivider">
@@ -825,7 +853,7 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <img src="logo3.png" alt="Desarrollos Industriales LLC - Restauración por incendio e inundación Puerto Rico" class="footer-logo" />
+        <img src="logo3.png" alt="Desarrollos Industriales LLC - Restauración por incendio e inundación Puerto Rico" class="footer-logo" width="1680" height="945" loading="lazy" decoding="async" />
         <p data-i18n="footer_brand_p">Restauración profesional de daños por incendio, humo e inundación en Puerto Rico. Licenciados, asegurados y con más de 15 años de experiencia.</p>
         <div class="social-links">
           <a href="https://www.facebook.com/search/top?q=desarrollos%20industriales" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
