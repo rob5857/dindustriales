@@ -1,6 +1,17 @@
 ﻿<!DOCTYPE html>
 <html lang="es" data-theme="dark">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3Y1BDSZ83H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3Y1BDSZ83H');
+  </script>
+  <script defer src="js/analytics.js"></script>
+
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="index, follow" />
@@ -184,6 +195,7 @@
       <img src="logo3.png" alt="D Industriales Logo" class="logo-img" width="1680" height="945" decoding="async" fetchpriority="high" />
     </a>
     <ul class="nav-menu" id="navMenu">
+      <li><a href="#hero" class="nav-link"><i class="fas fa-home"></i> <span data-i18n="nav_home">Inicio</span></a></li>
       <li class="has-dropdown">
         <a href="#servicios" class="nav-link nav-dropdown-toggle"><i class="fas fa-fire-extinguisher"></i> <span data-i18n="nav_services">Servicios</span> <i class="fas fa-chevron-down nav-chevron"></i></a>
         <ul class="nav-dropdown">
@@ -194,6 +206,7 @@
           <li><a href="emergencia-incendio-inundacion.html"><i class="fas fa-exclamation-triangle"></i> Emergencia 24/7</a></li>
         </ul>
       </li>
+      <li><a href="asistencia-reclamaciones-aseguradoras-puerto-rico.html" class="nav-link"><i class="fas fa-headset"></i> <span data-i18n="nav_claims_help">Asistencia con Reclamaciones</span></a></li>
       <li><a href="#aseguradoras" class="nav-link"><i class="fas fa-shield-alt"></i> <span data-i18n="nav_insurers">Aseguradoras</span></a></li>
       <li><a href="#galeria" class="nav-link"><i class="fas fa-images"></i> <span data-i18n="nav_gallery">Galería</span></a></li>
       <li><a href="#faq" class="nav-link"><i class="fas fa-question-circle"></i> <span data-i18n="nav_faq">FAQ</span></a></li>
@@ -593,6 +606,11 @@
       <div class="insurer-card"><div class="insurer-logo-placeholder"><i class="fas fa-building"></i></div><span>Multinational</span></div>
       <div class="insurer-card"><div class="insurer-logo-placeholder"><i class="fas fa-shield-alt"></i></div><span>USIC</span></div>
     </div>
+    <div style="text-align:center; margin-top: 28px;" data-aos="fade-up" data-aos-delay="300">
+      <a href="asistencia-reclamaciones-aseguradoras-puerto-rico.html" class="btn btn-primary">
+        <i class="fas fa-headset"></i> <span data-i18n="aseg_cta_claims">Recibir asistencia con mi reclamación</span>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -767,7 +785,7 @@
           <i class="fas fa-sms"></i>
           <div><h3 data-i18n="contact_sms_h3">Mensaje de Texto</h3><p data-i18n="contact_sms_p">Envíanos un SMS ahora</p><span>+1 (973) 392-0478</span></div>
         </a>
-        <a href="mailto:dindustriales@gmail.com" class="contact-card email">
+        <a href="mailto:dindustrialesllc@gmail.com" class="contact-card email">
           <i class="fas fa-envelope"></i>
           <div><h3>Email</h3><p data-i18n="contact_email_p">Respuesta en menos de 1 hora</p><span>dindustriales@gmail.com</span></div>
         </a>
@@ -892,6 +910,59 @@
     </div>
   </div>
 </footer>
+
+<!-- ===== DI ASSISTANT WIDGET ===== -->
+<div class="di-assistant-widget is-hidden" id="diAssistant" aria-live="polite">
+  <div class="di-assistant-bubble" id="diAssistantBubble" role="status"
+       data-msg-1-i18n="dia_bubble" data-msg-2-i18n="dia_bubble2">
+    <button class="di-assistant-bubble-close" type="button" aria-label="Cerrar mensaje" data-di-bubble-close>
+      <i class="fas fa-times"></i>
+    </button>
+    <span class="di-assistant-bubble-text" id="diAssistantBubbleText" data-i18n="dia_bubble">Para reclamaciones por teléfono a cualquier aseguradora, nosotros te asistimos.</span>
+  </div>
+  <button class="di-assistant-launcher" type="button"
+          id="diAssistantLauncher"
+          aria-label="Abrir asistente de reclamaciones"
+          aria-expanded="false" aria-controls="diAssistantPanel">
+    <img src="images/avatar.png" alt="Asistente Desarrollos Industriales LLC"
+         class="di-assistant-avatar" width="118" height="210" decoding="async" loading="lazy" />
+  </button>
+  <span class="di-assistant-tooltip" id="diAssistantTooltip" data-i18n="dia_tooltip">Te asistimos</span>
+</div>
+
+<div class="di-assistant-panel" id="diAssistantPanel"
+     role="dialog" aria-modal="false" aria-labelledby="diAssistantTitle" aria-hidden="true">
+  <div class="di-assistant-panel-head">
+    <span class="di-assistant-panel-avatar-wrap" aria-hidden="true">
+      <img src="images/avatar.png" alt="" class="di-assistant-panel-avatar" width="48" height="48" decoding="async" loading="lazy" />
+    </span>
+    <div>
+      <h3 class="di-assistant-panel-title" id="diAssistantTitle" data-i18n="dia_title">Asistente de Reclamaciones DI</h3>
+      <p class="di-assistant-panel-sub" data-i18n="dia_sub">En línea · Respuesta inmediata</p>
+    </div>
+    <button class="di-assistant-panel-close" type="button" aria-label="Cerrar asistente" data-di-close>
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="di-assistant-panel-body">
+    <p class="di-assistant-msg" data-i18n="dia_msg">Para <strong>reclamaciones por teléfono a cualquier aseguradora</strong>, nosotros te asistimos.</p>
+    <p class="di-assistant-msg-sub" data-i18n="dia_msg_sub">Si tu propiedad sufrió daños por fuego, humo, hollín, inundación o moho, podemos orientarte y ayudarte a dar el próximo paso con tu aseguradora.</p>
+    <div class="di-assistant-actions">
+      <a class="di-assistant-btn di-assistant-btn--call" href="tel:+19733920478">
+        <i class="fas fa-phone-alt"></i> <span data-i18n="dia_btn_call">Llamar ahora — (973) 392-0478</span>
+      </a>
+      <a class="di-assistant-btn di-assistant-btn--wa"
+         href="https://wa.me/19733920478?text=Hola%2C%20vi%20la%20p%C3%A1gina%20de%20Desarrollos%20Industriales%20LLC.%20Necesito%20asistencia%20con%20una%20reclamaci%C3%B3n%20de%20seguro."
+         target="_blank" rel="noopener">
+        <i class="fab fa-whatsapp"></i> <span data-i18n="dia_btn_wa">WhatsApp</span>
+      </a>
+      <a class="di-assistant-btn" href="asistencia-reclamaciones-aseguradoras-puerto-rico.html">
+        <i class="fas fa-shield-alt"></i> <span data-i18n="dia_btn_insurers">Ver aseguradoras</span>
+      </a>
+    </div>
+    <p class="di-assistant-foot" data-i18n="dia_foot">Disponible 24/7 · Puerto Rico</p>
+  </div>
+</div>
 
 <!-- ===== FLOATING BUTTONS ===== -->
 <div class="floating-buttons">

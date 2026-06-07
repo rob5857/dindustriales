@@ -112,6 +112,16 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- ===== Asistencia con Reclamaciones a Aseguradoras ===== -->
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/asistencia-reclamaciones-aseguradoras-puerto-rico.html</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/asistencia-reclamaciones-aseguradoras-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/asistencia-reclamaciones-aseguradoras-puerto-rico.html"/>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
   <!-- ===== Formulario de testimonios ===== -->
   <url>
     <loc>https://www.desarrollosindustrialespr.com/formulario-testimonio.html</loc>
