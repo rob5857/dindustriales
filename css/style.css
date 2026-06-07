@@ -1555,6 +1555,23 @@ body.promo-modal-open { overflow: hidden; }
   .promo-modal-dialog { transition: none !important; transform: none !important; }
 }
 
+/* AOS fallback: when AOS is disabled (mobile/tablet ≤1024px or reduced-motion),
+   force [data-aos] elements visible so they don't stay hidden by aos.css defaults. */
+@media (max-width: 1024px) {
+  [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 /* ===================================================
    DI ASSISTANT WIDGET (floating, di-assistant-*)
    =================================================== */
@@ -1708,10 +1725,19 @@ body.promo-modal-open { overflow: hidden; }
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; gap: 12px;
 }
-.di-assistant-panel-avatar {
-  width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+.di-assistant-panel-avatar-wrap {
+  width: 48px; height: 48px; border-radius: 50%;
+  overflow: hidden; flex-shrink: 0;
   border: 2px solid var(--fire-orange);
   box-shadow: 0 4px 12px rgba(255,107,53,0.35);
+  background: var(--bg-card);
+  display: inline-block;
+}
+.di-assistant-panel-avatar {
+  width: 100%; height: auto; display: block;
+  object-fit: cover; object-position: center top;
+  transform: scale(2.4); transform-origin: 50% 9%;
+  border: 0; border-radius: 0; box-shadow: none;
 }
 .di-assistant-panel-title { font-family: 'Poppins', sans-serif; font-size: 0.98rem; font-weight: 700; line-height: 1.2; margin: 0; }
 .di-assistant-panel-sub { font-size: 0.74rem; color: var(--text-secondary); margin-top: 2px; display: flex; align-items: center; gap: 6px; }
