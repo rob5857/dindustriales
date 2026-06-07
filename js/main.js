@@ -27,8 +27,10 @@ const TRANSLATIONS = {
     modal_subtitle: 'Elige el idioma en que deseas navegar',
     modal_btn_es: 'Español',
     modal_btn_en: 'English',
+    nav_home: 'Inicio',
     nav_services: 'Servicios', nav_insurers: 'Aseguradoras', nav_radar: 'Radar PR', nav_gallery: 'Galería',
     nav_faq: 'FAQ', nav_contact: 'Contacto', nav_whatsapp: 'WhatsApp',
+    nav_claims_help: 'Asistencia con Reclamaciones',
     hero_title: 'Restauración Profesional de<br/><span class="gradient-text">Daños por Incendio e Inundaciones</span>',
     hero_subtitle: 'La principal empresa de restauración de daños por incendio de Puerto Rico.<br/>Trabajamos directamente con tu aseguradora. Disponibles <strong>24/7</strong>.',
     hero_badge1: 'Ayuda Rápida', hero_badge2: '+15 Años de Experiencia', hero_badge3: 'Respuesta en 24 horas',
@@ -74,6 +76,18 @@ const TRANSLATIONS = {
     aseg_label: 'Aseguradoras',
     aseg_h2: 'Trabajamos con las principales <span class="gradient-text">Aseguradoras de Puerto Rico</span>',
     aseg_p: '¡Siempre poniendo al asegurado primero!',
+    aseg_cta_claims: 'Recibir asistencia con mi reclamación',
+    dia_bubble: 'Para reclamaciones por teléfono a cualquier aseguradora, nosotros te asistimos.',
+    dia_bubble2: 'Llámanos y no esperes horas en el teléfono, lo hacemos por ti.',
+    dia_tooltip: 'Te asistimos',
+    dia_title: 'Asistente de Reclamaciones DI',
+    dia_sub: 'En línea · Respuesta inmediata',
+    dia_msg: 'Para <strong>reclamaciones por teléfono a cualquier aseguradora</strong>, nosotros te asistimos.',
+    dia_msg_sub: 'Si tu propiedad sufrió daños por fuego, humo, hollín, inundación o moho, podemos orientarte y ayudarte a dar el próximo paso con tu aseguradora.',
+    dia_btn_call: 'Llamar ahora — (973) 392-0478',
+    dia_btn_wa: 'WhatsApp',
+    dia_btn_insurers: 'Ver aseguradoras',
+    dia_foot: 'Disponible 24/7 · Puerto Rico',
     gallery_label: 'Nuestro Trabajo', gallery_h2: 'Transformaciones <span class="gradient-text">Reales</span>',
     gallery_p: 'Desliza el divisor para ver el antes y después de nuestras restauraciones profesionales.',
     gallery_before: 'ANTES', gallery_after: 'DESPUÉS', gallery_hint: 'Desliza el divisor',
@@ -148,8 +162,10 @@ const TRANSLATIONS = {
     modal_subtitle: 'Choose the language you want to browse in',
     modal_btn_es: 'Español',
     modal_btn_en: 'English',
+    nav_home: 'Home',
     nav_services: 'Services', nav_insurers: 'Insurers', nav_radar: 'Radar PR', nav_gallery: 'Gallery',
     nav_faq: 'FAQ', nav_contact: 'Contact', nav_whatsapp: 'WhatsApp',
+    nav_claims_help: 'Insurance Claim Assistance',
     hero_title: 'Professional Restoration of<br/><span class="gradient-text">Fire &amp; Flood Damage</span>',
     hero_subtitle: 'Puerto Rico\'s premier fire damage restoration company.<br/>We work directly with your insurer. Available <strong>24/7</strong>.',
     hero_badge1: 'Fast Response', hero_badge2: '+15 Years of Experience', hero_badge3: '24-hour Response',
@@ -195,6 +211,18 @@ const TRANSLATIONS = {
     aseg_label: 'Insurers',
     aseg_h2: 'We Work with the Leading <span class="gradient-text">Puerto Rico Insurers</span>',
     aseg_p: 'Always putting the insured first!',
+    aseg_cta_claims: 'Get assistance with my claim',
+    dia_bubble: 'For phone claims to any insurance company, we assist you.',
+    dia_bubble2: 'Call us and don\u2019t wait hours on the phone \u2014 we do it for you.',
+    dia_tooltip: 'We assist you',
+    dia_title: 'DI Claims Assistant',
+    dia_sub: 'Online · Immediate response',
+    dia_msg: 'For <strong>phone claims to any insurance company</strong>, we assist you.',
+    dia_msg_sub: 'If your property suffered fire, smoke, soot, flood or mold damage, we can guide you and help you take the next step with your insurer.',
+    dia_btn_call: 'Call now — (973) 392-0478',
+    dia_btn_wa: 'WhatsApp',
+    dia_btn_insurers: 'View insurers',
+    dia_foot: 'Available 24/7 · Puerto Rico',
     gallery_label: 'Our Work', gallery_h2: 'Real <span class="gradient-text">Transformations</span>',
     gallery_p: 'Drag the divider to see the before and after of our professional restorations.',
     gallery_before: 'BEFORE', gallery_after: 'AFTER', gallery_hint: 'Drag the divider',
@@ -590,9 +618,14 @@ window.addEventListener('scroll', () => {
 // ── FIRE CANVAS ANIMATION ──────────────────────────────────────
 (function initFireCanvas() {
   const canvas = document.getElementById('fireCanvas');
+  if (!canvas) return;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
   const ctx = canvas.getContext('2d');
   let particles = [];
   let W, H;
+  let rafId = null;
+  let visible = true;
 
   function resize() {
     W = canvas.width = window.innerWidth;
@@ -649,8 +682,9 @@ window.addEventListener('scroll', () => {
     };
   }
 
-  // Create particles
-  for (let i = 0; i < 220; i++) {
+  // Create particles (lighter load on mobile)
+  const smokeCount = isMobile ? 80 : 220;
+  for (let i = 0; i < smokeCount; i++) {
     const p = new Particle();
     p.y = Math.random() * H; // spread initial positions
     particles.push(p);
@@ -679,8 +713,10 @@ window.addEventListener('scroll', () => {
       ctx.save();
       ctx.globalAlpha = Math.max(0, this.life * 0.9);
       ctx.fillStyle = '#ffd60a';
-      ctx.shadowColor = '#ff6b35';
-      ctx.shadowBlur = 6;
+      if (!isMobile) {
+        ctx.shadowColor = '#ff6b35';
+        ctx.shadowBlur = 6;
+      }
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fill();
@@ -688,7 +724,8 @@ window.addEventListener('scroll', () => {
     };
   }
 
-  for (let i = 0; i < 80; i++) {
+  const emberCount = isMobile ? 25 : 80;
+  for (let i = 0; i < emberCount; i++) {
     const e = new Ember();
     e.y = Math.random() * H;
     particles.push(e);
@@ -697,34 +734,74 @@ window.addEventListener('scroll', () => {
   function animate() {
     ctx.clearRect(0, 0, W, H);
     particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(animate);
+    rafId = requestAnimationFrame(animate);
   }
-  animate();
+
+  function start() { if (!rafId) animate(); }
+  function stop()  { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
+
+  if (reducedMotion) {
+    // Single static frame, no loop
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => p.draw());
+    return;
+  }
+
+  // Pause when hero canvas is off-screen (huge CPU/GPU savings on scroll)
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        visible = e.isIntersecting;
+        if (visible) start(); else stop();
+      });
+    }, { threshold: 0 });
+    io.observe(canvas);
+  }
+  // Pause when tab hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop(); else if (visible) start();
+  });
+
+  start();
 })();
 
 // ── COUNTER ANIMATION ──────────────────────────────────────────
-function animateCounters() {
-  document.querySelectorAll('.stat-num').forEach(el => {
-    const target = parseInt(el.dataset.count, 10);
-    const duration = 2000;
-    const start = performance.now();
-    function update(now) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.round(target * ease);
-      if (progress < 1) requestAnimationFrame(update);
-    }
-    requestAnimationFrame(update);
-  });
-}
+// On mobile/tablet (≤1024) and on reduced-motion preference the numbers are
+// rendered statically to avoid any rAF cost on lower-end devices.
+(function initCounters() {
+  const els = Array.from(document.querySelectorAll('.stat-num'));
+  if (!els.length) return;
+  const targets = els.map(el => parseInt(el.dataset.count, 10) || 0);
 
-// Trigger counter when stats section is visible
-const statsObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { animateCounters(); statsObs.disconnect(); } });
-}, { threshold: 0.5 });
-const statsSection = document.getElementById('stats');
-if (statsSection) statsObs.observe(statsSection);
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobileOrTablet = window.matchMedia('(max-width: 1024px)').matches;
+
+  if (reduced || isMobileOrTablet) {
+    els.forEach((el, i) => { el.textContent = targets[i]; });
+    return;
+  }
+
+  function animate() {
+    const duration = 1200;
+    const start = performance.now();
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      for (let i = 0; i < els.length; i++) {
+        els[i].textContent = Math.round(targets[i] * ease);
+      }
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const statsSection = document.getElementById('stats');
+  if (!statsSection) { animate(); return; }
+  const statsObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { animate(); statsObs.disconnect(); } });
+  }, { threshold: 0.3, rootMargin: '0px 0px -10% 0px' });
+  statsObs.observe(statsSection);
+})();
 
 // ── FIRE RADAR MAP (Leaflet + NASA FIRMS) ─────────────────────
 function initFireMap() {
@@ -1074,4 +1151,122 @@ loadGallery();
   applyTrailerPoster(getLang());
   const initFullPoster = fullVideo.getAttribute('data-poster-' + getLang());
   if (initFullPoster) fullVideo.setAttribute('poster', initFullPoster);
+})();
+
+// ── DI ASSISTANT WIDGET ───────────────────────────────────────
+(function initDiAssistant() {
+  const widget   = document.getElementById('diAssistant');
+  const launcher = document.getElementById('diAssistantLauncher');
+  const panel    = document.getElementById('diAssistantPanel');
+  const bubble   = document.getElementById('diAssistantBubble');
+  if (!widget || !launcher || !panel) return;
+
+  const SHOW_DELAY   = 2500;
+  const BUBBLE_DELAY = 800;
+  const ROTATE_EVERY = 4200;
+  const TOOLTIP_AUTOHIDE = 2600;
+  const bubbleText  = document.getElementById('diAssistantBubbleText');
+  const tooltip     = document.getElementById('diAssistantTooltip');
+  let bubbleIdx = 0;
+  let rotateTimer = null;
+  let tooltipTimer = null;
+
+  function dismissBubble() {
+    if (bubble) bubble.classList.remove('is-visible');
+    if (rotateTimer) { clearInterval(rotateTimer); rotateTimer = null; }
+  }
+  function showTooltipBriefly() {
+    if (!tooltip) return;
+    tooltip.classList.add('is-shown');
+    if (tooltipTimer) clearTimeout(tooltipTimer);
+    tooltipTimer = setTimeout(() => tooltip.classList.remove('is-shown'), TOOLTIP_AUTOHIDE);
+  }
+  function minimizeLauncher() {
+    if (launcher) launcher.classList.add('is-minimized');
+    if (widget) widget.classList.add('is-min-mode');
+    showTooltipBriefly();
+  }
+  function currentBubbleMessages() {
+    if (!bubble) return [];
+    const lang = (typeof localStorage !== 'undefined' && localStorage.getItem('dindustriales-lang')) || 'es';
+    const t = (typeof TRANSLATIONS !== 'undefined' && TRANSLATIONS[lang]) || {};
+    const k1 = bubble.getAttribute('data-msg-1-i18n') || 'dia_bubble';
+    const k2 = bubble.getAttribute('data-msg-2-i18n') || 'dia_bubble2';
+    return [ t[k1] || (bubbleText ? bubbleText.textContent : ''), t[k2] || '' ].filter(Boolean);
+  }
+  function swapBubbleMessage() {
+    if (!bubble || !bubbleText) return;
+    const msgs = currentBubbleMessages();
+    if (msgs.length < 2) return;
+    bubble.classList.add('is-swapping');
+    setTimeout(() => {
+      bubbleIdx = (bubbleIdx + 1) % msgs.length;
+      bubbleText.textContent = msgs[bubbleIdx];
+      bubble.classList.remove('is-swapping');
+    }, 280);
+  }
+  function startBubbleRotation() {
+    if (rotateTimer) clearInterval(rotateTimer);
+    rotateTimer = setInterval(swapBubbleMessage, ROTATE_EVERY);
+  }
+
+  function openPanel() {
+    panel.classList.add('is-open');
+    panel.setAttribute('aria-hidden', 'false');
+    launcher.setAttribute('aria-expanded', 'true');
+    dismissBubble();
+    minimizeLauncher();
+    const firstBtn = panel.querySelector('.di-assistant-btn');
+    if (firstBtn) setTimeout(() => { try { firstBtn.focus(); } catch (_) {} }, 280);
+  }
+  function closePanel(restoreFocus) {
+    panel.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+    launcher.setAttribute('aria-expanded', 'false');
+    minimizeLauncher();
+    if (restoreFocus) { try { launcher.focus(); } catch (_) {} }
+  }
+
+  function reveal() {
+    widget.classList.remove('is-hidden');
+    widget.classList.add('is-ready');
+    if (bubble) {
+      setTimeout(() => {
+        bubble.classList.add('is-visible');
+        startBubbleRotation();
+      }, BUBBLE_DELAY);
+    }
+  }
+
+  setTimeout(reveal, SHOW_DELAY);
+
+  launcher.addEventListener('click', () => {
+    if (panel.classList.contains('is-open')) closePanel(true);
+    else openPanel();
+  });
+  if (bubble) {
+    bubble.addEventListener('click', (e) => {
+      if (e.target.closest('[data-di-bubble-close]')) {
+        e.stopPropagation();
+        dismissBubble();
+        minimizeLauncher();
+        return;
+      }
+      openPanel();
+    });
+  }
+  panel.querySelectorAll('[data-di-close]').forEach(el => {
+    el.addEventListener('click', () => closePanel(true));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && panel.classList.contains('is-open')) closePanel(true);
+  });
+
+  // Close panel on outside click (do not hide widget)
+  document.addEventListener('click', (e) => {
+    if (!panel.classList.contains('is-open')) return;
+    if (panel.contains(e.target) || launcher.contains(e.target)) return;
+    closePanel(false);
+  });
 })();
