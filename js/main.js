@@ -740,8 +740,9 @@ window.addEventListener('scroll', () => {
   function start() { if (!rafId) animate(); }
   function stop()  { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
 
-  if (reducedMotion) {
-    // Single static frame, no loop
+  if (reducedMotion || isMobile) {
+    // Single static frame, no rAF loop — keeps the visual on mobile/reduced-motion
+    // without any per-frame CPU/GPU cost (eliminates scroll jank into stats section).
     ctx.clearRect(0, 0, W, H);
     particles.forEach(p => p.draw());
     return;
@@ -754,7 +755,7 @@ window.addEventListener('scroll', () => {
         visible = e.isIntersecting;
         if (visible) start(); else stop();
       });
-    }, { threshold: 0 });
+    }, { threshold: 0, rootMargin: '0px 0px -20% 0px' });
     io.observe(canvas);
   }
   // Pause when tab hidden
@@ -896,8 +897,17 @@ function initFireMap() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Init AOS
-  AOS.init({ duration: 800, once: true, offset: 80 });
+  // Init AOS — disabled on mobile/tablet to avoid scroll jank on lower-end devices.
+  // Elements with data-aos remain visible at their natural CSS state.
+  AOS.init({
+    duration: 800,
+    once: true,
+    offset: 80,
+    disable: function () {
+      return window.matchMedia('(max-width: 1024px)').matches
+          || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+  });
   // Init map
   initFireMap();
 });
