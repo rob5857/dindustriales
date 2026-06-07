@@ -682,8 +682,8 @@ window.addEventListener('scroll', () => {
     };
   }
 
-  // Create particles (lighter load on mobile)
-  const smokeCount = isMobile ? 80 : 220;
+  // Create particles (much lighter load on mobile to keep animation fluid at ~30fps)
+  const smokeCount = isMobile ? 35 : 220;
   for (let i = 0; i < smokeCount; i++) {
     const p = new Particle();
     p.y = Math.random() * H; // spread initial positions
@@ -724,38 +724,49 @@ window.addEventListener('scroll', () => {
     };
   }
 
-  const emberCount = isMobile ? 25 : 80;
+  const emberCount = isMobile ? 10 : 80;
   for (let i = 0; i < emberCount; i++) {
     const e = new Ember();
     e.y = Math.random() * H;
     particles.push(e);
   }
 
-  function animate() {
+  // Throttle to ~30fps on mobile (cuts CPU/GPU cost in half vs 60fps without
+  // visible quality loss for fire particles).
+  const FRAME_INTERVAL = isMobile ? 1000 / 30 : 0;
+  let lastFrameTs = 0;
+
+  function animate(ts) {
+    if (FRAME_INTERVAL && ts - lastFrameTs < FRAME_INTERVAL) {
+      rafId = requestAnimationFrame(animate);
+      return;
+    }
+    lastFrameTs = ts;
     ctx.clearRect(0, 0, W, H);
     particles.forEach(p => { p.update(); p.draw(); });
     rafId = requestAnimationFrame(animate);
   }
 
-  function start() { if (!rafId) animate(); }
+  function start() { if (!rafId) rafId = requestAnimationFrame(animate); }
   function stop()  { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
 
-  if (reducedMotion || isMobile) {
-    // Single static frame, no rAF loop — keeps the visual on mobile/reduced-motion
-    // without any per-frame CPU/GPU cost (eliminates scroll jank into stats section).
+  if (reducedMotion) {
+    // Single static frame, no rAF loop — respects user OS-level preference.
     ctx.clearRect(0, 0, W, H);
     particles.forEach(p => p.draw());
     return;
   }
 
-  // Pause when hero canvas is off-screen (huge CPU/GPU savings on scroll)
+  // Pause when hero canvas is off-screen (huge CPU/GPU savings on scroll).
+  // Aggressive rootMargin on mobile pauses the loop the moment scroll starts,
+  // preventing the stats-section jank we hit before.
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         visible = e.isIntersecting;
         if (visible) start(); else stop();
       });
-    }, { threshold: 0, rootMargin: '0px 0px -20% 0px' });
+    }, { threshold: 0, rootMargin: isMobile ? '0px 0px -40% 0px' : '0px 0px -20% 0px' });
     io.observe(canvas);
   }
   // Pause when tab hidden
