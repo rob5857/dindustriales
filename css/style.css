@@ -973,11 +973,13 @@ ul { list-style: none; }
 
 /* ===== FLOATING BUTTONS ===== */
 .floating-buttons {
-  position: fixed; bottom: 28px; right: 28px; z-index: 900;
-  display: flex; flex-direction: column; gap: 14px;
+  position: fixed; bottom: 18px; right: 18px; z-index: 999998;
+  display: flex; flex-direction: column; gap: 12px;
+  isolation: isolate;
 }
+.floating-buttons, .floating-buttons * { box-sizing: border-box; }
 .float-btn {
-  width: 56px; height: 56px; border-radius: 50%;
+  width: 58px; height: 58px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 1.4rem; color: #fff; cursor: pointer;
   box-shadow: var(--shadow); transition: var(--transition);
@@ -1195,8 +1197,8 @@ ul { list-style: none; }
   .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
 
   /* Floating buttons */
-  .floating-buttons { bottom: 20px; right: 16px; gap: 10px; }
-  .float-btn { width: 50px; height: 50px; font-size: 1.2rem; }
+  .floating-buttons { bottom: 14px; right: 12px; gap: 10px; }
+  .float-btn { width: 52px; height: 52px; font-size: 1.2rem; }
   .float-tooltip { display: none; }
 }
 
@@ -1551,4 +1553,243 @@ body.promo-modal-open { overflow: hidden; }
   .promo-play-fab,
   .promo-play-fab:hover,
   .promo-modal-dialog { transition: none !important; transform: none !important; }
+}
+
+/* ===================================================
+   DI ASSISTANT WIDGET (floating, di-assistant-*)
+   =================================================== */
+.di-assistant-widget {
+  position: fixed; right: 28px; bottom: 92px; z-index: 999999;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
+  pointer-events: none;
+  isolation: isolate;
+  transition: bottom 0.45s cubic-bezier(0.4,0,0.2,1);
+}
+.di-assistant-widget,
+.di-assistant-widget *,
+.di-assistant-panel,
+.di-assistant-panel * { box-sizing: border-box; }
+.di-assistant-widget.is-ready { pointer-events: auto; }
+.di-assistant-widget.is-hidden { display: none; }
+/* Compact minimized stack — same bottom, but bubble hides for tight WA spacing */
+.di-assistant-widget.is-min-mode { bottom: 92px; }
+.di-assistant-widget.is-min-mode .di-assistant-bubble { display: none; }
+
+.di-assistant-launcher {
+  position: relative; width: 118px; height: 210px;
+  padding: 0; border: 0; background: transparent; cursor: pointer;
+  pointer-events: auto;
+  filter: drop-shadow(0 14px 22px rgba(0,0,0,0.45)) drop-shadow(0 0 14px rgba(255,107,53,0.28));
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), filter 0.35s ease;
+}
+.di-assistant-launcher::after {
+  content: ''; position: absolute; left: 50%; bottom: -4px;
+  width: 78%; height: 14px; transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(255,107,53,0.45), rgba(255,107,53,0) 70%);
+  filter: blur(2px); pointer-events: none;
+  animation: di-glow 3.2s ease-in-out infinite;
+}
+.di-assistant-launcher:hover { transform: translateY(-3px) scale(1.03); filter: drop-shadow(0 18px 28px rgba(0,0,0,0.5)) drop-shadow(0 0 20px rgba(255,107,53,0.45)); }
+.di-assistant-launcher:focus-visible { outline: 3px solid var(--fire-orange); outline-offset: 6px; border-radius: 8px; }
+.di-assistant-avatar {
+  width: 100%; height: 100%; object-fit: contain; object-position: bottom center;
+  display: block; background: transparent; border: 0; border-radius: 0;
+  pointer-events: none;
+}
+@keyframes di-glow {
+  0%, 100% { opacity: 0.55; transform: translateX(-50%) scaleX(1); }
+  50%      { opacity: 0.95; transform: translateX(-50%) scaleX(1.15); }
+}
+
+/* Minimized state: collapses to circular face-only icon after bubble/panel close */
+.di-assistant-launcher.is-minimized {
+  width: 76px; height: 76px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--fire-orange, #ff6b35);
+  background: var(--bg-card);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.4), 0 0 0 4px rgba(255,107,53,0.18);
+  filter: none;
+  transition: width 0.45s cubic-bezier(0.4,0,0.2,1),
+              height 0.45s cubic-bezier(0.4,0,0.2,1),
+              border-radius 0.45s cubic-bezier(0.4,0,0.2,1),
+              box-shadow 0.35s ease;
+}
+.di-assistant-launcher.is-minimized::after { display: none; }
+.di-assistant-launcher.is-minimized:hover { transform: translateY(-2px) scale(1.05); filter: none; box-shadow: 0 14px 28px rgba(0,0,0,0.5), 0 0 0 5px rgba(255,107,53,0.3); }
+.di-assistant-launcher.is-minimized .di-assistant-avatar {
+  width: 100%; height: auto; object-fit: cover; object-position: center top;
+  transform: scale(2.4); transform-origin: 50% 9%;
+}
+
+/* Tooltip "Te asistimos" — only relevant while avatar is minimized */
+.di-assistant-tooltip {
+  position: absolute;
+  right: calc(100% + 12px);
+  bottom: 50%;
+  transform: translateY(50%) translateX(8px);
+  background: var(--bg-card); color: var(--text-primary);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 7px 14px; font-size: 0.82rem; font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.4);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.28s ease, transform 0.28s ease;
+  display: none;
+}
+.di-assistant-tooltip::after {
+  content: ''; position: absolute; left: 100%; top: 50%;
+  width: 8px; height: 8px; margin-left: -5px;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border); border-top: 1px solid var(--border);
+  transform: translateY(-50%) rotate(45deg);
+}
+.di-assistant-widget.is-min-mode .di-assistant-tooltip { display: block; }
+.di-assistant-widget.is-min-mode .di-assistant-launcher:hover ~ .di-assistant-tooltip,
+.di-assistant-widget.is-min-mode .di-assistant-launcher:focus-visible ~ .di-assistant-tooltip,
+.di-assistant-widget.is-min-mode .di-assistant-tooltip.is-shown {
+  opacity: 1; transform: translateY(50%) translateX(0);
+}
+
+.di-assistant-bubble {
+  position: relative; max-width: 270px;
+  background: var(--bg-card); color: var(--text-primary);
+  border: 1px solid var(--border); border-radius: 16px;
+  padding: 12px 34px 12px 16px; font-size: 0.85rem; font-weight: 500; line-height: 1.4;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.35);
+  opacity: 0; transform: translateY(8px) scale(0.95); transform-origin: bottom right;
+  transition: opacity 0.32s ease, transform 0.32s cubic-bezier(0.4,0,0.2,1);
+  pointer-events: none;
+}
+.di-assistant-bubble.is-visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.di-assistant-bubble::after {
+  content: ''; position: absolute; right: 28px; bottom: -7px;
+  width: 12px; height: 12px; background: var(--bg-card);
+  border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  transform: rotate(45deg);
+}
+.di-assistant-bubble-text {
+  display: block;
+  transition: opacity 0.26s ease, transform 0.26s ease;
+}
+.di-assistant-bubble.is-swapping .di-assistant-bubble-text {
+  opacity: 0; transform: translateY(-4px);
+}
+.di-assistant-bubble.is-swapping {
+  transform: translateY(2px) scale(0.97);
+}
+.di-assistant-bubble-close {
+  position: absolute; top: 4px; right: 6px; width: 24px; height: 24px;
+  background: transparent; border: 0; cursor: pointer; color: var(--text-muted);
+  font-size: 0.85rem; line-height: 1; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.di-assistant-bubble-close:hover { color: var(--text-primary); background: var(--bg-card-hover); }
+
+.di-assistant-panel {
+  position: fixed; right: 22px; bottom: 168px; z-index: 1000000;
+  width: min(360px, calc(100vw - 32px));
+  max-height: min(72vh, 640px);
+  background: var(--bg-card); color: var(--text-primary);
+  border: 1px solid var(--border); border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+  display: flex; flex-direction: column; overflow: hidden;
+  transform: translateY(14px) scale(0.96); transform-origin: bottom right;
+  opacity: 0; pointer-events: none; visibility: hidden;
+  transition: opacity 0.28s ease, transform 0.32s cubic-bezier(0.4,0,0.2,1), visibility 0s linear 0.32s;
+}
+.di-assistant-panel.is-open {
+  opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; visibility: visible;
+  transition: opacity 0.28s ease, transform 0.32s cubic-bezier(0.4,0,0.2,1), visibility 0s;
+}
+.di-assistant-panel-head {
+  position: relative; padding: 18px 18px 14px;
+  background: linear-gradient(135deg, rgba(255,107,53,0.16), rgba(230,57,70,0.10));
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.di-assistant-panel-avatar {
+  width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+  border: 2px solid var(--fire-orange);
+  box-shadow: 0 4px 12px rgba(255,107,53,0.35);
+}
+.di-assistant-panel-title { font-family: 'Poppins', sans-serif; font-size: 0.98rem; font-weight: 700; line-height: 1.2; margin: 0; }
+.di-assistant-panel-sub { font-size: 0.74rem; color: var(--text-secondary); margin-top: 2px; display: flex; align-items: center; gap: 6px; }
+.di-assistant-panel-sub::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #25d366; box-shadow: 0 0 0 3px rgba(37,211,102,0.18); }
+.di-assistant-panel-close {
+  position: absolute; top: 10px; right: 10px; width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; border: 0; color: var(--text-secondary);
+  border-radius: 50%; cursor: pointer; transition: var(--transition); font-size: 1rem;
+}
+.di-assistant-panel-close:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+.di-assistant-panel-body { padding: 16px 18px 18px; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
+.di-assistant-msg { font-size: 0.88rem; line-height: 1.55; margin-bottom: 8px; color: var(--text-primary); }
+.di-assistant-msg strong { color: var(--fire-orange); }
+.di-assistant-msg-sub { font-size: 0.78rem; line-height: 1.55; color: var(--text-secondary); margin-bottom: 14px; }
+
+.di-assistant-actions { display: grid; gap: 8px; }
+.di-assistant-btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px; border-radius: 10px;
+  font-size: 0.86rem; font-weight: 600; text-decoration: none;
+  border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary);
+  transition: var(--transition); cursor: pointer; line-height: 1.2;
+}
+.di-assistant-btn i { width: 18px; text-align: center; font-size: 0.95rem; flex-shrink: 0; }
+.di-assistant-btn:hover { border-color: rgba(255,107,53,0.45); background: var(--bg-card-hover); transform: translateY(-1px); }
+.di-assistant-btn--call { background: var(--gradient-fire); color: #fff; border-color: transparent; box-shadow: 0 6px 18px rgba(255,107,53,0.35); }
+.di-assistant-btn--call:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(255,107,53,0.45); }
+.di-assistant-btn--wa { background: #25d366; color: #fff; border-color: transparent; }
+.di-assistant-btn--wa:hover { background: #1ebe57; }
+.di-assistant-foot { margin-top: 12px; font-size: 0.7rem; color: var(--text-muted); text-align: center; }
+
+/* Tablet — bring widget down to a clean bottom-right corner */
+@media (max-width: 1024px) {
+  .di-assistant-widget { right: 18px; bottom: 88px; }
+  .di-assistant-widget.is-min-mode { bottom: 88px; }
+}
+
+/* Mobile + small tablet: compact FULL-BODY avatar with bubble above. Collapses to circle on minimize. */
+@media (max-width: 768px) {
+  .di-assistant-widget {
+    right: 12px; bottom: 82px; gap: 8px;
+    /* keep flex-column from base — bubble sits ABOVE the launcher */
+  }
+  .di-assistant-widget.is-min-mode { bottom: 82px; }
+  /* Compact full-body figure on mobile (still recognizable as the assistant) */
+  .di-assistant-launcher { width: 88px; height: 156px; }
+  /* When minimized (× pressed or panel toggled), collapse to a small circle */
+  .di-assistant-launcher.is-minimized { width: 62px; height: 62px; }
+  .di-assistant-bubble {
+    max-width: calc(100vw - 110px);
+    font-size: 12px; line-height: 1.35;
+    padding: 9px 28px 9px 13px;
+  }
+  .di-assistant-tooltip { font-size: 0.72rem; padding: 5px 10px; }
+  .di-assistant-panel {
+    right: 10px; left: auto;
+    bottom: 160px;
+    width: min(92vw, 340px);
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+}
+
+/* Very small phones (≤420) — tighten further so both buttons stay visible */
+@media (max-width: 420px) {
+  .di-assistant-widget { bottom: 76px; gap: 8px; right: 10px; }
+  .di-assistant-widget.is-min-mode { bottom: 76px; }
+  .di-assistant-launcher { width: 78px; height: 138px; }
+  .di-assistant-launcher.is-minimized { width: 56px; height: 56px; }
+  .di-assistant-bubble { max-width: calc(100vw - 96px); font-size: 11.5px; padding: 8px 26px 8px 12px; }
+  .di-assistant-panel { right: 8px; left: 8px; bottom: 148px; width: auto; max-height: 72vh; }
+  .floating-buttons { bottom: 12px; right: 10px; gap: 8px; }
+  .float-btn { width: 48px; height: 48px; font-size: 1.1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .di-assistant-launcher::after { animation: none; }
+  .di-assistant-launcher, .di-assistant-panel, .di-assistant-bubble,
+  .di-assistant-bubble-text, .di-assistant-btn { transition: none !important; transform: none !important; }
 }
