@@ -2,39 +2,11 @@
 
 const STORAGE_KEY = 'dindustriales-gallery';
 const SETTINGS_KEY = 'dindustriales-settings';
-const SESSION_KEY = 'dindustriales-admin-session';
-const ADMIN_PASS = 'dindustriales2025'; // Change this password!
 
 // ── AUTH ───────────────────────────────────────────────────────
-/*function checkSession() {
-  if (sessionStorage.getItem(SESSION_KEY) === 'ok') {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    initDashboard();
-  }
-}
-
-function doLogin() {
-  const pass = document.getElementById('loginPass').value;
-  const errEl = document.getElementById('loginErr');
-  const storedPass = localStorage.getItem('dindustriales-adminpass') || ADMIN_PASS;
-  if (pass === storedPass) {
-    sessionStorage.setItem(SESSION_KEY, 'ok');
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    errEl.style.display = 'none';
-    initDashboard();
-  } else {
-    errEl.style.display = 'block';
-    document.getElementById('loginPass').value = '';
-    document.getElementById('loginPass').focus();
-  }
-}
-
-function doLogout() {
-  sessionStorage.removeItem(SESSION_KEY);
-  location.reload();
-} */
+// El login ahora se maneja con Firebase Authentication desde el
+// script type="module" en admin/index.html (doLogin / doLogout).
+// No se guardan contraseñas en este archivo ni en localStorage.
 
 // ── THEME ──────────────────────────────────────────────────────
 function toggleAdminTheme() {
@@ -76,6 +48,8 @@ function initDashboard() {
   updateStats();
   loadSettings();
 }
+// Exponer globalmente para que el módulo de Firebase Auth pueda llamarlo
+window.initDashboard = initDashboard;
 
 function getGallery() {
   return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
@@ -266,5 +240,5 @@ function showToast(msg, type) {
 }
 
 // Init
-//checkSession();
+
 

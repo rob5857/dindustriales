@@ -316,9 +316,10 @@
     <img src="../logo3.png" alt="D Industriales" class="login-logo" />
     <h1>Panel Administrativo</h1>
     <p>Acceso exclusivo para personal autorizado de D Industriales</p>
-    <input type="password" id="loginPass" class="login-input" placeholder="Contraseña de acceso" onkeydown="if(event.key==='Enter')doLogin()" />
-    <button class="login-btn" onclick="doLogin()"><i class="fas fa-lock"></i> Ingresar</button>
-    <p class="login-err" id="loginErr"><i class="fas fa-exclamation-triangle"></i> Contraseña incorrecta</p>
+    <input type="email" id="loginEmail" class="login-input" placeholder="Correo electrónico" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()" />
+    <input type="password" id="loginPass" class="login-input" placeholder="Contraseña de acceso" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()" />
+    <button class="login-btn" id="loginBtn" onclick="doLogin()"><i class="fas fa-lock"></i> Ingresar</button>
+    <p class="login-err" id="loginErr"><i class="fas fa-exclamation-triangle"></i> Correo o contraseña incorrectos</p>
     <p style="margin-top:20px;font-size:0.78rem;color:var(--text2);">
       ← <a href="../index.html" style="color:var(--orange);">Volver al sitio</a>
     </p>
@@ -625,7 +626,74 @@ function closeSidebar() {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
 </script>
 
-<script src="admin.js"></script>
+<script src="admin.js?v=firebase-auth-3"></script>
+<script type="module">
+// ── FIREBASE AUTHENTICATION — LOGIN DEL PANEL ─────────────────
+import { auth } from '../js/firebase-config.js';
+import {
+  signInWithEmailAndPassword, onAuthStateChanged, signOut
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+
+// Email(s) autorizado(s) para acceder al panel administrativo
+const ADMIN_EMAILS = ['dindustrialesllc@gmail.com'];
+
+function showLogin() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('dashboard').style.display = 'none';
+}
+function showDashboard() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  if (typeof window.initDashboard === 'function') window.initDashboard();
+}
+
+// Login con email + contraseña
+window.doLogin = async function () {
+  const email = (document.getElementById('loginEmail').value || '').trim();
+  const pass  = document.getElementById('loginPass').value || '';
+  const errEl = document.getElementById('loginErr');
+  const btn   = document.getElementById('loginBtn');
+  errEl.style.display = 'none';
+
+  if (!email || !pass) {
+    errEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Ingresa correo y contraseña';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (btn) btn.disabled = true;
+  try {
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    if (!ADMIN_EMAILS.includes((cred.user.email || '').toLowerCase())) {
+      await signOut(auth);
+      errEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Esta cuenta no está autorizada';
+      errEl.style.display = 'block';
+    }
+    // Si es válido y autorizado, onAuthStateChanged mostrará el dashboard
+  } catch (err) {
+    errEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Correo o contraseña incorrectos';
+    errEl.style.display = 'block';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginPass').focus();
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+};
+
+// Cerrar sesión
+window.doLogout = async function () {
+  try { await signOut(auth); } catch (e) {}
+};
+
+// Estado de autenticación: decide qué pantalla mostrar
+onAuthStateChanged(auth, (user) => {
+  if (user && ADMIN_EMAILS.includes((user.email || '').toLowerCase())) {
+    showDashboard();
+  } else {
+    if (user) signOut(auth); // usuario autenticado pero no autorizado
+    showLogin();
+  }
+});
+</script>
 <script type="module">
 import { db, TESTIMONIALS_COLLECTION } from '../js/firebase-config.js';
 const FORM_URL = 'https://www.desarrollosindustrialespr.com/formulario-testimonio.html';
