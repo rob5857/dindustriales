@@ -6,7 +6,7 @@ const SESSION_KEY = 'dindustriales-admin-session';
 const ADMIN_PASS = 'dindustriales2025'; // Change this password!
 
 // ── AUTH ───────────────────────────────────────────────────────
-function checkSession() {
+/*function checkSession() {
   if (sessionStorage.getItem(SESSION_KEY) === 'ok') {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
@@ -34,7 +34,7 @@ function doLogin() {
 function doLogout() {
   sessionStorage.removeItem(SESSION_KEY);
   location.reload();
-}
+} */
 
 // ── THEME ──────────────────────────────────────────────────────
 function toggleAdminTheme() {
@@ -266,5 +266,5 @@ function showToast(msg, type) {
 }
 
 // Init
-checkSession();
+//checkSession();
 
