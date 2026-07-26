@@ -156,6 +156,8 @@ const TRANSLATIONS = {
       { quote: 'Pensé que iba a tardar un año en recuperar mi hogar. Con D Industriales el proceso fue rápido, transparente y sin costos de bolsillo. Me mantuvieron informado en todo momento. Los recomiendo al 100%.', date: 'Diciembre 2024' },
       { quote: 'El equipo de D Industriales fue como tener a alguien de familia peleando por nosotros. Desde la llamada inicial hasta la entrega final, todo fue impecable. Nuestra casa quedó mejor que antes del incendio.', date: 'Noviembre 2024' },
     ],
+    gallery_more_p: '¿Quieres ver más? Explora todas nuestras fotos y videos de trabajos reales.',
+    gallery_more_btn: 'Ver galería de fotos y videos',
   },
   en: {
     modal_title: 'Select your language',
@@ -291,6 +293,8 @@ const TRANSLATIONS = {
       { quote: 'I thought it would take a year to recover my home. With D Industriales the process was fast, transparent, and at no out-of-pocket cost. They kept me informed every step of the way. I recommend them 100%.', date: 'December 2024' },
       { quote: 'The D Industriales team was like having family fighting for us. From the first call to the final delivery, everything was impeccable. Our house ended up better than before the fire.', date: 'November 2024' },
     ],
+    gallery_more_p: 'Want to see more? Explore all our photos and videos of real projects.',
+    gallery_more_btn: 'View photo & video gallery',
   }
 };
 
@@ -386,6 +390,14 @@ function applyLanguage(lang) {
   if (langFlagImg) {
     langFlagImg.src = lang === 'es' ? 'images/us.png' : 'images/pr.png';
     langFlagImg.alt = lang === 'es' ? 'English' : 'Español';
+  }
+
+  // Swap gallery CTA link to the matching language page
+  const galleryMoreLink = document.getElementById('galleryMoreLink');
+  if (galleryMoreLink) {
+    galleryMoreLink.setAttribute('href', lang === 'en'
+      ? 'photo-video-gallery-puerto-rico.html'
+      : 'galeria-fotos-videos-puerto-rico.html');
   }
 
   // Save preference (only marks language, NOT that user explicitly chose via modal)
