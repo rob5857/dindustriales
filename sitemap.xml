@@ -122,6 +122,26 @@
     <priority>0.85</priority>
   </url>
 
+  <!-- ===== PAR: Galería de Fotos y Videos ===== -->
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/galeria-fotos-videos-puerto-rico.html</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/galeria-fotos-videos-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.desarrollosindustrialespr.com/photo-video-gallery-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/galeria-fotos-videos-puerto-rico.html"/>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/photo-video-gallery-puerto-rico.html</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.desarrollosindustrialespr.com/galeria-fotos-videos-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.desarrollosindustrialespr.com/photo-video-gallery-puerto-rico.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.desarrollosindustrialespr.com/galeria-fotos-videos-puerto-rico.html"/>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- ===== Formulario de testimonios ===== -->
   <url>
     <loc>https://www.desarrollosindustrialespr.com/formulario-testimonio.html</loc>

@@ -54,4 +54,52 @@
     </video:video>
   </url>
 
+  <!-- ===== Video de galería: Restauración de Propiedad (web) ===== -->
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/galeria-fotos-videos-puerto-rico.html</loc>
+    <video:video>
+      <video:thumbnail_loc>https://www.desarrollosindustrialespr.com/images/GaleriaVideos/Antes1-poster.jpg</video:thumbnail_loc>
+      <video:title>Restauración de Propiedad — Antes y Después | Desarrollos Industriales LLC</video:title>
+      <video:description>Recorrido en video del proceso real de restauración por daños de incendio, humo e inundación en Puerto Rico realizado por Desarrollos Industriales LLC, desde el estado inicial hasta la entrega final.</video:description>
+      <video:content_loc>https://www.desarrollosindustrialespr.com/images/GaleriaVideos/Antes1-web.mp4</video:content_loc>
+      <video:player_loc allow_embed="yes">https://www.desarrollosindustrialespr.com/galeria-fotos-videos-puerto-rico.html</video:player_loc>
+      <video:publication_date>2026-07-26T00:00:00-04:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:requires_subscription>no</video:requires_subscription>
+      <video:live>no</video:live>
+      <video:uploader info="https://www.desarrollosindustrialespr.com/">Desarrollos Industriales LLC</video:uploader>
+      <video:platform relationship="allow">web mobile tv</video:platform>
+      <video:restriction relationship="allow">US PR</video:restriction>
+      <video:tag>restauración por incendio</video:tag>
+      <video:tag>antes y después</video:tag>
+      <video:tag>restauración por inundación</video:tag>
+      <video:tag>Puerto Rico</video:tag>
+      <video:category>Restoration Services</video:category>
+    </video:video>
+  </url>
+
+  <!-- ===== Video de galería: Antes y Después ===== -->
+  <url>
+    <loc>https://www.desarrollosindustrialespr.com/galeria-fotos-videos-puerto-rico.html</loc>
+    <video:video>
+      <video:thumbnail_loc>https://www.desarrollosindustrialespr.com/videos/desarrollos-video-poster.jpg</video:thumbnail_loc>
+      <video:title>Proceso de Restauración — Antes y Después | Desarrollos Industriales LLC</video:title>
+      <video:description>Video del proceso de restauración profesional de propiedades tras daños por incendio, humo e inundación en Puerto Rico realizado por Desarrollos Industriales LLC.</video:description>
+      <video:content_loc>https://www.desarrollosindustrialespr.com/images/GaleriaVideos/Antes1.mp4</video:content_loc>
+      <video:player_loc allow_embed="yes">https://www.desarrollosindustrialespr.com/galeria-fotos-videos-puerto-rico.html</video:player_loc>
+      <video:publication_date>2026-07-06T00:00:00-04:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:requires_subscription>no</video:requires_subscription>
+      <video:live>no</video:live>
+      <video:uploader info="https://www.desarrollosindustrialespr.com/">Desarrollos Industriales LLC</video:uploader>
+      <video:platform relationship="allow">web mobile tv</video:platform>
+      <video:restriction relationship="allow">US PR</video:restriction>
+      <video:tag>restauración por incendio</video:tag>
+      <video:tag>antes y después</video:tag>
+      <video:tag>restauración por inundación</video:tag>
+      <video:tag>Puerto Rico</video:tag>
+      <video:category>Restoration Services</video:category>
+    </video:video>
+  </url>
+
 </urlset>
