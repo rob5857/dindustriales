@@ -51,16 +51,39 @@
 
   <!-- ===== Schema.org Structured Data ===== -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@graph":[
-    {"@type":"BreadcrumbList","itemListElement":[
-      {"@type":"ListItem","position":1,"name":"Home","item":"https://www.desarrollosindustrialespr.com/"},
-      {"@type":"ListItem","position":2,"name":"Photo & Video Gallery","item":"https://www.desarrollosindustrialespr.com/photo-video-gallery-puerto-rico.html"}
-    ]},
-    {"@type":"ImageGallery","name":"Restoration Work Photo Gallery in Puerto Rico","description":"Photos of real fire, smoke and flood damage restoration work performed by Desarrollos Industriales LLC in Puerto Rico.","url":"https://www.desarrollosindustrialespr.com/photo-video-gallery-puerto-rico.html","publisher":{"@type":"Organization","name":"Desarrollos Industriales LLC"}},
-    {"@type":"VideoObject","name":"Property Restoration — Before and After | Desarrollos Industriales LLC","description":"Video walkthrough of the real fire, smoke and flood damage restoration process in Puerto Rico, from the initial state to the final delivery.","thumbnailUrl":"https://www.desarrollosindustrialespr.com/images/GaleriaVideos/Antes1-poster.jpg","contentUrl":"https://www.desarrollosindustrialespr.com/images/GaleriaVideos/Antes1-web.mp4","uploadDate":"2026-07-26T00:00:00-04:00","publisher":{"@type":"Organization","name":"Desarrollos Industriales LLC","logo":{"@type":"ImageObject","url":"https://www.desarrollosindustrialespr.com/images/logoTacoma.png"}}},
-    {"@type":"VideoObject","name":"Restoration Process — Before and After | Desarrollos Industriales LLC","description":"Video of the professional restoration process of properties after fire, smoke and flood damage in Puerto Rico.","thumbnailUrl":"https://www.desarrollosindustrialespr.com/videos/desarrollos-video-poster-en.jpg","contentUrl":"https://www.desarrollosindustrialespr.com/images/GaleriaVideos/Antes1.mp4","uploadDate":"2026-07-06T00:00:00-04:00","publisher":{"@type":"Organization","name":"Desarrollos Industriales LLC","logo":{"@type":"ImageObject","url":"https://www.desarrollosindustrialespr.com/images/logoTacoma.png"}}}
-  ]}
-  </script>
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.desarrollosindustrialespr.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Photo & Video Gallery",
+          "item": "https://www.desarrollosindustrialespr.com/photo-video-gallery-puerto-rico.html"
+        }
+      ]
+    },
+    {
+      "@type": "ImageGallery",
+      "name": "Restoration Work Photo Gallery in Puerto Rico",
+      "description": "Photos of real fire, smoke and flood damage restoration work performed by Desarrollos Industriales LLC in Puerto Rico.",
+      "url": "https://www.desarrollosindustrialespr.com/photo-video-gallery-puerto-rico.html",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Desarrollos Industriales LLC"
+      }
+    }
+  ]
+}
+</script>
 
   <!-- ===== Estilos específicos de la galería ===== -->
   <style>
@@ -125,18 +148,10 @@
       <img src="logo3.png" alt="D Industriales Logo" class="logo-img" width="1680" height="945" decoding="async" />
     </a>
     <ul class="nav-menu" id="navMenu">
+      <li class="has-dropdown"><a href="index.html#servicios" class="nav-link"><i class="fas fa-tools"></i> <span data-i18n="nav_services">Services</span> <i class="fas fa-chevron-down nav-chevron"></i></a><ul class="nav-dropdown"><li><a href="fire-restoration-puerto-rico.html">Fire Restoration</a></li><li><a href="smoke-cleaning-puerto-rico.html">Smoke and Soot Cleanup</a></li><li><a href="water-damage-restoration-puerto-rico.html">Water Damage Restoration</a></li><li><a href="emergency-fire-flood-puerto-rico.html">24/7 Emergencies</a></li></ul></li>
       <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> <span>Home</span></a></li>
-      <li class="has-dropdown">
-        <a href="index.html#servicios" class="nav-link nav-dropdown-toggle"><i class="fas fa-fire-extinguisher"></i> <span>Services</span> <i class="fas fa-chevron-down nav-chevron"></i></a>
-        <ul class="nav-dropdown">
-          <li><a href="fire-restoration-puerto-rico.html"><i class="fas fa-fire"></i> Fire Damage Restoration</a></li>
-          <li><a href="smoke-cleaning-puerto-rico.html"><i class="fas fa-smog"></i> Smoke &amp; Soot Cleanup</a></li>
-          <li><a href="water-damage-restoration-puerto-rico.html"><i class="fas fa-water"></i> Water Damage Restoration</a></li>
-          <li><a href="fire-insurance-claim-puerto-rico.html"><i class="fas fa-file-contract"></i> Insurance Claim</a></li>
-          <li><a href="emergency-fire-flood-puerto-rico.html"><i class="fas fa-exclamation-triangle"></i> 24/7 Emergency</a></li>
-        </ul>
-      </li>
-      <li><a href="index.html#aseguradoras" class="nav-link"><i class="fas fa-shield-alt"></i> <span>Insurers</span></a></li>
+      
+      
       <li><a href="photo-video-gallery-puerto-rico.html" class="nav-link active"><i class="fas fa-images"></i> <span>Gallery</span></a></li>
       <li><a href="index.html#faq" class="nav-link"><i class="fas fa-question-circle"></i> <span>FAQ</span></a></li>
       <li><a href="index.html#contacto" class="nav-link"><i class="fas fa-envelope"></i> <span>Contact</span></a></li>
@@ -344,8 +359,8 @@
           </video>
           <div class="gl-video-body">
             <span class="gl-video-tag"><i class="fas fa-building"></i> Institutional</span>
-            <h3>Response, Claim &amp; Restoration</h3>
-            <p>Institutional video of Desarrollos Industriales LLC: professional restoration and direct insurance claim assistance in Puerto Rico.</p>
+            <h3>Property Restoration</h3>
+            <p>Professional fire, smoke and water damage restoration in Puerto Rico. Available 24/7.</p>
           </div>
         </div>
         <div class="gl-video-card">
@@ -367,7 +382,7 @@
   <section class="gl-cta">
     <div class="container">
       <h2>Did your property suffer damage? <span>We transform it.</span></h2>
-      <p>Free inspection and guaranteed response within 24 hours across Puerto Rico. We work directly with your insurance company.</p>
+      <p>Professional fire, smoke and water damage restoration in Puerto Rico. Available 24/7.</p>
       <div class="gl-cta-group">
         <a href="tel:+19733920478" class="btn btn-primary"><i class="fas fa-phone-alt"></i> Call now — (973) 392-0478</a>
         <a href="https://wa.me/19733920478?text=Hello%2C%20I%20saw%20the%20gallery%20and%20need%20help." class="btn btn-whatsapp" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Message on WhatsApp</a>
@@ -391,20 +406,8 @@
           <a href="https://wa.me/19733920478" aria-label="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
-      <div class="footer-col">
-        <h4>Services</h4>
-        <ul>
-          <li><a href="fire-restoration-puerto-rico.html">Fire Restoration</a></li>
-          <li><a href="smoke-cleaning-puerto-rico.html">Smoke &amp; Soot Cleanup</a></li>
-          <li><a href="water-damage-restoration-puerto-rico.html">Water Damage Restoration</a></li>
-          <li><a href="fire-insurance-claim-puerto-rico.html">Insurance Claim</a></li>
-          <li><a href="emergency-fire-flood-puerto-rico.html">24/7 Emergency</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Insurers</h4>
-        <ul><li>MAPFRE Puerto Rico</li><li>Cooperativa de Seguros Múltiples</li><li>Triple-S Propiedad</li><li>One Alliance</li><li>Multinational</li><li>USIC</li></ul>
-      </div>
+      
+      
       <div class="footer-col">
         <h4>Contact</h4>
         <ul>

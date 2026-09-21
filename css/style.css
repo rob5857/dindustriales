@@ -310,7 +310,7 @@ ul { list-style: none; }
   background: linear-gradient(135deg, rgba(0,0,0,0.3), transparent);
 }
 .stats-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
+  display: grid; grid-template-columns: repeat(2, 1fr);
   gap: 24px; text-align: center; position: relative; z-index: 1;
 }
 .stat-item { color: #fff; }
@@ -482,7 +482,7 @@ ul { list-style: none; }
 /* ===== PROCESO ===== */
 .proceso { background: var(--bg-primary); }
 .proceso-steps {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 0;
   position: relative;
 }
 .proceso-steps::before {
@@ -503,29 +503,17 @@ ul { list-style: none; }
 .step-content h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
 .step-content p { color: var(--text-secondary); font-size: 0.88rem; }
 
-/* ===== ASEGURADORAS ===== */
-.aseguradoras { background: var(--bg-secondary); padding: 52px 0; }
-.aseguradoras .section-header { margin-bottom: 28px; }
-.aseguradoras .section-header h2 { font-size: clamp(1.2rem, 2.8vw, 1.7rem); margin-bottom: 8px; }
-.aseguradoras .section-header p { font-size: 0.84rem; opacity: 0.75; }
-.insurers-grid {
-  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
-}
-.insurer-card {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 50px; padding: 7px 16px 7px 10px;
-  display: flex; align-items: center; gap: 8px;
-  transition: var(--transition); cursor: default;
-}
-.insurer-card:hover { border-color: rgba(255,107,53,0.35); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-.insurer-card.insurer-more { opacity: 0.5; }
-.insurer-logo-placeholder {
-  width: 26px; height: 26px; border-radius: 50%;
-  background: rgba(255,107,53,0.1); color: var(--fire-orange);
-  display: flex; align-items: center; justify-content: center; font-size: 0.72rem;
-  flex-shrink: 0;
-}
-.insurer-card span { font-size: 0.74rem; font-weight: 500; color: var(--text-secondary); white-space: nowrap; }
+
+
+
+
+
+
+
+
+
+
+
 
 /* ===== GALLERY ===== */
 .galeria { background: var(--bg-primary); }
@@ -978,7 +966,7 @@ ul { list-style: none; }
 
 /* ===== FOOTER ===== */
 .footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 64px 0 0; }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
 .footer-logo { height: 52px; width: auto; margin-bottom: 16px; }
 .footer-brand p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7; }
 .social-links { display: flex; gap: 12px; margin-top: 20px; }
@@ -1043,7 +1031,7 @@ ul { list-style: none; }
    =================================================== */
 @media (max-width: 1024px) {
   .services-grid { grid-template-columns: repeat(2, 1fr); }
-  .insurers-grid { grid-template-columns: repeat(4, 1fr); }
+
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
   .proceso-steps { grid-template-columns: repeat(2, 1fr); gap: 40px 24px; }
   .proceso-steps::before { display: none; }
@@ -1207,10 +1195,10 @@ ul { list-style: none; }
   .step-num { width: 52px; height: 52px; font-size: 1rem; flex-shrink: 0; position: relative; z-index: 1; }
   .step:last-child { padding-bottom: 0; }
 
-  /* Aseguradoras */
-  .insurers-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .insurer-card { padding: 16px 12px; }
-  .insurer-card span { font-size: 0.72rem; }
+  
+
+
+
 
   /* Gallery */
   .gallery-grid, .gallery-items-container { grid-template-columns: 1fr; gap: 16px; }
@@ -1226,10 +1214,10 @@ ul { list-style: none; }
   .form-collapse-toggle { padding: 16px 20px; font-size: 0.95rem; }
   .contact-form-wrap { padding: 20px 18px; }
   .form-row { grid-template-columns: 1fr; }
-  /* Aseguradoras mobile */
-  .insurers-grid { gap: 8px; }
-  .insurer-card { padding: 6px 14px 6px 8px; gap: 7px; }
-  .insurer-card span { font-size: 0.7rem; }
+  
+
+
+
 
   /* Footer */
   .footer { padding: 48px 0 0; }

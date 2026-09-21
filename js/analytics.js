@@ -90,26 +90,14 @@
       return;
     }
 
-    // "View insurers" — assistant panel CTA + asistencia page CTA
-    var insurersLink = el.closest('a[href*="aseguradoras"], a[href*="asistencia-reclamaciones"]');
-    if (insurersLink) {
-      track('view_insurers', {
-        event_category: 'navigation',
-        event_label: insurersLink.textContent.trim().slice(0, 60),
-        page: pageId()
-      });
-      return;
-    }
   }, true);
 
   // ── FORM SUBMIT (contact form on index.html) ────────────────
   document.addEventListener('submit', function (e) {
     var form = e.target;
     if (!form || form.id !== 'contactForm') return;
-    var data = new FormData(form);
     track('contact_form_submit', {
       event_category: 'lead',
-      event_label: data.get('aseguradora') || 'unspecified',
       language: currentLang(),
       page: pageId()
     });

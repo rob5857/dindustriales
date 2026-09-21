@@ -22,289 +22,343 @@ applyTheme(savedTheme);
 
 // ── LANGUAGE SYSTEM ───────────────────────────────────────────
 const TRANSLATIONS = {
-  es: {
-    modal_title: 'Selecciona tu idioma',
-    modal_subtitle: 'Elige el idioma en que deseas navegar',
-    modal_btn_es: 'Español',
-    modal_btn_en: 'English',
-    nav_home: 'Inicio',
-    nav_services: 'Servicios', nav_insurers: 'Aseguradoras', nav_radar: 'Radar PR', nav_gallery: 'Galería',
-    nav_faq: 'FAQ', nav_contact: 'Contacto', nav_whatsapp: 'WhatsApp',
-    nav_claims_help: 'Asistencia con Reclamaciones',
-    hero_title: 'Restauración Profesional de<br/><span class="gradient-text">Daños por Incendio e Inundaciones</span>',
-    hero_subtitle: 'La principal empresa de restauración de daños por incendio de Puerto Rico.<br/>Trabajamos directamente con tu aseguradora. Disponibles <strong>24/7</strong>.',
-    hero_badge1: 'Ayuda Rápida', hero_badge2: '+15 Años de Experiencia', hero_badge3: 'Respuesta en 24 horas',
-    hero_cta1: 'Inspecciones para Seguros', hero_cta2: 'Emergencias 24/7', hero_scroll: 'Scroll',
-    stat_years: 'Años de Experiencia', stat_jobs: 'Trabajos Completados',
-    stat_insurers: 'Aseguradoras Afiliadas', stat_claims: 'Reclamos Exitosos',
-    promo_eyebrow: '<span class="promo-eyebrow-dot" aria-hidden="true"></span>NUESTRA RESPUESTA EN ACCION',
-    promo_h2: 'Respuesta, Reclamo y Restauración <span class="gradient-text">Emergencia Bajo Control</span>',
-    promo_subtitle: 'Cuando el fuego, el humo o el agua afectan tu propiedad, también comienza una batalla con documentos, aseguradoras y decisiones urgentes. En <strong>Desarrollos Industriales LLC</strong> te acompañamos desde la primera inspección hasta la restauración final.',
-    promo_support: 'Respondemos rápido, documentamos los daños y trabajamos directamente con tu aseguradora para ayudarte a recuperar tu propiedad con tranquilidad.',
-    promo_micro1: 'Emergencias 24/7', promo_micro2: 'Restauración profesional', promo_micro3: 'Reclamaciones con aseguradoras',
-    promo_cta1: 'Solicitar inspección gratuita', promo_cta2: 'Ver video',
-    promo_badge: 'Respuesta inmediata · 24/7',
-    promo_caption_title: 'La Recuperación Comienza Aquí', promo_caption_sub: 'Tu Reclamación, Nuestra Misión',
-    promo_modal_title: 'Video institucional Desarrollos Industriales LLC',
-    services_label: 'Nuestros Servicios',
-    services_h2: 'Restauración Completa <span class="gradient-text">Post-Incendio</span>',
-    services_p: 'Manejamos cada etapa del proceso de restauración, desde la emergencia hasta la reconstrucción final.',
-    svc1_badge: 'Servicio Principal', svc1_h3: 'Descontaminación de Humo y Hollín',
-    svc1_p: 'Eliminamos completamente humo, hollín y olores con equipo industrial especializado y técnicas avanzadas. El humo invisible sigue dañando tu propiedad y tu salud cada día que pasa.',
-    svc1_li1: 'Utilización de químicos no nocivos', svc1_li2: 'Descontaminación del Aire', svc1_li3: 'Eliminación de olores',
-    svc2_h3: 'Mitigación de Emergencia',
-    svc2_p: 'Respuesta inmediata 24/7. Aseguramos la propiedad, removemos escombros peligrosos y prevenimos daños adicionales.',
-    svc2_li1: 'Respuesta en menos de 24 horas', svc2_li2: 'Alcance de daños para rápida respuesta', svc2_li3: 'Remoción de escombros',
-    svc3_h3: 'Daños por Agua',
-    svc3_p: 'Restauramos los daños causados por el agua del sistema contra incendios con extracción y secado industrial.',
-    svc3_li1: 'Extracción de agua', svc3_li2: 'Secado industrial', svc3_li3: 'Prevención de moho', svc3_li4: 'Mitigación de hongos',
-    svc4_h3: 'Restauración de Estructuras',
-    svc4_p: 'Reconstruimos desde los cimientos: techos, paredes, pisos, electricidad, plomería y acabados completos.',
-    svc4_li1: 'Techos y paredes', svc4_li2: 'Stain Bloquer', svc4_li3: 'Restauración de puertas y ventanas',
-    svc5_h3: '¡Reclamamos por tí!',
-    svc5_p: 'Trabajamos directamente con tu aseguradora. Manejamos toda la documentación y negociación mientras usted descansa.',
-    svc5_li1: 'Coordinación con ajustadores', svc5_li2: 'Documentación fotográfica', svc5_li3: 'Estimados detallados',
-    svc6_h3: 'Polizas de Contenido',
-    svc6_p: 'Recuperamos, limpiamos y restauramos muebles, documentos, electrónicos y objetos de valor personal.',
-    svc6_li1: 'Inventario detallado', svc6_li2: 'Restauración de documentos', svc6_li3: 'Almacenamiento seguro',
-    proceso_label: '¿Cómo Trabajamos?',
-    proceso_h2: '¡Proceso Simple, Transparente <span class="gradient-text"> y Libre de Costos!</span>',
-    step1_h3: 'Llamada de Emergencia', step1_p: 'Llámanos o escríbenos por WhatsApp. Respondemos en 24 horas.',
-    step2_h3: 'Inspección Gratuita', step2_p: 'Llegamos a la propiedad, evaluamos los daños y documentamos todo para el proceso de reclamación.',
-    step3_h3: 'Coordinación con Aseguradora', step3_p: 'Contactamos directamente a tu aseguradora, presentamos la documentación y manejamos el claim por ti.',
-    step4_h3: 'Restauración Completa', step4_p: 'Ejecutamos el plan de restauración con los más altos estándares de calidad hasta la entrega final.',
-    aseg_label: 'Aseguradoras',
-    aseg_h2: 'Trabajamos con las principales <span class="gradient-text">Aseguradoras de Puerto Rico</span>',
-    aseg_p: '¡Siempre poniendo al asegurado primero!',
-    aseg_cta_claims: 'Recibir asistencia con mi reclamación',
-    dia_bubble: 'Para reclamaciones por teléfono a cualquier aseguradora, nosotros te asistimos.',
-    dia_bubble2: 'Llámanos y no esperes horas en el teléfono, lo hacemos por ti.',
-    dia_tooltip: 'Te asistimos',
-    dia_title: 'Asistente de Reclamaciones DI',
-    dia_sub: 'En línea · Respuesta inmediata',
-    dia_msg: 'Para <strong>reclamaciones por teléfono a cualquier aseguradora</strong>, nosotros te asistimos.',
-    dia_msg_sub: 'Si tu propiedad sufrió daños por fuego, humo, hollín, inundación o moho, podemos orientarte y ayudarte a dar el próximo paso con tu aseguradora.',
-    dia_btn_call: 'Llamar ahora — (973) 392-0478',
-    dia_btn_wa: 'WhatsApp',
-    dia_btn_insurers: 'Ver aseguradoras',
-    dia_foot: 'Disponible 24/7 · Puerto Rico',
-    gallery_label: 'Nuestro Trabajo', gallery_h2: 'Transformaciones <span class="gradient-text">Reales</span>',
-    gallery_p: 'Desliza el divisor para ver el antes y después de nuestras restauraciones profesionales.',
-    gallery_before: 'ANTES', gallery_after: 'DESPUÉS', gallery_hint: 'Desliza el divisor',
-    pre_radar_text: 'Estamos contigo paso a paso, en un proceso complicado somos tu mano amiga con la experiencia.',
-    radar_label: 'Monitoreo en Tiempo Real',
-    radar_h2: 'Radar de <span class="gradient-text">Emergencias de Incendio</span> en Puerto Rico',
-    radar_p: 'Datos satelitales en tiempo real de focos de calor activos en Puerto Rico. Fuente: NASA FIRMS / VIIRS.',
-    radar_legend_high: 'Alta Intensidad', radar_legend_med: 'Moderada', radar_legend_low: 'Baja',
-    radar_note: 'Datos actualizados cada 12 horas desde satélites VIIRS (NASA). Hora:',
-    faq_label: 'Preguntas Frecuentes',
-    faq_h2: 'Todo lo que necesitas <span class="gradient-text">saber</span>',
-    faq_p: 'Respuestas claras sobre restauración por incendio, inundación y reclamaciones de seguros en Puerto Rico.',
-    faq_q1: '¿Qué debo hacer después de un incendio en mi casa?',
-    faq_a1: '<p>Primero, garantiza la seguridad de todos y llama al 911 si hay heridos. Luego <strong>contáctanos de inmediato</strong> — respondemos en <strong>24 horas</strong>. Documentamos los daños, aseguramos la propiedad y activamos el proceso de reclamación y restauración.</p>',
-    faq_q2: '¿Qué hace una empresa de restauración por incendio?',
-    faq_a2: '<p>Evaluamos y documentamos daños estructurales, realizamos <strong>limpieza de humo y hollín</strong>, eliminamos olores, ejecutamos <strong>secado estructural</strong> y <strong>gestionamos la reclamación</strong> ante tu aseguradora en Puerto Rico.</p>',
-    faq_q3: '¿Qué cubre el seguro de propiedad por daños de incendio?',
-    faq_a3: '<p>La mayoría de pólizas cubren daños estructurales, <strong>restauración de humo y hollín</strong>, daños por agua y pólizas de contenido. Te ayudamos a reclamar el máximo con MAPFRE, Triple-S, Cooperativa de Seguros y más.</p>',
-    faq_q4: '¿Qué hacer si se inundó mi casa en Puerto Rico?',
-    faq_a4: '<p>Actúa rápido — el moho puede aparecer en 24–48 horas. Documenta con fotos y <strong>llámanos de inmediato</strong>. Realizamos <strong>extracción de agua</strong>, secado estructural y gestionamos tu reclamación por inundación.</p>',
-    faq_q5: '¿Qué incluye la restauración de daños por humo y hollín?',
-    faq_a5: '<p>Limpieza de superficies, <strong>eliminación de olores</strong> con equipo industrial, descontaminación del aire, tratamiento de paredes, techos, ductos y restauración de muebles y objetos personales.</p>',
-    faq_q6: '¿Cómo funciona la reclamación de seguro por incendio o inundación?',
-    faq_a6: '<p>Inspeccionamos los daños, preparamos el <strong>estimado detallado</strong>, coordinamos con el ajustador y negociamos con las aseguradoras.</p>',
-    contact_label: 'Contáctenos',
-    contact_h2: '¿Sufrió un Incendio o Inundación? <span class="gradient-text">Estamos Aquí</span>',
-    contact_p: 'No esperes. Cada minuto cuenta. Contáctanos ahora para una inspección gratuita de emergencia en Puerto Rico.',
-    contact_wa_p: 'Chat inmediato con un experto', contact_phone_h3: 'Llamada Directa',
-    contact_phone_p: 'Línea de emergencias 24/7', contact_sms_h3: 'Mensaje de Texto',
-    contact_sms_p: 'Envíanos un SMS ahora', contact_email_p: 'Respuesta en menos de 1 hora',
-    form_toggle: 'Solicitar Inspección Gratuita', form_h3: 'Completa el formulario',
-    form_name_label: 'Nombre Completo *', form_name_ph: 'Juan García',
-    form_phone_label: 'Teléfono *', form_email_label: 'Email', form_email_ph: 'juan@ejemplo.com',
-    form_address_label: 'Dirección de la Propiedad *', form_address_ph: 'Calle, Municipio, Puerto Rico',
-    form_insurer_label: 'Aseguradora', form_insurer_ph: 'Seleccionar aseguradora...',
-    form_insurer_other: 'Otra', form_insurer_none: 'No tengo seguro',
-    form_desc_label: 'Descripción del Incidente *', form_desc_ph: 'Describa brevemente lo que ocurrió...',
-    form_submit: '<i class="fas fa-paper-plane"></i> Enviar Solicitud',
-    form_sending: '<i class="fas fa-spinner fa-spin"></i> Enviando...',
-    form_success: '<i class="fas fa-check-circle"></i> ¡Mensaje enviado! Nos comunicaremos en menos de 24 horas.',
-    form_error: 'Hubo un problema al enviar el mensaje. Por favor intente de nuevo o contáctenos directamente.',
-    footer_brand_p: 'Restauración profesional de daños por incendio, humo e inundación en Puerto Rico. Licenciados, asegurados y con más de 15 años de experiencia.',
-    footer_services_h4: 'Servicios', footer_svc1: 'Mitigación de Emergencia', footer_svc2: 'Limpieza de Humo',
-    footer_svc3: 'Daños por Agua', footer_svc4: 'Reconstrucción', footer_svc5: 'Gestión de Reclamaciones',
-    footer_insurers_h4: 'Aseguradoras', footer_contact_h4: 'Contacto', footer_available: 'Disponible 24/7',
-    footer_copy: '© 2025 Desarrollos Industriales LLC. Todos los derechos reservados. | Puerto Rico',
-    bp_label: 'Nuestra Promesa',
-    bp_h2: 'Estamos Contigo, <span class="gradient-text">No Contra Ti</span>',
-    bp_subtitle: 'Cuando más nos necesitas, aquí estamos — de tu lado, desde el primer día.',
-    bp_intro: 'Cuando tu hogar sufre daños, no solo enfrentas una reparación…<br><strong>enfrentas papeleo, burocracia y tiempo invertido con la aseguradora.</strong>',
-    bp_body1: 'En <strong>Desarrollos Industriales LLC</strong> estamos para ayudarte, orientarte y solucionarte.',
-    bp_card1: 'Aquí no hay tiempo que perder. Una vez nos contactas, <strong>comenzamos el proceso de inmediato.</strong> Sin largas esperas. Sin dejar tu caso estancado.',
-    bp_card2: 'Lo mejor de todo: <strong>comenzamos la reparación junto con la reclamación.</strong>',
-    bp_card3: 'Respuesta en <strong>24 horas.</strong> ¡Garantizado!',
-
-    bp_tagline: 'Desarrollos Industriales LLC<br><span class="gradient-text">Recupera tu casa. Recupera tu tranquilidad. Rápido.</span>',
-    bp_cta: 'Comenzar ahora',
-    testi_label: 'Lo que dicen nuestros clientes',
-    testi_h2: 'Historias <span class="gradient-text">Reales</span>',
-    testi_verified_title: 'Cliente verificado',
-    testi_cta: 'Comparte tu experiencia',
-    testi_data: [
-      { quote: 'El incendio destruyó parte de mi cocina y sala. No sabía por dónde empezar. Llamé a D Industriales y en menos de 24 horas ya tenían todo documentado para la aseguradora. En semanas mi casa estaba restaurada. ¡Increíble servicio!', date: 'Marzo 2025' },
-      { quote: 'La aseguradora quería pagarme mucho menos de lo que necesitaba. D Industriales me resolvio, gestionó todo el proceso y logré recibir lo que realmente me correspondía. Sin ellos no lo hubiera conseguido.', date: 'Enero 2025' },
-      { quote: 'Lo que más me sorprendió fue que comenzaron la reparación al mismo tiempo que tramitaban la reclamación. No tuve que esperar meses para que mi familia tuviera una casa habitable. Muy profesionales y humanos.', date: 'Febrero 2025' },
-      { quote: 'Pensé que iba a tardar un año en recuperar mi hogar. Con D Industriales el proceso fue rápido, transparente y sin costos de bolsillo. Me mantuvieron informado en todo momento. Los recomiendo al 100%.', date: 'Diciembre 2024' },
-      { quote: 'El equipo de D Industriales fue como tener a alguien de familia peleando por nosotros. Desde la llamada inicial hasta la entrega final, todo fue impecable. Nuestra casa quedó mejor que antes del incendio.', date: 'Noviembre 2024' },
+  "es": {
+    "modal_title": "Selecciona tu idioma",
+    "modal_subtitle": "Elige el idioma en que deseas navegar",
+    "modal_btn_es": "Español",
+    "modal_btn_en": "English",
+    "nav_home": "Inicio",
+    "nav_services": "Servicios",
+    "nav_radar": "Radar PR",
+    "nav_gallery": "Galería",
+    "nav_faq": "FAQ",
+    "nav_contact": "Contacto",
+    "nav_whatsapp": "WhatsApp",
+    "hero_title": "Restauración Profesional de<br/><span class=\"gradient-text\">Daños por Incendio e Inundaciones</span>",
+    "hero_subtitle": "Restauración profesional de daños por incendio en Puerto Rico.<br/>Disponibles <strong>24/7</strong>.",
+    "hero_badge1": "Ayuda Rápida",
+    "hero_badge2": "+15 Años de Experiencia",
+    "hero_badge3": "Respuesta en 24 horas",
+    "hero_cta2": "Emergencias 24/7",
+    "hero_scroll": "Scroll",
+    "stat_years": "Años de Experiencia",
+    "stat_jobs": "Trabajos Completados",
+    "promo_eyebrow": "<span class=\"promo-eyebrow-dot\" aria-hidden=\"true\"></span>NUESTRA RESPUESTA EN ACCION",
+    "promo_h2": "Respuesta y Restauración <span class=\"gradient-text\">Emergencia Bajo Control</span>",
+    "promo_subtitle": "Cuando el fuego, el humo o el agua afectan tu propiedad, te acompañamos desde la primera inspección hasta la restauración final.",
+    "promo_support": "Respondemos rápido, evaluamos los daños y restauramos tu propiedad con atención en cada etapa.",
+    "promo_micro1": "Emergencias 24/7",
+    "promo_micro2": "Restauración profesional",
+    "promo_cta1": "Solicitar inspección gratuita",
+    "promo_cta2": "Ver video",
+    "promo_badge": "Respuesta inmediata · 24/7",
+    "promo_caption_title": "La Recuperación Comienza Aquí",
+    "promo_caption_sub": "Tu propiedad, nuestra prioridad",
+    "promo_modal_title": "Video institucional Desarrollos Industriales LLC",
+    "services_label": "Nuestros Servicios",
+    "services_h2": "Restauración Completa <span class=\"gradient-text\">Post-Incendio</span>",
+    "services_p": "Manejamos cada etapa del proceso de restauración, desde la emergencia hasta la reconstrucción final.",
+    "svc1_badge": "Servicio Principal",
+    "svc1_h3": "Descontaminación de Humo y Hollín",
+    "svc1_p": "Eliminamos completamente humo, hollín y olores con equipo industrial especializado y técnicas avanzadas. El humo invisible sigue dañando tu propiedad y tu salud cada día que pasa.",
+    "svc1_li1": "Utilización de químicos no nocivos",
+    "svc1_li2": "Descontaminación del Aire",
+    "svc1_li3": "Eliminación de olores",
+    "svc2_h3": "Mitigación de Emergencia",
+    "svc2_p": "Respuesta inmediata 24/7. Aseguramos la propiedad, removemos escombros peligrosos y prevenimos daños adicionales.",
+    "svc2_li1": "Respuesta en menos de 24 horas",
+    "svc2_li2": "Alcance de daños para rápida respuesta",
+    "svc2_li3": "Remoción de escombros",
+    "svc3_h3": "Daños por Agua",
+    "svc3_p": "Restauramos los daños causados por el agua del sistema contra incendios con extracción y secado industrial.",
+    "svc3_li1": "Extracción de agua",
+    "svc3_li2": "Secado industrial",
+    "svc3_li3": "Prevención de moho",
+    "svc3_li4": "Mitigación de hongos",
+    "svc4_h3": "Restauración de Estructuras",
+    "svc4_p": "Reconstruimos desde los cimientos: techos, paredes, pisos, electricidad, plomería y acabados completos.",
+    "svc4_li1": "Techos y paredes",
+    "svc4_li2": "Stain Bloquer",
+    "svc4_li3": "Restauración de puertas y ventanas",
+    "svc6_p": "Recuperamos, limpiamos y restauramos muebles, documentos, electrónicos y objetos de valor personal.",
+    "svc6_li1": "Inventario detallado",
+    "svc6_li2": "Restauración de documentos",
+    "proceso_label": "¿Cómo Trabajamos?",
+    "proceso_h2": "¡Proceso Simple, Transparente <span class=\"gradient-text\"> y Libre de Costos!</span>",
+    "step1_h3": "Llamada de Emergencia",
+    "step1_p": "Llámanos o escríbenos por WhatsApp. Respondemos en 24 horas.",
+    "step2_h3": "Inspección Gratuita",
+    "step4_h3": "Restauración Completa",
+    "step4_p": "Ejecutamos el plan de restauración con los más altos estándares de calidad hasta la entrega final.",
+    "dia_bubble2": "Llámanos y no esperes horas en el teléfono, lo hacemos por ti.",
+    "dia_tooltip": "Te asistimos",
+    "dia_title": "Restauración de Propiedades",
+    "dia_sub": "En línea · Respuesta inmediata",
+    "dia_msg": "Restauración profesional de daños por incendio, humo y agua en Puerto Rico. Disponibles 24/7.",
+    "dia_msg_sub": "Restauración profesional de daños por incendio, humo y agua en Puerto Rico. Disponibles 24/7.",
+    "dia_btn_call": "Llamar ahora — (973) 392-0478",
+    "dia_btn_wa": "WhatsApp",
+    "dia_foot": "Disponible 24/7 · Puerto Rico",
+    "gallery_label": "Nuestro Trabajo",
+    "gallery_h2": "Transformaciones <span class=\"gradient-text\">Reales</span>",
+    "gallery_p": "Desliza el divisor para ver el antes y después de nuestras restauraciones profesionales.",
+    "gallery_before": "ANTES",
+    "gallery_after": "DESPUÉS",
+    "gallery_hint": "Desliza el divisor",
+    "pre_radar_text": "Estamos contigo paso a paso, en un proceso complicado somos tu mano amiga con la experiencia.",
+    "radar_label": "Monitoreo en Tiempo Real",
+    "radar_h2": "Radar de <span class=\"gradient-text\">Emergencias de Incendio</span> en Puerto Rico",
+    "radar_p": "Datos satelitales en tiempo real de focos de calor activos en Puerto Rico. Fuente: NASA FIRMS / VIIRS.",
+    "radar_legend_high": "Alta Intensidad",
+    "radar_legend_med": "Moderada",
+    "radar_legend_low": "Baja",
+    "radar_note": "Datos actualizados cada 12 horas desde satélites VIIRS (NASA). Hora:",
+    "faq_label": "Preguntas Frecuentes",
+    "faq_h2": "Todo lo que necesitas <span class=\"gradient-text\">saber</span>",
+    "faq_p": "Respuestas sobre restauración por incendio, humo e inundación en Puerto Rico.",
+    "faq_q1": "¿Qué debo hacer después de un incendio en mi casa?",
+    "faq_q2": "¿Qué hace una empresa de restauración por incendio?",
+    "faq_q4": "¿Qué hacer si se inundó mi casa en Puerto Rico?",
+    "faq_q5": "¿Qué incluye la restauración de daños por humo y hollín?",
+    "faq_a5": "<p>Limpieza de superficies, <strong>eliminación de olores</strong> con equipo industrial, descontaminación del aire, tratamiento de paredes, techos, ductos y restauración de muebles y objetos personales.</p>",
+    "contact_label": "Contáctenos",
+    "contact_h2": "¿Sufrió un Incendio o Inundación? <span class=\"gradient-text\">Estamos Aquí</span>",
+    "contact_p": "No esperes. Cada minuto cuenta. Contáctanos ahora para una inspección gratuita de emergencia en Puerto Rico.",
+    "contact_wa_p": "Chat inmediato con un experto",
+    "contact_phone_h3": "Llamada Directa",
+    "contact_phone_p": "Línea de emergencias 24/7",
+    "contact_sms_h3": "Mensaje de Texto",
+    "contact_sms_p": "Envíanos un SMS ahora",
+    "contact_email_p": "Respuesta en menos de 1 hora",
+    "form_toggle": "Solicitar Inspección Gratuita",
+    "form_h3": "Completa el formulario",
+    "form_name_label": "Nombre Completo *",
+    "form_name_ph": "Juan García",
+    "form_phone_label": "Teléfono *",
+    "form_email_label": "Email",
+    "form_email_ph": "juan@ejemplo.com",
+    "form_address_label": "Dirección de la Propiedad *",
+    "form_address_ph": "Calle, Municipio, Puerto Rico",
+    "form_desc_label": "Descripción del Incidente *",
+    "form_desc_ph": "Describa brevemente lo que ocurrió...",
+    "form_submit": "<i class=\"fas fa-paper-plane\"></i> Enviar Solicitud",
+    "form_sending": "<i class=\"fas fa-spinner fa-spin\"></i> Enviando...",
+    "form_success": "<i class=\"fas fa-check-circle\"></i> ¡Mensaje enviado! Nos comunicaremos en menos de 24 horas.",
+    "form_error": "Hubo un problema al enviar el mensaje. Por favor intente de nuevo o contáctenos directamente.",
+    "footer_brand_p": "Restauración profesional de daños por incendio, humo e inundación en Puerto Rico. Licenciados, asegurados y con más de 15 años de experiencia.",
+    "footer_services_h4": "Servicios",
+    "footer_svc1": "Mitigación de Emergencia",
+    "footer_svc2": "Limpieza de Humo",
+    "footer_svc3": "Daños por Agua",
+    "footer_svc4": "Reconstrucción",
+    "footer_contact_h4": "Contacto",
+    "footer_available": "Disponible 24/7",
+    "footer_copy": "© 2025 Desarrollos Industriales LLC. Todos los derechos reservados. | Puerto Rico",
+    "bp_label": "Nuestra Promesa",
+    "bp_h2": "Estamos Contigo, <span class=\"gradient-text\">No Contra Ti</span>",
+    "bp_subtitle": "Cuando más nos necesitas, aquí estamos — de tu lado, desde el primer día.",
+    "bp_intro": "Cuando tu hogar sufre daños, necesitas un equipo que te acompañe durante la recuperación.",
+    "bp_body1": "En <strong>Desarrollos Industriales LLC</strong> estamos para ayudarte, orientarte y solucionarte.",
+    "bp_card1": "Aquí no hay tiempo que perder. Una vez nos contactas, <strong>comenzamos el proceso de inmediato.</strong> Sin largas esperas. Sin dejar tu caso estancado.",
+    "bp_card2": "Coordinamos cada etapa de la restauración de tu propiedad.",
+    "bp_card3": "Respuesta en <strong>24 horas.</strong> ¡Garantizado!",
+    "bp_tagline": "Desarrollos Industriales LLC<br><span class=\"gradient-text\">Recupera tu casa. Recupera tu tranquilidad. Rápido.</span>",
+    "bp_cta": "Comenzar ahora",
+    "testi_label": "Lo que dicen nuestros clientes",
+    "testi_h2": "Historias <span class=\"gradient-text\">Reales</span>",
+    "testi_verified_title": "Cliente verificado",
+    "testi_cta": "Comparte tu experiencia",
+    "testi_data": [
+      {
+        "quote": "Pensé que iba a tardar un año en recuperar mi hogar. Con D Industriales el proceso fue rápido, transparente y sin costos de bolsillo. Me mantuvieron informado en todo momento. Los recomiendo al 100%.",
+        "date": "Diciembre 2024"
+      },
+      {
+        "quote": "El equipo de D Industriales fue como tener a alguien de familia peleando por nosotros. Desde la llamada inicial hasta la entrega final, todo fue impecable. Nuestra casa quedó mejor que antes del incendio.",
+        "date": "Noviembre 2024"
+      }
     ],
-    gallery_more_p: '¿Quieres ver más? Explora todas nuestras fotos y videos de trabajos reales.',
-    gallery_more_btn: 'Ver galería de fotos y videos',
+    "gallery_more_p": "¿Quieres ver más? Explora todas nuestras fotos y videos de trabajos reales.",
+    "gallery_more_btn": "Ver galería de fotos y videos",
+    "hero_cta1": "Inspección gratuita",
+    "svc6_h3": "Restauración de Contenido"
   },
-  en: {
-    modal_title: 'Select your language',
-    modal_subtitle: 'Choose the language you want to browse in',
-    modal_btn_es: 'Español',
-    modal_btn_en: 'English',
-    nav_home: 'Home',
-    nav_services: 'Services', nav_insurers: 'Insurers', nav_radar: 'Radar PR', nav_gallery: 'Gallery',
-    nav_faq: 'FAQ', nav_contact: 'Contact', nav_whatsapp: 'WhatsApp',
-    nav_claims_help: 'Insurance Claim Assistance',
-    hero_title: 'Professional Restoration of<br/><span class="gradient-text">Fire &amp; Flood Damage</span>',
-    hero_subtitle: 'Puerto Rico\'s premier fire damage restoration company.<br/>We work directly with your insurer. Available <strong>24/7</strong>.',
-    hero_badge1: 'Fast Response', hero_badge2: '+15 Years of Experience', hero_badge3: '24-hour Response',
-    hero_cta1: 'Insurance Inspections', hero_cta2: '24/7 Emergencies', hero_scroll: 'Scroll',
-    stat_years: 'Years of Experience', stat_jobs: 'Completed Jobs',
-    stat_insurers: 'Affiliated Insurers', stat_claims: 'Successful Claims',
-    promo_eyebrow: '<span class="promo-eyebrow-dot" aria-hidden="true"></span>OUR RESPONSE IN ACTION',
-    promo_h2: 'Response, Claim &amp; Restoration <span class="gradient-text">Emergency Under Control</span>',
-    promo_subtitle: 'When fire, smoke or water hits your property, a second battle begins — paperwork, insurers and urgent decisions. At <strong>Desarrollos Industriales LLC</strong> we walk with you from the first inspection to the final restoration.',
-    promo_support: 'We respond fast, document the damage and work directly with your insurer to help you recover your property with peace of mind.',
-    promo_micro1: '24/7 Emergencies', promo_micro2: 'Professional restoration', promo_micro3: 'Insurance claims handled',
-    promo_cta1: 'Request a free inspection', promo_cta2: 'Watch video',
-    promo_badge: 'Immediate response · 24/7',
-    promo_caption_title: 'Recovery Starts Here', promo_caption_sub: 'Your Claim, Our Mission',
-    promo_modal_title: 'Desarrollos Industriales LLC institutional video',
-    services_label: 'Our Services',
-    services_h2: 'Complete <span class="gradient-text">Post-Fire Restoration</span>',
-    services_p: 'We handle every stage of the restoration process, from the emergency to the final reconstruction.',
-    svc1_badge: 'Main Service', svc1_h3: 'Smoke & Soot Decontamination',
-    svc1_p: 'We completely eliminate smoke, soot, and odors with specialized industrial equipment and advanced techniques. Invisible smoke keeps damaging your property and health every day that passes.',
-    svc1_li1: 'Non-toxic chemicals', svc1_li2: 'Air decontamination', svc1_li3: 'Odor elimination',
-    svc2_h3: 'Emergency Mitigation',
-    svc2_p: 'Immediate 24/7 response. We secure the property, remove hazardous debris, and prevent additional damage.',
-    svc2_li1: 'Response in less than 24 hours', svc2_li2: 'Damage assessment for rapid response', svc2_li3: 'Debris removal',
-    svc3_h3: 'Water Damage',
-    svc3_p: 'We restore damage caused by firefighting water with industrial extraction and drying equipment.',
-    svc3_li1: 'Water extraction', svc3_li2: 'Industrial drying', svc3_li3: 'Mold prevention', svc3_li4: 'Fungus mitigation',
-    svc4_h3: 'Structure Restoration',
-    svc4_p: 'We rebuild from the ground up: roofs, walls, floors, electrical, plumbing, and complete finishes.',
-    svc4_li1: 'Roofs and walls', svc4_li2: 'Stain Blocker', svc4_li3: 'Door and window restoration',
-    svc5_h3: 'We Claim For You!',
-    svc5_p: 'We work directly with your insurer. We handle all documentation and negotiation while you rest.',
-    svc5_li1: 'Adjuster coordination', svc5_li2: 'Photo documentation', svc5_li3: 'Detailed estimates',
-    svc6_h3: 'Content Policies',
-    svc6_p: 'We recover, clean, and restore furniture, documents, electronics, and personal valuables.',
-    svc6_li1: 'Detailed inventory', svc6_li2: 'Document restoration', svc6_li3: 'Secure storage',
-    proceso_label: 'How We Work?',
-    proceso_h2: 'Simple, Transparent <span class="gradient-text"> and Cost-Free Process!</span>',
-    step1_h3: 'Emergency Call', step1_p: 'Call us or message us on WhatsApp. We respond within 24 hours.',
-    step2_h3: 'Free Inspection', step2_p: 'We arrive at the property, assess the damage, and document everything for the claims process.',
-    step3_h3: 'Insurer Coordination', step3_p: 'We contact your insurer directly, submit documentation, and manage the claim for you.',
-    step4_h3: 'Complete Restoration', step4_p: 'We execute the restoration plan with the highest quality standards until final delivery.',
-    aseg_label: 'Insurers',
-    aseg_h2: 'We Work with the Leading <span class="gradient-text">Puerto Rico Insurers</span>',
-    aseg_p: 'Always putting the insured first!',
-    aseg_cta_claims: 'Get assistance with my claim',
-    dia_bubble: 'For phone claims to any insurance company, we assist you.',
-    dia_bubble2: 'Call us and don\u2019t wait hours on the phone \u2014 we do it for you.',
-    dia_tooltip: 'We assist you',
-    dia_title: 'DI Claims Assistant',
-    dia_sub: 'Online · Immediate response',
-    dia_msg: 'For <strong>phone claims to any insurance company</strong>, we assist you.',
-    dia_msg_sub: 'If your property suffered fire, smoke, soot, flood or mold damage, we can guide you and help you take the next step with your insurer.',
-    dia_btn_call: 'Call now — (973) 392-0478',
-    dia_btn_wa: 'WhatsApp',
-    dia_btn_insurers: 'View insurers',
-    dia_foot: 'Available 24/7 · Puerto Rico',
-    gallery_label: 'Our Work', gallery_h2: 'Real <span class="gradient-text">Transformations</span>',
-    gallery_p: 'Drag the divider to see the before and after of our professional restorations.',
-    gallery_before: 'BEFORE', gallery_after: 'AFTER', gallery_hint: 'Drag the divider',
-    pre_radar_text: 'We are with you every step of the way, in a complicated process we are your helping hand with the experience.',
-    radar_label: 'Real-Time Monitoring',
-    radar_h2: 'Fire Emergency <span class="gradient-text">Radar</span> in Puerto Rico',
-    radar_p: 'Real-time satellite data of active heat sources in Puerto Rico. Source: NASA FIRMS / VIIRS.',
-    radar_legend_high: 'High Intensity', radar_legend_med: 'Moderate', radar_legend_low: 'Low',
-    radar_note: 'Data updated every 12 hours from VIIRS satellites (NASA). Time:',
-    faq_label: 'Frequently Asked Questions',
-    faq_h2: 'Everything you need to <span class="gradient-text">know</span>',
-    faq_p: 'Clear answers about fire, flood restoration and insurance claims in Puerto Rico.',
-    faq_q1: 'What should I do after a house fire?',
-    faq_a1: '<p>First, ensure everyone is safe and call 911 if there are injuries. Then <strong>contact us immediately</strong> — we respond within <strong>24 hours</strong>. We document the damage, secure the property, and launch the restoration and claims process right away.</p>',
-    faq_q2: 'What does a fire restoration company do?',
-    faq_a2: '<p>A company like Desarrollos Industriales LLC assesses and documents structural damage, performs <strong>smoke and soot cleanup</strong>, eliminates odors, executes <strong>structural drying</strong> if needed, reconstructs the structure, and <strong>manages the insurance claim</strong> on your behalf in Puerto Rico.</p>',
-    faq_q3: 'What does property insurance cover for fire damage?',
-    faq_a3: '<p>Most policies in Puerto Rico cover structural fire damage, <strong>smoke and soot restoration</strong>, water damage from firefighting systems, and content policies (furniture, electronics, documents). We help you claim the maximum with the insurer.</p>',
-    faq_q4: 'What should I do if my house flooded in Puerto Rico?',
-    faq_a4: '<p>Act fast — mold can appear within 24–48 hours. Cut electricity if safe, document with photos, and <strong>call us immediately</strong>. We perform <strong>water extraction</strong>, industrial structural drying, mold prevention, and manage your flood damage claim with your insurer.</p>',
-    faq_q5: 'What does smoke and soot damage restoration include?',
-    faq_a5: '<p>It includes full surface cleaning, <strong>odor elimination</strong> with specialized industrial equipment, indoor air decontamination, treatment of walls, ceilings, ducts, and restoration of furniture and personal belongings. Invisible smoke keeps damaging materials and health if not treated properly.</p>',
-    faq_q6: 'How does a fire or flood insurance claim work?',
-    faq_a6: '<p>We handle everything: we inspect and document the damage, prepare a <strong>detailed estimate</strong>, coordinate with your insurer\'s adjuster, and negotiate to get you the maximum from your policy. We work with the insurer.</p>',
-    contact_label: 'Contact Us',
-    contact_h2: 'Suffered a Fire or Flood? <span class="gradient-text">We\'re Here</span>',
-    contact_p: 'Don\'t wait. Every minute counts. Contact us now for a free emergency inspection in Puerto Rico.',
-    contact_wa_p: 'Instant chat with an expert', contact_phone_h3: 'Direct Call',
-    contact_phone_p: '24/7 Emergency Line', contact_sms_h3: 'Text Message',
-    contact_sms_p: 'Send us an SMS now', contact_email_p: 'Response in less than 1 hour',
-    form_toggle: 'Request Free Inspection', form_h3: 'Complete the form',
-    form_name_label: 'Full Name *', form_name_ph: 'John Smith',
-    form_phone_label: 'Phone *', form_email_label: 'Email', form_email_ph: 'john@example.com',
-    form_address_label: 'Property Address *', form_address_ph: 'Street, Municipality, Puerto Rico',
-    form_insurer_label: 'Insurer', form_insurer_ph: 'Select insurer...',
-    form_insurer_other: 'Other', form_insurer_none: "I don't have insurance",
-    form_desc_label: 'Incident Description *', form_desc_ph: 'Briefly describe what happened...',
-    form_submit: '<i class="fas fa-paper-plane"></i> Send Request',
-    form_sending: '<i class="fas fa-spinner fa-spin"></i> Sending...',
-    form_success: '<i class="fas fa-check-circle"></i> Message sent! We\'ll contact you within 24 hours.',
-    form_error: 'There was a problem sending the message. Please try again or contact us directly.',
-    footer_brand_p: 'Professional fire damage restoration in Puerto Rico. Licensed, insured, and with over 15 years of experience.',
-    footer_services_h4: 'Services', footer_svc1: 'Emergency Mitigation', footer_svc2: 'Smoke Cleanup',
-    footer_svc3: 'Water Damage', footer_svc4: 'Reconstruction', footer_svc5: 'Claims Management',
-    footer_insurers_h4: 'Insurers', footer_contact_h4: 'Contact', footer_available: 'Available 24/7',
-    footer_copy: '© 2025 Desarrollos Industriales LLC. All rights reserved. | Puerto Rico',
-    bp_label: 'Our Promise',
-    bp_h2: 'We Are With You, <span class="gradient-text">Not Against You</span>',
-    bp_subtitle: 'When you need us most, we\'re here — on your side, from day one.',
-    bp_intro: 'When your home suffers damage, you don\'t just face a repair…<br><strong>you face paperwork, bureaucracy, and spent time with the insurance companies.</strong>',
-    bp_body1: 'At <strong>Desarrollos Industriales LLC</strong> we are here to help, guide, and assist you.',
-    bp_card1: 'No time to waste. Once you contact us, <strong>we start the process immediately.</strong> No long waits. No leaving your case stalled.',
-    bp_card2: 'Best of all: <strong>we begin repairs at the same time as the claim.</strong>',
-    bp_card3: 'Response in <strong>24 hours.</strong> Guaranteed!',
-
-    bp_tagline: 'Desarrollos Industriales LLC<br><span class="gradient-text">Recover your home. Recover your peace of mind. Fast.</span>',
-    bp_cta: 'Get started now',
-    testi_label: 'What our clients say',
-    testi_h2: 'Real <span class="gradient-text">Stories</span>',
-    testi_verified_title: 'Verified client',
-    testi_cta: 'Share your experience',
-    testi_data: [
-      { quote: 'The fire destroyed part of my kitchen and living room. I didn\'t know where to start. I called D Industriales and in less than 24 hours they had everything documented for the insurer. In weeks my house was restored. Incredible service!', date: 'March 2025' },
-      { quote: 'The insurance company wanted to pay me much less than I needed. D Industriales assist me, managed the entire process, and I received what I truly deserved. Without them I wouldn\'t have gotten it.', date: 'January 2025' },
-      { quote: 'What surprised me most was that they started repairs at the same time they processed the claim. My family didn\'t have to wait months for a livable home. Very professional and caring.', date: 'February 2025' },
-      { quote: 'I thought it would take a year to recover my home. With D Industriales the process was fast, transparent, and at no out-of-pocket cost. They kept me informed every step of the way. I recommend them 100%.', date: 'December 2024' },
-      { quote: 'The D Industriales team was like having family fighting for us. From the first call to the final delivery, everything was impeccable. Our house ended up better than before the fire.', date: 'November 2024' },
+  "en": {
+    "modal_title": "Select your language",
+    "modal_subtitle": "Choose the language you want to browse in",
+    "modal_btn_es": "Español",
+    "modal_btn_en": "English",
+    "nav_home": "Home",
+    "nav_services": "Services",
+    "nav_radar": "Radar PR",
+    "nav_gallery": "Gallery",
+    "nav_faq": "FAQ",
+    "nav_contact": "Contact",
+    "nav_whatsapp": "WhatsApp",
+    "hero_title": "Professional Restoration of<br/><span class=\"gradient-text\">Fire &amp; Flood Damage</span>",
+    "hero_subtitle": "Professional fire damage restoration in Puerto Rico.<br/>Available <strong>24/7</strong>.",
+    "hero_badge1": "Fast Response",
+    "hero_badge2": "+15 Years of Experience",
+    "hero_badge3": "24-hour Response",
+    "hero_cta2": "24/7 Emergencies",
+    "hero_scroll": "Scroll",
+    "stat_years": "Years of Experience",
+    "stat_jobs": "Completed Jobs",
+    "promo_eyebrow": "<span class=\"promo-eyebrow-dot\" aria-hidden=\"true\"></span>OUR RESPONSE IN ACTION",
+    "promo_h2": "Response and Restoration <span class=\"gradient-text\">Emergency Under Control</span>",
+    "promo_subtitle": "When fire, smoke or water damages your property, we support you from the first inspection to the final restoration.",
+    "promo_support": "We respond quickly, assess the damage and restore your property with care at every stage.",
+    "promo_micro1": "24/7 Emergencies",
+    "promo_micro2": "Professional restoration",
+    "promo_cta1": "Request a free inspection",
+    "promo_cta2": "Watch video",
+    "promo_badge": "Immediate response · 24/7",
+    "promo_caption_title": "Recovery Starts Here",
+    "promo_caption_sub": "Your property, our priority",
+    "promo_modal_title": "Desarrollos Industriales LLC institutional video",
+    "services_label": "Our Services",
+    "services_h2": "Complete <span class=\"gradient-text\">Post-Fire Restoration</span>",
+    "services_p": "We handle every stage of the restoration process, from the emergency to the final reconstruction.",
+    "svc1_badge": "Main Service",
+    "svc1_h3": "Smoke & Soot Decontamination",
+    "svc1_p": "We completely eliminate smoke, soot, and odors with specialized industrial equipment and advanced techniques. Invisible smoke keeps damaging your property and health every day that passes.",
+    "svc1_li1": "Non-toxic chemicals",
+    "svc1_li2": "Air decontamination",
+    "svc1_li3": "Odor elimination",
+    "svc2_h3": "Emergency Mitigation",
+    "svc2_p": "Immediate 24/7 response. We secure the property, remove hazardous debris, and prevent additional damage.",
+    "svc2_li1": "Response in less than 24 hours",
+    "svc2_li2": "Damage assessment for rapid response",
+    "svc2_li3": "Debris removal",
+    "svc3_h3": "Water Damage",
+    "svc3_p": "We restore damage caused by firefighting water with industrial extraction and drying equipment.",
+    "svc3_li1": "Water extraction",
+    "svc3_li2": "Industrial drying",
+    "svc3_li3": "Mold prevention",
+    "svc3_li4": "Fungus mitigation",
+    "svc4_h3": "Structure Restoration",
+    "svc4_p": "We rebuild from the ground up: roofs, walls, floors, electrical, plumbing, and complete finishes.",
+    "svc4_li1": "Roofs and walls",
+    "svc4_li2": "Stain Blocker",
+    "svc4_li3": "Door and window restoration",
+    "svc6_p": "We recover, clean, and restore furniture, documents, electronics, and personal valuables.",
+    "svc6_li1": "Detailed inventory",
+    "svc6_li2": "Document restoration",
+    "svc6_li3": "Secure storage",
+    "proceso_label": "How We Work?",
+    "proceso_h2": "Simple, Transparent <span class=\"gradient-text\"> and Cost-Free Process!</span>",
+    "step1_h3": "Emergency Call",
+    "step1_p": "Call us or message us on WhatsApp. We respond within 24 hours.",
+    "step2_h3": "Free Inspection",
+    "step4_h3": "Complete Restoration",
+    "step4_p": "We execute the restoration plan with the highest quality standards until final delivery.",
+    "dia_bubble2": "Call us and don’t wait hours on the phone — we do it for you.",
+    "dia_tooltip": "We assist you",
+    "dia_title": "Professional property restoration in Puerto Rico. Available 24/7.",
+    "dia_sub": "Online · Immediate response",
+    "dia_msg": "Professional property restoration in Puerto Rico. Available 24/7.",
+    "dia_msg_sub": "Professional property restoration in Puerto Rico. Available 24/7.",
+    "dia_btn_call": "Call now — (973) 392-0478",
+    "dia_btn_wa": "WhatsApp",
+    "dia_foot": "Available 24/7 · Puerto Rico",
+    "gallery_label": "Our Work",
+    "gallery_h2": "Real <span class=\"gradient-text\">Transformations</span>",
+    "gallery_p": "Drag the divider to see the before and after of our professional restorations.",
+    "gallery_before": "BEFORE",
+    "gallery_after": "AFTER",
+    "gallery_hint": "Drag the divider",
+    "pre_radar_text": "We are with you every step of the way, in a complicated process we are your helping hand with the experience.",
+    "radar_label": "Real-Time Monitoring",
+    "radar_h2": "Fire Emergency <span class=\"gradient-text\">Radar</span> in Puerto Rico",
+    "radar_p": "Real-time satellite data of active heat sources in Puerto Rico. Source: NASA FIRMS / VIIRS.",
+    "radar_legend_high": "High Intensity",
+    "radar_legend_med": "Moderate",
+    "radar_legend_low": "Low",
+    "radar_note": "Data updated every 12 hours from VIIRS satellites (NASA). Time:",
+    "faq_label": "Frequently Asked Questions",
+    "faq_h2": "Everything you need to <span class=\"gradient-text\">know</span>",
+    "faq_p": "Answers about fire, smoke and flood restoration in Puerto Rico.",
+    "faq_q1": "What should I do after a house fire?",
+    "faq_q2": "What does a fire restoration company do?",
+    "faq_q4": "What should I do if my house flooded in Puerto Rico?",
+    "faq_q5": "What does smoke and soot damage restoration include?",
+    "faq_a5": "<p>It includes full surface cleaning, <strong>odor elimination</strong> with specialized industrial equipment, indoor air decontamination, treatment of walls, ceilings, ducts, and restoration of furniture and personal belongings. Invisible smoke keeps damaging materials and health if not treated properly.</p>",
+    "contact_label": "Contact Us",
+    "contact_h2": "Suffered a Fire or Flood? <span class=\"gradient-text\">We're Here</span>",
+    "contact_p": "Don't wait. Every minute counts. Contact us now for a free emergency inspection in Puerto Rico.",
+    "contact_wa_p": "Instant chat with an expert",
+    "contact_phone_h3": "Direct Call",
+    "contact_phone_p": "24/7 Emergency Line",
+    "contact_sms_h3": "Text Message",
+    "contact_sms_p": "Send us an SMS now",
+    "contact_email_p": "Response in less than 1 hour",
+    "form_toggle": "Request Free Inspection",
+    "form_h3": "Complete the form",
+    "form_name_label": "Full Name *",
+    "form_name_ph": "John Smith",
+    "form_phone_label": "Phone *",
+    "form_email_label": "Email",
+    "form_email_ph": "john@example.com",
+    "form_address_label": "Property Address *",
+    "form_address_ph": "Street, Municipality, Puerto Rico",
+    "form_desc_label": "Incident Description *",
+    "form_desc_ph": "Briefly describe what happened...",
+    "form_submit": "<i class=\"fas fa-paper-plane\"></i> Send Request",
+    "form_sending": "<i class=\"fas fa-spinner fa-spin\"></i> Sending...",
+    "form_success": "<i class=\"fas fa-check-circle\"></i> Message sent! We'll contact you within 24 hours.",
+    "form_error": "There was a problem sending the message. Please try again or contact us directly.",
+    "footer_brand_p": "Professional fire damage restoration in Puerto Rico. Licensed, insured, and with over 15 years of experience.",
+    "footer_services_h4": "Services",
+    "footer_svc1": "Emergency Mitigation",
+    "footer_svc2": "Smoke Cleanup",
+    "footer_svc3": "Water Damage",
+    "footer_svc4": "Reconstruction",
+    "footer_contact_h4": "Contact",
+    "footer_available": "Available 24/7",
+    "footer_copy": "© 2025 Desarrollos Industriales LLC. All rights reserved. | Puerto Rico",
+    "bp_label": "Our Promise",
+    "bp_h2": "We Are With You, <span class=\"gradient-text\">Not Against You</span>",
+    "bp_subtitle": "When you need us most, we're here — on your side, from day one.",
+    "bp_intro": "When your home suffers damage, you need a team to support you through the recovery.",
+    "bp_body1": "At <strong>Desarrollos Industriales LLC</strong> we are here to help, guide, and assist you.",
+    "bp_card1": "No time to waste. Once you contact us, <strong>we start the process immediately.</strong> No long waits. No leaving your case stalled.",
+    "bp_card2": "We coordinate every stage of your property restoration.",
+    "bp_card3": "Response in <strong>24 hours.</strong> Guaranteed!",
+    "bp_tagline": "Desarrollos Industriales LLC<br><span class=\"gradient-text\">Recover your home. Recover your peace of mind. Fast.</span>",
+    "bp_cta": "Get started now",
+    "testi_label": "What our clients say",
+    "testi_h2": "Real <span class=\"gradient-text\">Stories</span>",
+    "testi_verified_title": "Verified client",
+    "testi_cta": "Share your experience",
+    "testi_data": [
+      {
+        "quote": "I thought it would take a year to recover my home. With D Industriales the process was fast, transparent, and at no out-of-pocket cost. They kept me informed every step of the way. I recommend them 100%.",
+        "date": "December 2024"
+      },
+      {
+        "quote": "The D Industriales team was like having family fighting for us. From the first call to the final delivery, everything was impeccable. Our house ended up better than before the fire.",
+        "date": "November 2024"
+      }
     ],
-    gallery_more_p: 'Want to see more? Explore all our photos and videos of real projects.',
-    gallery_more_btn: 'View photo & video gallery',
+    "gallery_more_p": "Want to see more? Explore all our photos and videos of real projects.",
+    "gallery_more_btn": "View photo & video gallery",
+    "hero_cta1": "Free inspection",
+    "svc6_h3": "Contents Restoration"
   }
 };
 
 // ── TESTIMONIOS DATA (must be before applyLanguage) ──────────
 const TESTI_STATIC = [
-  { name: 'María González', location: 'Bayamón, PR',  avatar: 'https://randomuser.me/api/portraits/women/44.jpg' },
-  { name: 'Carlos Rivera',  location: 'San Juan, PR', avatar: 'https://randomuser.me/api/portraits/men/32.jpg'   },
-  { name: 'Lucía Martínez', location: 'Caguas, PR',   avatar: 'https://randomuser.me/api/portraits/women/68.jpg' },
-  { name: 'Roberto Colón',  location: 'Ponce, PR',    avatar: 'https://randomuser.me/api/portraits/men/76.jpg'   },
-  { name: 'Ana Torres',     location: 'Arecibo, PR',  avatar: 'https://randomuser.me/api/portraits/women/12.jpg' },
+  {
+    "name": "Roberto Colón",
+    "location": "Ponce, PR",
+    "avatar": "https://randomuser.me/api/portraits/men/76.jpg"
+  },
+  {
+    "name": "Ana Torres",
+    "location": "Arecibo, PR",
+    "avatar": "https://randomuser.me/api/portraits/women/12.jpg"
+  }
 ];
 let _testiTimer = null;
 let _testiFromFirebase = false; // true once Firestore cards are loaded
@@ -959,7 +1013,7 @@ function submitForm(event) {
     telefono:    data.telefono,
     email_from:  data.email || 'No proporcionado',
     direccion:   data.direccion,
-    aseguradora: data.aseguradora || 'No especificada',
+
     descripcion: data.descripcion
   };
 
@@ -1026,165 +1080,6 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
 loadGallery();
 
 // Formulario colapsable y reveal de teléfonos gestionados en index.html (inline script)
-
-// ── PROMO VIDEO SECTION (bilingual) ───────────────────────────
-(function initPromoVideo() {
-  const card        = document.getElementById('promoCard');
-  const trailer     = document.getElementById('promoTrailer');
-  const trailerSrc  = document.getElementById('promoTrailerSource');
-  const playBtn     = document.getElementById('promoPlayBtn');
-  const playFab     = document.getElementById('promoPlayFab');
-  const modal       = document.getElementById('promoVideoModal');
-  const fullVideo   = document.getElementById('promoFullVideo');
-  if (!card || !modal || !fullVideo) return;
-
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function getLang() {
-    const l = localStorage.getItem('dindustriales-lang');
-    return (l === 'es' || l === 'en') ? l : 'es';
-  }
-
-  // ── Trailer (autoplay/loop) bilingual + lazy ──
-  let trailerLoaded = false;
-  let cardInView = false;
-
-  function applyTrailerPoster(lang) {
-    if (!trailer) return;
-    const poster = trailer.getAttribute('data-poster-' + lang);
-    if (poster) trailer.setAttribute('poster', poster);
-  }
-
-  function loadTrailerSources(lang) {
-    if (!trailerSrc) return;
-    const url = trailerSrc.getAttribute('data-src-' + lang);
-    if (!url) return;
-    trailerSrc.src = url;
-    applyTrailerPoster(lang);
-    try { trailer.load(); } catch (_) {}
-    trailerLoaded = true;
-  }
-
-  if (trailer && !prefersReducedMotion && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        cardInView = entry.isIntersecting;
-        if (entry.isIntersecting) {
-          if (!trailerLoaded) loadTrailerSources(getLang());
-          const p = trailer.play();
-          if (p && typeof p.catch === 'function') p.catch(() => {});
-        } else {
-          trailer.pause();
-        }
-      });
-    }, { threshold: 0.25 });
-    io.observe(card);
-  }
-
-  // ── Modal: full promotional video (lazy + bilingual injection) ──
-  let injectedLang = null;
-  function injectFullSources(lang) {
-    if (injectedLang === lang) return;
-    while (fullVideo.firstChild) fullVideo.removeChild(fullVideo.firstChild);
-    const webmUrl = fullVideo.getAttribute('data-webm-' + lang);
-    const mp4Url  = fullVideo.getAttribute('data-mp4-'  + lang);
-    if (webmUrl) {
-      const webm = document.createElement('source');
-      webm.src = webmUrl; webm.type = 'video/webm';
-      fullVideo.appendChild(webm);
-    }
-    if (mp4Url) {
-      const mp4 = document.createElement('source');
-      mp4.src = mp4Url; mp4.type = 'video/mp4';
-      fullVideo.appendChild(mp4);
-    }
-    const poster = fullVideo.getAttribute('data-poster-' + lang);
-    if (poster) fullVideo.setAttribute('poster', poster);
-    try { fullVideo.load(); } catch (_) {}
-    injectedLang = lang;
-  }
-
-  // ── Public hook: called by applyLanguage() when user toggles ──
-  window._promoSetLang = function(lang) {
-    if (lang !== 'es' && lang !== 'en') return;
-
-    // Trailer
-    if (trailerSrc && trailerLoaded) {
-      const newUrl = trailerSrc.getAttribute('data-src-' + lang);
-      if (newUrl && trailerSrc.src.indexOf(newUrl) === -1) {
-        const wasPlaying = trailer && !trailer.paused;
-        trailerSrc.src = newUrl;
-        applyTrailerPoster(lang);
-        try { trailer.load(); } catch (_) {}
-        if (wasPlaying || cardInView) {
-          const p = trailer.play();
-          if (p && typeof p.catch === 'function') p.catch(() => {});
-        }
-      }
-    } else {
-      applyTrailerPoster(lang);
-    }
-
-    // Modal full video
-    if (modal.classList.contains('active')) {
-      const wasPlaying = !fullVideo.paused;
-      injectedLang = null;
-      injectFullSources(lang);
-      if (wasPlaying) {
-        const p = fullVideo.play();
-        if (p && typeof p.catch === 'function') p.catch(() => {});
-      }
-    } else {
-      injectedLang = null; // re-inject on next open
-      const poster = fullVideo.getAttribute('data-poster-' + lang);
-      if (poster) fullVideo.setAttribute('poster', poster);
-    }
-  };
-
-  let lastFocus = null;
-  function openModal(triggerEl) {
-    lastFocus = triggerEl || document.activeElement;
-    injectFullSources(getLang());
-    modal.classList.add('active');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('promo-modal-open');
-    if (trailer) { try { trailer.pause(); } catch (_) {} }
-    setTimeout(() => {
-      const p = fullVideo.play();
-      if (p && typeof p.catch === 'function') p.catch(() => {});
-      const closeBtn = modal.querySelector('.promo-modal-close');
-      if (closeBtn) closeBtn.focus();
-    }, 60);
-  }
-
-  function closeModal() {
-    modal.classList.remove('active');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('promo-modal-open');
-    try { fullVideo.pause(); fullVideo.currentTime = 0; } catch (_) {}
-    if (trailer && !prefersReducedMotion) {
-      const p = trailer.play();
-      if (p && typeof p.catch === 'function') p.catch(() => {});
-    }
-    if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
-  }
-
-  if (playBtn) playBtn.addEventListener('click', () => openModal(playBtn));
-  if (playFab) playFab.addEventListener('click', () => openModal(playFab));
-
-  modal.querySelectorAll('[data-promo-close]').forEach(el => {
-    el.addEventListener('click', closeModal);
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-  });
-
-  // Initial poster sync (covers returning visitors who already chose EN)
-  applyTrailerPoster(getLang());
-  const initFullPoster = fullVideo.getAttribute('data-poster-' + getLang());
-  if (initFullPoster) fullVideo.setAttribute('poster', initFullPoster);
-})();
 
 // ── DI ASSISTANT WIDGET ───────────────────────────────────────
 (function initDiAssistant() {
