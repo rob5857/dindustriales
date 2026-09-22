@@ -653,6 +653,7 @@ window.doLogin = async function () {
   const pass  = document.getElementById('loginPass').value || '';
   const errEl = document.getElementById('loginErr');
   const btn   = document.getElementById('loginBtn');
+  if (btn && btn.disabled) return;
   errEl.style.display = 'none';
 
   if (!email || !pass) {
@@ -670,7 +671,13 @@ window.doLogin = async function () {
     }
     // Si es válido y autorizado, onAuthStateChanged mostrará el dashboard
   } catch (err) {
-    errEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Correo o contraseña incorrectos';
+    const messages = {
+      'auth/network-request-failed': 'No se pudo conectar. Revisa tu conexión e intenta de nuevo.',
+      'auth/too-many-requests': 'Demasiados intentos. Espera unos minutos e intenta de nuevo.',
+      'auth/operation-not-allowed': 'Activa el acceso por correo y contraseña en Firebase Authentication.',
+      'auth/user-disabled': 'Esta cuenta está deshabilitada.'
+    };
+    errEl.textContent = messages[err.code] || 'Correo o contraseña incorrectos';
     errEl.style.display = 'block';
     document.getElementById('loginPass').value = '';
     document.getElementById('loginPass').focus();
@@ -1017,4 +1024,3 @@ window.baDelete = async (path, name) => {
 </script>
 </body>
 </html>
-
