@@ -178,8 +178,8 @@ const TRANSLATIONS = {
         "date": "Noviembre 2024"
       }
     ],
-    "gallery_more_p": "¿Quieres ver más? Explora todas nuestras fotos y videos de trabajos reales.",
-    "gallery_more_btn": "Ver galería de fotos y videos",
+    "gallery_more_p": "¿Quieres ver más? Explora todas nuestras fotos de trabajos reales.",
+    "gallery_more_btn": "Ver galería de fotos",
     "hero_cta1": "Inspección gratuita",
     "svc6_h3": "Restauración de Contenido"
   },
@@ -340,8 +340,8 @@ const TRANSLATIONS = {
         "date": "November 2024"
       }
     ],
-    "gallery_more_p": "Want to see more? Explore all our photos and videos of real projects.",
-    "gallery_more_btn": "View photo & video gallery",
+    "gallery_more_p": "Want to see more? Explore all our photos of real projects.",
+    "gallery_more_btn": "View photo gallery",
     "hero_cta1": "Free inspection",
     "svc6_h3": "Contents Restoration"
   }
